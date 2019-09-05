@@ -201,15 +201,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1159799905421028109, guid: e7e733d00b8b3774492c6734d70d068c,
-        type: 3}
-      propertyPath: spawnables.Array.data[0].spawnTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 467132033035063446, guid: e7e733d00b8b3774492c6734d70d068c,
         type: 3}
       propertyPath: m_Name
       value: LevelMaster
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159799905421028109, guid: e7e733d00b8b3774492c6734d70d068c,
+        type: 3}
+      propertyPath: spawnables.Array.data[0].spawnTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4548758863741018702, guid: e7e733d00b8b3774492c6734d70d068c,
         type: 3}

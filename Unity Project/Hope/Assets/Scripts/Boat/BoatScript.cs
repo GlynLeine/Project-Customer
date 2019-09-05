@@ -6,11 +6,21 @@ using UnityEngine.UI;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
+    [ReadOnly]
     public float boatSpeed = 1f;
+    [ReadOnly]
+    public int trashCapacity;
+    [ReadOnly]
+    public float maxHealth;
+    [HideInInspector]
+    public float health;
     public BoatType boatType;
 
     private Plane oceanPlane;
+
     private new Rigidbody rigidbody;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
     private Vector3 lastTargetPosition;
     private Vector3 targetPosition;
@@ -22,21 +32,28 @@ public class BoatScript : MonoBehaviour
 
     private void OnValidate()
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-        if(meshFilter == null)
+        meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter == null)
             meshFilter = GetComponentInChildren<MeshFilter>();
-        if(meshFilter == null)
+        if (meshFilter == null)
             meshFilter = gameObject.AddComponent<MeshFilter>();
 
-        meshFilter.sharedMesh = boatType.model;
-
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        if(meshRenderer == null)
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
             meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if(meshRenderer == null)
+        if (meshRenderer == null)
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
 
+        UpdateBoatType();
+    }
+
+    void UpdateBoatType()
+    {
+        meshFilter.sharedMesh = boatType.model;
         meshRenderer.materials = boatType.materials;
+        boatSpeed = boatType.speed;
+        maxHealth = boatType.health;
+        trashCapacity = boatType.capacity;
     }
 
     void Start()
