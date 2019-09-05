@@ -54,7 +54,11 @@ public class BoatMovement : MonoBehaviour
             {
                 Vector3 movementNormal = Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal;
                 movement = Vector3.Project(movement, movementNormal);
-                rigidbody.MovePosition(currentPosition + movement);
+
+                if (!Physics.Raycast(currentPosition, movement.normalized, movement.magnitude, movementCollisionMask))
+                {
+                    rigidbody.MovePosition(currentPosition + movement);
+                }
             }
         }
     }
