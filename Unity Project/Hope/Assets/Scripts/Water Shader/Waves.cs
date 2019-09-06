@@ -6,6 +6,7 @@ using UnityEngine;
 public class Waves : MonoBehaviour
 {
     //Public Properties
+    public bool updateInEditor;
     public int Dimension = 10;
     public float UVScale = 2f;
     public Octave[] Octaves;
@@ -14,8 +15,20 @@ public class Waves : MonoBehaviour
     protected MeshFilter MeshFilter;
     protected Mesh Mesh;
 
+
+    private void OnValidate()
+    {
+        if (updateInEditor)
+            SetupMesh();
+    }
+
     // Start is called before the first frame update
     void Start()
+    {
+        SetupMesh();
+    }
+
+    void SetupMesh()
     {
         //Mesh Setup
         Mesh = new Mesh();
@@ -130,8 +143,7 @@ public class Waves : MonoBehaviour
         return index((int)x, (int)z);
     }
 
-    // Update is called once per frame
-    void Update()
+    void UpdateMesh()
     {
         var verts = Mesh.vertices;
         for (int x = 0; x <= Dimension; x++)
@@ -158,6 +170,18 @@ public class Waves : MonoBehaviour
         }
         Mesh.vertices = verts;
         Mesh.RecalculateNormals();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (updateInEditor)
+            UpdateMesh();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateMesh();
     }
 
     [Serializable]

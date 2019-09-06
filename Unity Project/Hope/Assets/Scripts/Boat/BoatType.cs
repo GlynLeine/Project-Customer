@@ -8,6 +8,8 @@ public class BoatType : ScriptableObject
     public float health;
     public int capacity;
     public float speed;
+    public float acceleration;
+    public float movementSpeed;
     public Mesh model;
     public Material[] materials;
 }

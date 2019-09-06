@@ -9,6 +9,10 @@ public class BoatScript : MonoBehaviour
     [ReadOnly]
     public float boatSpeed = 1f;
     [ReadOnly]
+    public float acceleration;
+    [ReadOnly]
+    public float maximumMovementSpeed;
+    [ReadOnly]
     public int trashCapacity;
     [ReadOnly]
     public float maxHealth;
@@ -24,6 +28,7 @@ public class BoatScript : MonoBehaviour
 
     private Vector3 lastTargetPosition;
     private Vector3 targetPosition;
+    private Vector3 velocity;
 
     private Plane[] cameraViewFrustum;
 
@@ -54,6 +59,8 @@ public class BoatScript : MonoBehaviour
         boatSpeed = boatType.speed;
         maxHealth = boatType.health;
         trashCapacity = boatType.capacity;
+        acceleration = boatType.acceleration;
+        maximumMovementSpeed = boatType.movementSpeed;
     }
 
     void Start()
@@ -103,23 +110,32 @@ public class BoatScript : MonoBehaviour
             targetPosition = mouseToOceanRay.GetPoint(entryPoint);
 
             Vector3 currentPosition = rigidbody.position;
-            Vector3 movement = targetPosition - currentPosition;
+
+            velocity += (targetPosition - currentPosition).normalized * acceleration;
+
+            float targetDistance = Vector3.Distance(targetPosition, currentPosition);
+
+            if (velocity.sqrMagnitude > maximumMovementSpeed * maximumMovementSpeed)
+                velocity = velocity.normalized * maximumMovementSpeed;
+
+            if (velocity.sqrMagnitude > targetDistance)
+                velocity = (targetPosition - currentPosition) * 0.33333f;
 
             RaycastHit hitInfo;
-            if (!Physics.Raycast(currentPosition, movement.normalized, out hitInfo, movement.magnitude, movementCollisionMask))
+            if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude, movementCollisionMask))
             {
-                rigidbody.MovePosition(targetPosition);
+                rigidbody.MovePosition(currentPosition + velocity);
             }
-            else
-            {
-                Vector3 movementNormal = Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal;
-                movement = Vector3.Project(movement, movementNormal);
+            //else
+            //{
+            //    Vector3 movementNormal = Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal;
+            //    movement = Vector3.Project(movement, movementNormal);
 
-                if (!Physics.Raycast(currentPosition, movement.normalized, movement.magnitude, movementCollisionMask))
-                {
-                    rigidbody.MovePosition(currentPosition + movement);
-                }
-            }
+            //    if (!Physics.Raycast(currentPosition, movement.normalized, movement.magnitude, movementCollisionMask))
+            //    {
+            //        rigidbody.MovePosition(currentPosition + movement);
+            //    }
+            //}
         }
     }
 }
