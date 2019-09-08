@@ -19,4 +19,4 @@ MonoBehaviour:
   movementSpeed: 0.05
   model: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   materials:
-  - {fileID: 2100000, guid: 7d1ea8e78a3d4a94ca9b315e6a59df13, type: 2}
+  - {fileID: 2100000, guid: 5088ca8c267aa12469e42bbe4ce5882c, type: 2}

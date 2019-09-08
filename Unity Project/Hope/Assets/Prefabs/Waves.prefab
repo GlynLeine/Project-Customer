@@ -55,7 +55,7 @@ MonoBehaviour:
     alternate: 1
   - speed: {x: 0, y: 120}
     scale: {x: 5.24, y: 33.72}
-    height: 1
+    height: 3
     alternate: 0
 --- !u!23 &8166868571665116268
 MeshRenderer:
@@ -74,7 +74,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 23408bb8613ec2443854299a005ed6e1, type: 2}
+  - {fileID: 2100000, guid: dc42c61354de2b447bc3c204655322a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
