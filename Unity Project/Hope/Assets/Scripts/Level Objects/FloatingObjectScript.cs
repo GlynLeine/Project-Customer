@@ -13,11 +13,8 @@ public class FloatingObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = transform.position - (Vector3.forward * 0.1f * boat.boatSpeed);
-    }
-
-    void OnBecameInvisible()
-    {
-        Destroy(gameObject);
+        transform.position = transform.position - (Vector3.forward * Time.deltaTime * boat.boatSpeed * 3);
+        if(transform.position.z < -10)
+            Destroy(gameObject);
     }
 }

@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
-    [ReadOnly]
+    //[ReadOnly]
     public float boatSpeed = 1f;
-    [ReadOnly]
+   // [ReadOnly]
     public float acceleration;
-    [ReadOnly]
+   // [ReadOnly]
     public float maximumMovementSpeed;
-    [ReadOnly]
+   // [ReadOnly]
     public int trashCapacity;
-    [ReadOnly]
+   // [ReadOnly]
     public float maxHealth;
     [HideInInspector]
     public float health;
@@ -102,12 +102,18 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
+        trashScoreBoard.text = "fps: " + (1/Time.deltaTime) + "\nboatSpeed: " + boatSpeed;
         float entryPoint;
-        Ray mouseToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (oceanPlane.Raycast(mouseToOceanRay, out entryPoint))
+
+        Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Input.touchCount > 0)
+            inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+
+
+        if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
         {
             lastTargetPosition = targetPosition;
-            targetPosition = mouseToOceanRay.GetPoint(entryPoint);
+            targetPosition = inputToOceanRay.GetPoint(entryPoint);
 
             Vector3 currentPosition = rigidbody.position;
 
@@ -126,16 +132,6 @@ public class BoatScript : MonoBehaviour
             {
                 rigidbody.MovePosition(currentPosition + velocity);
             }
-            //else
-            //{
-            //    Vector3 movementNormal = Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal;
-            //    movement = Vector3.Project(movement, movementNormal);
-
-            //    if (!Physics.Raycast(currentPosition, movement.normalized, movement.magnitude, movementCollisionMask))
-            //    {
-            //        rigidbody.MovePosition(currentPosition + movement);
-            //    }
-            //}
         }
     }
 }
