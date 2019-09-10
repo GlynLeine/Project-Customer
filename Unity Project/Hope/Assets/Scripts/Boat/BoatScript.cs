@@ -24,8 +24,6 @@ public class BoatScript : MonoBehaviour
     private Plane oceanPlane;
 
     private new Rigidbody rigidbody;
-    private MeshFilter meshFilter;
-    private MeshRenderer meshRenderer;
 
     private Vector3 lastTargetPosition;
     private Vector3 targetPosition;
@@ -35,23 +33,12 @@ public class BoatScript : MonoBehaviour
 
     private int trash = 0;
     private Text trashScoreBoard;
+    private GameObject model;
 
     bool updateBoatType = true;
 
     private void OnValidate()
     {
-        meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null)
-            meshFilter = GetComponentInChildren<MeshFilter>();
-        if (meshFilter == null)
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-
-        meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer == null)
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer == null)
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
-
         updateBoatType = true;
     }
 
@@ -66,23 +53,14 @@ public class BoatScript : MonoBehaviour
 
     void UpdateBoatType()
     {
-        if(boatType == null)
+        if (boatType == null)
             return;
 
-        meshFilter = GetComponent<MeshFilter>();
-        if (meshFilter == null)
-            meshFilter = GetComponentInChildren<MeshFilter>();
-        if (meshFilter == null)
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-
-        meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer == null)
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer == null)
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
-
-        meshFilter.sharedMesh = boatType.model;
-        meshRenderer.materials = boatType.materials;
+        Transform child = transform.Find("Model");
+        if (child != null)
+            DestroyImmediate(child.gameObject);
+        model = Instantiate(boatType.boatModel, transform);
+        model.name = "Model";
         boatSpeed = boatType.speed;
         maxHealth = boatType.health;
         health = maxHealth;

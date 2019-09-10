@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3019886689d44e40807df2a706e9832, type: 3}
-  m_Name: Default Boat
+  m_Name: TestBoat
   m_EditorClassIdentifier: 
   health: 100
   capacity: 20
-  speed: 3
-  acceleration: 0.002
-  movementSpeed: 0.05
-  model: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
-  materials:
-  - {fileID: 2100000, guid: 5088ca8c267aa12469e42bbe4ce5882c, type: 2}
+  speed: 5
+  acceleration: 0.004
+  movementSpeed: 0.1
+  boatModel: {fileID: 3119611844374648240, guid: fa0f36075eb9b5d4fb520020e2219100,
+    type: 3}
