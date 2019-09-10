@@ -5,20 +5,50 @@ using System;
 
 public class LevelMasterScript : MonoBehaviour
 {
-    public SpawnInfo[] spawnables;
+    public LevelType levelType;
 
+    private SpawnInfo[] spawnables;
+
+    private float hazardSpawnRateIncrease = 10;
     private BoatScript boat;
+    private bool updateLevelType = true;
 
     // Start is called before the first frame update
     void OnValidate()
     {
+        boat = FindObjectOfType<BoatScript>();
+        updateLevelType = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(updateLevelType)
+        {
+            UpdateLevelType();
+            updateLevelType = false;
+        }
+    }
+
+    private void UpdateLevelType()
+    {
+        if (levelType == null)
+            return;
+
+        hazardSpawnRateIncrease = levelType.hazardSpawnRateIncrease;
+        spawnables = new SpawnInfo[levelType.spawnables.Length];
+        levelType.spawnables.CopyTo(spawnables, 0);
+
+        Waves ocean = FindObjectOfType<Waves>();
+        MeshRenderer oceanRenderer = ocean.GetComponent<MeshRenderer>();
+        if (oceanRenderer != null)
+            oceanRenderer.material = levelType.oceanMaterial;
+
         for (int i = 0; i < spawnables.Length; i++)
         {
             spawnables[i].spawnablePrefab.layer = LayerMask.NameToLayer("Interactable");
             spawnables[i].spawnTime = 1f / spawnables[i].spawnRate;
+            spawnables[i].floatingObjectScript = spawnables[i].spawnablePrefab.GetComponent<FloatingObjectScript>();
         }
-
-        boat = FindObjectOfType<BoatScript>();
     }
 
     private void Start()
@@ -27,8 +57,11 @@ public class LevelMasterScript : MonoBehaviour
         float simulatedDeltaTime = 0.5f;
         for (int i = 0; i < 100; i++)
         {
-            spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime));
-            foreach(FloatingObjectScript spawnedObject in spawnedObjects)
+            if (i <= 6)
+                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime, false));
+            else
+                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime));
+            foreach (FloatingObjectScript spawnedObject in spawnedObjects)
             {
                 spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * boat.boatSpeed * 3);
             }
@@ -38,11 +71,14 @@ public class LevelMasterScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-       SpawnObjects();
+        SpawnObjects();
     }
 
-    private List<FloatingObjectScript> SpawnObjects(float simulatedDeltaTime = -1f)
+    private List<FloatingObjectScript> SpawnObjects(float simulatedDeltaTime = -1f, bool spawnHazards = true)
     {
+        if(spawnables == null)
+            UpdateLevelType();
+
         float deltaTime;
         if (simulatedDeltaTime <= 0)
             deltaTime = Time.fixedDeltaTime;
@@ -51,8 +87,20 @@ public class LevelMasterScript : MonoBehaviour
 
         List<FloatingObjectScript> spawnedObjects = new List<FloatingObjectScript>();
 
-        foreach (SpawnInfo spawnInfo in spawnables)
+        for (int i = 0; i < spawnables.Length; i++)
         {
+            SpawnInfo spawnInfo = spawnables[i];
+            if (spawnInfo.floatingObjectScript != null && spawnInfo.floatingObjectScript.damage > 0)
+            {
+                if (!spawnHazards)
+                    continue;
+                else
+                {
+                    spawnables[i].spawnRate *= 1f + (0.01f * hazardSpawnRateIncrease);
+                    spawnables[i].spawnTime = 1f / spawnables[i].spawnRate;
+                }
+            }
+
             float spawnChance = deltaTime / spawnInfo.spawnTime;
 
             if (UnityEngine.Random.value <= spawnChance)
@@ -81,6 +129,8 @@ public struct SpawnInfo
     [Range(0f, 10f), Tooltip("Average amount of objects to spawn per second.")]
     public float spawnRate;
 
+    [HideInInspector]
+    public FloatingObjectScript floatingObjectScript;
     [HideInInspector]
     public float spawnTime;
 }

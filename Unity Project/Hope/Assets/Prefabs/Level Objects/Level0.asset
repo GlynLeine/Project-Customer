@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f434e3190f7b5547adc502c5dcc7f8a, type: 3}
+  m_Name: Level0
+  m_EditorClassIdentifier: 
+  hazardSpawnRateIncrease: 0.05
+  spawnables:
+  - spawnablePrefab: {fileID: 4827080962400264691, guid: 604be8ac3d74b6749ad071c5e6ee5de5,
+      type: 3}
+    spawnRate: 1
+    floatingObjectScript: {fileID: 0}
+    spawnTime: 0
+  - spawnablePrefab: {fileID: 4827080962400264691, guid: 5535e5f6d07329d4f810d8c2ca28415b,
+      type: 3}
+    spawnRate: 0.2
+    floatingObjectScript: {fileID: 0}
+    spawnTime: 0
+  oceanMaterial: {fileID: 2100000, guid: dc42c61354de2b447bc3c204655322a1, type: 2}

@@ -55,7 +55,7 @@ MonoBehaviour:
   maximumMovementSpeed: 0.05
   trashCapacity: 20
   maxHealth: 100
-  health: 0
+  health: 100
   boatType: {fileID: 11400000, guid: 5bd741bd519a3be438b55b02ae1cdcac, type: 2}
 --- !u!136 &2620779205105332983
 CapsuleCollider:

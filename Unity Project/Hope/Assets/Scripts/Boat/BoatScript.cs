@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BoatScript : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class BoatScript : MonoBehaviour
     private int trash = 0;
     private Text trashScoreBoard;
 
+    bool updateBoatType = true;
+
     private void OnValidate()
     {
         meshFilter = GetComponent<MeshFilter>();
@@ -49,7 +52,16 @@ public class BoatScript : MonoBehaviour
         if (meshRenderer == null)
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
 
-        UpdateBoatType();
+        updateBoatType = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(updateBoatType)
+        {
+            UpdateBoatType();
+            updateBoatType = false;
+        }
     }
 
     void UpdateBoatType()
@@ -58,6 +70,7 @@ public class BoatScript : MonoBehaviour
         meshRenderer.materials = boatType.materials;
         boatSpeed = boatType.speed;
         maxHealth = boatType.health;
+        health = maxHealth;
         trashCapacity = boatType.capacity;
         acceleration = boatType.acceleration;
         maximumMovementSpeed = boatType.movementSpeed;
@@ -93,6 +106,13 @@ public class BoatScript : MonoBehaviour
             if (floatingObjectScript != null)
             {
                 trash += floatingObjectScript.score;
+                health -= floatingObjectScript.damage;
+                if(health <= 0)
+                    SceneManager.LoadScene("GameOver");
+
+                if(trash >= trashCapacity)
+                    SceneManager.LoadScene("PortScene");
+
                 trashScoreBoard.text = "Trash Collected: " + trash;
             }
 
@@ -102,7 +122,7 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
-        trashScoreBoard.text = "fps: " + (1/Time.deltaTime) + "\nboatSpeed: " + boatSpeed;
+        trashScoreBoard.text = "fps: " + (1/Time.deltaTime) + "\nboatSpeed: " + boatSpeed + "\nTrash Collected: " + trash + "\nhealth: " + health;
         float entryPoint;
 
         Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
