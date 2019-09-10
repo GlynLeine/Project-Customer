@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
-    //[ReadOnly]
+    [ReadOnly]
     public float boatSpeed = 1f;
-    // [ReadOnly]
+    [ReadOnly]
     public float acceleration;
-    // [ReadOnly]
+    [ReadOnly]
     public float maximumMovementSpeed;
-    // [ReadOnly]
+    [ReadOnly]
     public int trashCapacity;
-    // [ReadOnly]
+    [ReadOnly]
     public float maxHealth;
     [HideInInspector]
     public float health;

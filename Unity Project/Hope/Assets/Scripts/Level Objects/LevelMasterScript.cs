@@ -6,10 +6,11 @@ using System;
 public class LevelMasterScript : MonoBehaviour
 {
     public LevelType levelType = null;
+    [ReadOnly]
+    public SpawnInfo[] spawnables;
+    [ReadOnly]
+    public float hazardSpawnRateIncrease = 10;
 
-    private SpawnInfo[] spawnables;
-
-    private float hazardSpawnRateIncrease = 10;
     private BoatScript boat = null;
     private bool updateLevelType = true;
 
@@ -22,7 +23,7 @@ public class LevelMasterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(updateLevelType)
+        if (updateLevelType)
         {
             UpdateLevelType();
             updateLevelType = false;
@@ -31,6 +32,8 @@ public class LevelMasterScript : MonoBehaviour
 
     private void UpdateLevelType()
     {
+        levelType = LevelManager.levelToLoad;
+
         if (levelType == null)
             return;
 
@@ -45,14 +48,14 @@ public class LevelMasterScript : MonoBehaviour
 
         for (int i = 0; i < spawnables.Length; i++)
         {
-            spawnables[i].spawnablePrefab.layer = LayerMask.NameToLayer("Interactable");
             spawnables[i].spawnTime = 1f / spawnables[i].spawnRate;
-            spawnables[i].floatingObjectScript = spawnables[i].spawnablePrefab.GetComponent<FloatingObjectScript>();
         }
     }
 
     private void Start()
     {
+        UpdateLevelType();
+
         List<FloatingObjectScript> spawnedObjects = new List<FloatingObjectScript>();
         float simulatedDeltaTime = 0.5f;
         for (int i = 0; i < 100; i++)
@@ -63,9 +66,9 @@ public class LevelMasterScript : MonoBehaviour
                 spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime) ?? new List<FloatingObjectScript>());
             foreach (FloatingObjectScript spawnedObject in spawnedObjects)
             {
-                if(spawnedObject == null)
+                if (spawnedObject == null)
                     continue;
-                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * (boat == null? 1 : boat.boatSpeed) * 3);
+                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * (boat == null ? 1 : boat.boatSpeed) * 3);
             }
         }
     }
@@ -78,10 +81,10 @@ public class LevelMasterScript : MonoBehaviour
 
     private List<FloatingObjectScript> SpawnObjects(float simulatedDeltaTime = -1f, bool spawnHazards = true)
     {
-        if(spawnables == null)
+        if (spawnables == null)
             UpdateLevelType();
 
-        if(spawnables == null)
+        if (spawnables == null)
             return null;
 
         float deltaTime;
@@ -95,10 +98,10 @@ public class LevelMasterScript : MonoBehaviour
         for (int i = 0; i < spawnables.Length; i++)
         {
             SpawnInfo spawnInfo = spawnables[i];
-            if(spawnInfo.spawnablePrefab == null)
-                    continue;
+            if (spawnInfo.interactableType == null)
+                continue;
 
-            if (spawnInfo.floatingObjectScript != null && spawnInfo.floatingObjectScript.damage > 0)
+            if (spawnInfo.interactableType != null && spawnInfo.interactableType.damage > 0)
             {
                 if (!spawnHazards)
                     continue;
@@ -113,13 +116,16 @@ public class LevelMasterScript : MonoBehaviour
 
             if (UnityEngine.Random.value <= spawnChance)
             {
-                GameObject newObject = Instantiate(spawnInfo.spawnablePrefab, transform);
+                GameObject newObject = Instantiate(spawnInfo.interactableType.model, transform);
                 newObject.transform.position = transform.position + (UnityEngine.Random.Range(-10f, 10f) * Vector3.right);
+                newObject.layer = LayerMask.NameToLayer("Interactable");
 
                 FloatingObjectScript floatingObjectScript = newObject.GetComponent<FloatingObjectScript>();
                 if (floatingObjectScript == null)
                     floatingObjectScript = newObject.AddComponent<FloatingObjectScript>();
 
+                floatingObjectScript.damage = spawnInfo.interactableType.damage;
+                floatingObjectScript.score = spawnInfo.interactableType.score;
                 floatingObjectScript.boat = boat;
                 spawnedObjects.Add(floatingObjectScript);
             }
@@ -132,13 +138,11 @@ public class LevelMasterScript : MonoBehaviour
 [Serializable]
 public struct SpawnInfo
 {
-    [Tooltip("Prefab of the object to spawn.")]
-    public GameObject spawnablePrefab;
+    [Tooltip("Type of the interactable to spawn.")]
+    public InteractableType interactableType;
     [Range(0f, 10f), Tooltip("Average amount of objects to spawn per second.")]
     public float spawnRate;
 
-    [HideInInspector]
-    public FloatingObjectScript floatingObjectScript;
     [HideInInspector]
     public float spawnTime;
 }

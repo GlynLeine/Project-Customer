@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7151455849475387150}
-  - component: {fileID: 3930785884133169219}
   - component: {fileID: 6155573100254640889}
   - component: {fileID: 7358231749655057880}
   - component: {fileID: 6847249812720013062}
@@ -34,21 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3930785884133169219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827080962400264691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aafbacad7236d94292e247b764e7413, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boat: {fileID: 0}
-  score: 0
-  damage: 1
 --- !u!33 &6155573100254640889
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class tempGameOver : MonoBehaviour
 {
     float timePassed = 0;
 
-    public string level = "MainGame";
+    public int level = 0;
 
     void Start()
     {
@@ -17,6 +17,6 @@ public class tempGameOver : MonoBehaviour
     {
         timePassed += Time.deltaTime;
         if(timePassed > 5)
-            SceneManager.LoadScene(level);
+            LevelManager.LoadLevel(level);
     }
 }

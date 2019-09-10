@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e6f45b30bbfc04ab035b7233fad2b0, type: 3}
   m_Name: ToonColourEffect
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
