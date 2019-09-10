@@ -50,9 +50,9 @@ MonoBehaviour:
   movementCollisionMask:
     serializedVersion: 2
     m_Bits: 256
-  boatSpeed: 1
-  acceleration: 0.005
-  maximumMovementSpeed: 0.05
+  boatSpeed: 3
+  acceleration: 0.001
+  maximumMovementSpeed: 0.03
   trashCapacity: 20
   maxHealth: 100
   health: 100

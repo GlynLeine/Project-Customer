@@ -21,7 +21,7 @@ MonoBehaviour:
     spawnTime: 0
   - spawnablePrefab: {fileID: 4827080962400264691, guid: 5535e5f6d07329d4f810d8c2ca28415b,
       type: 3}
-    spawnRate: 0.2
+    spawnRate: 0.3
     floatingObjectScript: {fileID: 0}
     spawnTime: 0
   oceanMaterial: {fileID: 2100000, guid: dc42c61354de2b447bc3c204655322a1, type: 2}

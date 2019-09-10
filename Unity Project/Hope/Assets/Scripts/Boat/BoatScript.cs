@@ -9,13 +9,13 @@ public class BoatScript : MonoBehaviour
     public LayerMask movementCollisionMask;
     //[ReadOnly]
     public float boatSpeed = 1f;
-   // [ReadOnly]
+    // [ReadOnly]
     public float acceleration;
-   // [ReadOnly]
+    // [ReadOnly]
     public float maximumMovementSpeed;
-   // [ReadOnly]
+    // [ReadOnly]
     public int trashCapacity;
-   // [ReadOnly]
+    // [ReadOnly]
     public float maxHealth;
     [HideInInspector]
     public float health;
@@ -57,7 +57,7 @@ public class BoatScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(updateBoatType)
+        if (updateBoatType)
         {
             UpdateBoatType();
             updateBoatType = false;
@@ -66,6 +66,21 @@ public class BoatScript : MonoBehaviour
 
     void UpdateBoatType()
     {
+        if(boatType == null)
+            return;
+
+        meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter == null)
+            meshFilter = GetComponentInChildren<MeshFilter>();
+        if (meshFilter == null)
+            meshFilter = gameObject.AddComponent<MeshFilter>();
+
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer == null)
+            meshRenderer = gameObject.AddComponent<MeshRenderer>();
+
         meshFilter.sharedMesh = boatType.model;
         meshRenderer.materials = boatType.materials;
         boatSpeed = boatType.speed;
@@ -78,6 +93,7 @@ public class BoatScript : MonoBehaviour
 
     void Start()
     {
+        UpdateBoatType();
         cameraViewFrustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
         for (int i = 0; i < 3; ++i)
@@ -107,10 +123,10 @@ public class BoatScript : MonoBehaviour
             {
                 trash += floatingObjectScript.score;
                 health -= floatingObjectScript.damage;
-                if(health <= 0)
+                if (health <= 0)
                     SceneManager.LoadScene("GameOver");
 
-                if(trash >= trashCapacity)
+                if (trash >= trashCapacity)
                     SceneManager.LoadScene("PortScene");
 
                 trashScoreBoard.text = "Trash Collected: " + trash;
@@ -122,7 +138,9 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
-        trashScoreBoard.text = "fps: " + (1/Time.deltaTime) + "\nboatSpeed: " + boatSpeed + "\nTrash Collected: " + trash + "\nhealth: " + health;
+        if (trashScoreBoard != null)
+            trashScoreBoard.text = "fps: " + (1 / Time.deltaTime) + "\nboatSpeed: " + boatSpeed + "\nTrash Collected: " + trash + "\nhealth: " + health;
+
         float entryPoint;
 
         Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);

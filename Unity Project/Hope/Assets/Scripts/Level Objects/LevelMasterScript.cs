@@ -5,12 +5,12 @@ using System;
 
 public class LevelMasterScript : MonoBehaviour
 {
-    public LevelType levelType;
+    public LevelType levelType = null;
 
     private SpawnInfo[] spawnables;
 
     private float hazardSpawnRateIncrease = 10;
-    private BoatScript boat;
+    private BoatScript boat = null;
     private bool updateLevelType = true;
 
     // Start is called before the first frame update
@@ -58,12 +58,14 @@ public class LevelMasterScript : MonoBehaviour
         for (int i = 0; i < 100; i++)
         {
             if (i <= 6)
-                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime, false));
+                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime, false) ?? new List<FloatingObjectScript>());
             else
-                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime));
+                spawnedObjects.AddRange(SpawnObjects(simulatedDeltaTime) ?? new List<FloatingObjectScript>());
             foreach (FloatingObjectScript spawnedObject in spawnedObjects)
             {
-                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * boat.boatSpeed * 3);
+                if(spawnedObject == null)
+                    continue;
+                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * (boat == null? 1 : boat.boatSpeed) * 3);
             }
         }
     }
@@ -79,6 +81,9 @@ public class LevelMasterScript : MonoBehaviour
         if(spawnables == null)
             UpdateLevelType();
 
+        if(spawnables == null)
+            return null;
+
         float deltaTime;
         if (simulatedDeltaTime <= 0)
             deltaTime = Time.fixedDeltaTime;
@@ -90,6 +95,9 @@ public class LevelMasterScript : MonoBehaviour
         for (int i = 0; i < spawnables.Length; i++)
         {
             SpawnInfo spawnInfo = spawnables[i];
+            if(spawnInfo.spawnablePrefab == null)
+                    continue;
+
             if (spawnInfo.floatingObjectScript != null && spawnInfo.floatingObjectScript.damage > 0)
             {
                 if (!spawnHazards)
