@@ -11,8 +11,13 @@ public class UICloseScript : MonoBehaviour
         settingsScreen.SetActive(false);
     }    
 
-    public void ButtonPress()
+    public void UIOpen()
     {
         settingsScreen.SetActive(true);
+    }
+    
+    public void UIClose()
+    {
+        settingsScreen.SetActive(false);
     }
 }
