@@ -3,11 +3,20 @@ using UnityEngine;
 using System;
 public class LevelManager : MonoBehaviour
 {
-    public LevelType[];
+    public LevelOrder levelOrder;
 
-    private void Start()
+    static private LevelManager levelManager;
+
+    private void Awake()
     {
         DontDestroyOnLoad(this);
+        levelManager = this;
+        levelToLoad = levelOrder.levels[0];
+    }
+
+    static public LevelType GetLevelType(int index)
+    {
+        return levelManager.levelOrder.levels[index];
     }
 
     static public LevelType levelToLoad
@@ -21,14 +30,16 @@ public class LevelManager : MonoBehaviour
     static public void LoadLevel(int level)
     {
         currentLevel = level;
-        levelToLoad = Resources.Load<LevelType>("Levels/level" + level);
+        levelToLoad = levelManager.levelOrder.levels[level];
         SceneManager.LoadScene("MainGame");
     }
 
     static public void LoadLevel(LevelType levelType)
     {
-        if(!int.TryParse(levelType.name.Substring(0, 5), out currentLevel))
-            return;
+        int nextLevel = Array.IndexOf(levelManager.levelOrder.levels, levelType);
+        if(nextLevel < 0)
+            throw new Exception("Level " + levelType.name + " not in level order.");
+        currentLevel = nextLevel;
         levelToLoad = levelType;
         SceneManager.LoadScene("MainGame");
     }

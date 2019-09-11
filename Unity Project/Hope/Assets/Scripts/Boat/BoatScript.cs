@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -54,7 +53,7 @@ public class BoatScript : MonoBehaviour
     void UpdateBoatType()
     {
         if (boatType == null)
-            return;
+            throw new NullReferenceException("Boat type null.");
 
         Transform child = transform.Find("Model");
         if (child != null)

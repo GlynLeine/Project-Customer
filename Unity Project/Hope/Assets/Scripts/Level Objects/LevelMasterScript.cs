@@ -30,12 +30,17 @@ public class LevelMasterScript : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        boat = FindObjectOfType<BoatScript>();
+    }
+
     private void UpdateLevelType()
     {
         levelType = LevelManager.levelToLoad;
 
         if (levelType == null)
-            return;
+            levelType = LevelManager.GetLevelType(0);
 
         hazardSpawnRateIncrease = levelType.hazardSpawnRateIncrease;
         spawnables = new SpawnInfo[levelType.spawnables.Length];
@@ -68,7 +73,11 @@ public class LevelMasterScript : MonoBehaviour
             {
                 if (spawnedObject == null)
                     continue;
-                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * (boat == null ? 1 : boat.boatSpeed) * 3);
+
+                if (boat == null)
+                    throw new NullReferenceException("LevelMasterScript: Boat reference null.");
+
+                spawnedObject.transform.position = spawnedObject.transform.position - (Vector3.forward * simulatedDeltaTime * boat.boatSpeed * 3);
             }
         }
     }
