@@ -12,12 +12,15 @@ public class LevelMasterScript : MonoBehaviour
     public float hazardSpawnRateIncrease = 10;
 
     private BoatScript boat = null;
+    private Waves ocean = null;
     private bool updateLevelType = true;
 
     // Start is called before the first frame update
     void OnValidate()
     {
         boat = FindObjectOfType<BoatScript>();
+        ocean = FindObjectOfType<Waves>();
+        boat.ocean = ocean;
         updateLevelType = true;
     }
 
@@ -59,6 +62,8 @@ public class LevelMasterScript : MonoBehaviour
 
     private void Start()
     {
+        ocean = FindObjectOfType<Waves>();
+        boat.ocean = ocean;
         UpdateLevelType();
 
         List<FloatingObjectScript> spawnedObjects = new List<FloatingObjectScript>();
@@ -136,6 +141,7 @@ public class LevelMasterScript : MonoBehaviour
                 floatingObjectScript.damage = spawnInfo.interactableType.damage;
                 floatingObjectScript.score = spawnInfo.interactableType.score;
                 floatingObjectScript.boat = boat;
+                floatingObjectScript.ocean = ocean;
                 spawnedObjects.Add(floatingObjectScript);
             }
         }
