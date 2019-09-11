@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class FloatingObjectScript : MonoBehaviour
@@ -13,7 +12,9 @@ public class FloatingObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = transform.position - (Vector3.forward * Time.deltaTime * (boat == null? 1 : boat.boatSpeed) * 3);
+        if(boat == null)
+            throw new NullReferenceException("FloatingObjectScript: Boat reference null.");
+        transform.position = transform.position - (Vector3.forward * Time.deltaTime * boat.boatSpeed * 3);
         if(transform.position.z < -10)
             Destroy(gameObject);
     }

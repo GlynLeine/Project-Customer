@@ -116,7 +116,7 @@ MonoBehaviour:
   - {fileID: 803512684962840370}
   - {fileID: 3061693732632334231}
   - {fileID: -1100418902443485282}
-  - {fileID: 8844640990756626939}
+  - {fileID: 7683387695259311295}
 --- !u!114 &803512684962840370
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -258,6 +258,28 @@ MonoBehaviour:
   divisions:
     overrideState: 1
     value: 6
+--- !u!114 &7683387695259311295
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e6f45b30bbfc04ab035b7233fad2b0, type: 3}
+  m_Name: ToonColourEffect
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  blend:
+    overrideState: 1
+    value: 0.5
+  divisions:
+    overrideState: 1
+    value: 5
 --- !u!114 &8844640990756626939
 MonoBehaviour:
   m_ObjectHideFlags: 3
