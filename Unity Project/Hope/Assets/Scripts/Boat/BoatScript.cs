@@ -147,10 +147,15 @@ public class BoatScript : MonoBehaviour
             velocity = (targetPosition - currentPosition) * 0.33333f;
 
         float oceanHeight = ocean.GetHeight(currentPosition);
-        velocity.y = (oceanHeight - currentPosition.y)*0.5f;
+        float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 1));
+        Vector3 forward = new Vector3(0, frontOceanHeight, 1) - new Vector3(0, oceanHeight, 0);
+        Vector3 up = Vector3.Cross(forward, Vector3.right);
+        Quaternion rotation = Quaternion.LookRotation(forward, up);
+
+        velocity.y = (oceanHeight - currentPosition.y) * 0.5f;
 
         Vector3 newPosition = currentPosition + velocity;
-        if(newPosition.y > oceanHeight)
+        if (newPosition.y > oceanHeight)
             newPosition.y = oceanHeight;
 
         RaycastHit hitInfo;
@@ -159,6 +164,6 @@ public class BoatScript : MonoBehaviour
             rigidbody.MovePosition(newPosition);
         }
 
-        rigidbody.MoveRotation(Quaternion.identity);
+        rigidbody.MoveRotation(rotation);
     }
 }
