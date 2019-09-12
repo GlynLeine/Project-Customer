@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BoatScript : MonoBehaviour
 {
@@ -16,9 +16,12 @@ public class BoatScript : MonoBehaviour
     public int trashCapacity;
     [ReadOnly]
     public float maxHealth;
+    public BoatType boatType;
+
     [HideInInspector]
     public float health;
-    public BoatType boatType;
+    [HideInInspector]
+    public Waves ocean;
 
     private Plane oceanPlane;
 
@@ -129,24 +132,38 @@ public class BoatScript : MonoBehaviour
         {
             lastTargetPosition = targetPosition;
             targetPosition = inputToOceanRay.GetPoint(entryPoint);
-
-            Vector3 currentPosition = rigidbody.position;
-
-            velocity += (targetPosition - currentPosition).normalized * acceleration;
-
-            float targetDistance = Vector3.Distance(targetPosition, currentPosition);
-
-            if (velocity.sqrMagnitude > maximumMovementSpeed * maximumMovementSpeed)
-                velocity = velocity.normalized * maximumMovementSpeed;
-
-            if (velocity.sqrMagnitude > targetDistance)
-                velocity = (targetPosition - currentPosition) * 0.33333f;
-
-            RaycastHit hitInfo;
-            if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude, movementCollisionMask))
-            {
-                rigidbody.MovePosition(currentPosition + velocity);
-            }
         }
+
+        Vector3 currentPosition = rigidbody.position;
+
+        velocity += (targetPosition - currentPosition).normalized * acceleration;
+
+        float targetDistance = Vector3.Distance(targetPosition, currentPosition);
+
+        if (velocity.sqrMagnitude > maximumMovementSpeed * maximumMovementSpeed)
+            velocity = velocity.normalized * maximumMovementSpeed;
+
+        if (velocity.sqrMagnitude > targetDistance)
+            velocity = (targetPosition - currentPosition) * 0.33333f;
+
+        float oceanHeight = ocean.GetHeight(currentPosition);
+        float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 1));
+        Vector3 forward = new Vector3(0, frontOceanHeight, 1) - new Vector3(0, oceanHeight, 0);
+        Vector3 up = Vector3.Cross(forward, Vector3.right);
+        Quaternion rotation = Quaternion.LookRotation(forward, up);
+
+        velocity.y = (oceanHeight - currentPosition.y) * 0.5f;
+
+        Vector3 newPosition = currentPosition + velocity;
+        if (newPosition.y > oceanHeight)
+            newPosition.y = oceanHeight;
+
+        RaycastHit hitInfo;
+        if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude, movementCollisionMask))
+        {
+            rigidbody.MovePosition(newPosition);
+        }
+
+        rigidbody.MoveRotation(rotation);
     }
 }

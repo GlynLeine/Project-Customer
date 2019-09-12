@@ -7,6 +7,12 @@ public class LevelManager : MonoBehaviour
 
     static private LevelManager levelManager;
 
+    private void OnValidate()
+    {
+        levelManager = this;
+        levelToLoad = levelOrder.levels[0];
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
