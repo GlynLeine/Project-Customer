@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outline
+  m_Name: Boat
   m_Shader: {fileID: -6465566751694194690, guid: c060e83beab1f58439222f470206c0c2,
     type: 3}
   m_ShaderKeywords: 
@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_C863C0E6:
-        m_Texture: {fileID: 2800000, guid: 546a410c4cc78e5408410a717d27fcc5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6eab1b4e76903a042b6b10d2c9eb6178, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_DC64B5D:

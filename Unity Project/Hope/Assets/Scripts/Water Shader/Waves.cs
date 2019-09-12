@@ -10,6 +10,12 @@ public class Waves : MonoBehaviour
     public Octave[] octaves;
     public float resolution = 1;
 
+    public float maxOceanHeight
+    {
+        get;
+        private set;
+    }
+
     //Mesh
     protected MeshFilter meshFilter;
     protected Mesh mesh;
@@ -51,6 +57,13 @@ public class Waves : MonoBehaviour
 
         meshFilter = gameObject.GetComponent<MeshFilter>();
         meshFilter.mesh = mesh;
+
+
+        maxOceanHeight = 0;
+        foreach(Octave octave in octaves)
+        {
+            maxOceanHeight += octave.height;
+        }
     }
 
     public float GetHeight(Vector3 position)
@@ -164,11 +177,11 @@ public class Waves : MonoBehaviour
                     if (octaves[o].alternate)
                     {
                         float perl = Mathf.PerlinNoise((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension) * Mathf.PI * 2f;
-                        y += Mathf.Cos(perl + octaves[o].speed.magnitude * Time.time) * octaves[o].height;
+                        y += (Mathf.Cos(perl + octaves[o].speed.magnitude * Time.time)/2f + 1f) * octaves[o].height;
                     }
                     else
                     {
-                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y) / dimension) - 0.5f;
+                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y) / dimension);
                         y += perl * octaves[o].height;
                     }
                 }
