@@ -51,7 +51,7 @@ MonoBehaviour:
   octaves:
   - speed: {x: 2, y: 2}
     scale: {x: 40, y: 40}
-    height: 0.1
+    height: 0.2
     alternate: 1
   - speed: {x: 0, y: 320}
     scale: {x: 5.24, y: 33.72}
