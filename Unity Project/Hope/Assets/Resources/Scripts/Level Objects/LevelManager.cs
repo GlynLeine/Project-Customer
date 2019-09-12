@@ -5,6 +5,8 @@ public class LevelManager : MonoBehaviour
 {
     public LevelOrder levelOrder;
 
+    static private int currentLevel;
+
     static private LevelManager levelManager;
 
     private void OnValidate()
@@ -31,8 +33,6 @@ public class LevelManager : MonoBehaviour
         private set;
     }
 
-    static private int currentLevel;
-
     static public void LoadLevel(int level)
     {
         currentLevel = level;
@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     static public void LoadLevel(LevelType levelType)
     {
         int nextLevel = Array.IndexOf(levelManager.levelOrder.levels, levelType);
-        if(nextLevel < 0)
+        if (nextLevel < 0)
             throw new Exception("Level " + levelType.name + " not in level order.");
         currentLevel = nextLevel;
         levelToLoad = levelType;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Waves : MonoBehaviour
@@ -9,6 +10,9 @@ public class Waves : MonoBehaviour
     public float uvScale = 2f;
     public Octave[] octaves;
     public float resolution = 1;
+
+    [HideInInspector]
+    public BoatScript boat;
 
     public float maxOceanHeight
     {
@@ -24,6 +28,7 @@ public class Waves : MonoBehaviour
     private int verticesPerSide = 2;
 
     private bool setupMesh = true;
+    private float[] octaveSpeeds;
 
     private void OnValidate()
     {
@@ -60,9 +65,12 @@ public class Waves : MonoBehaviour
 
 
         maxOceanHeight = 0;
-        foreach(Octave octave in octaves)
+        octaveSpeeds = new float[octaves.Length];
+        for(int i = 0; i < octaves.Length; i++)
         {
-            maxOceanHeight += octave.height;
+            maxOceanHeight += octaves[i].height;
+            if(!octaves[i].alternate)
+                octaveSpeeds[i] = octaves[i].speed.y;
         }
     }
 
@@ -181,7 +189,7 @@ public class Waves : MonoBehaviour
                     }
                     else
                     {
-                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y) / dimension);
+                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaveSpeeds[o]*boat.boatSpeed) / dimension);
                         y += perl * octaves[o].height;
                     }
                 }

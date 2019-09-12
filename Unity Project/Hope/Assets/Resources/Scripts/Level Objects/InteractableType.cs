@@ -5,5 +5,6 @@ public class InteractableType : ScriptableObject
 {
     public int score;
     public float damage;
+    public float buoyancy;
     public GameObject model;
 }

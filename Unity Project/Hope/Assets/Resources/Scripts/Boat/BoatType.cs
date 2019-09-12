@@ -8,5 +8,6 @@ public class BoatType : ScriptableObject
     public float speed;
     public float acceleration;
     public float movementSpeed;
+    public float buoyancy;
     public GameObject boatModel;
 }

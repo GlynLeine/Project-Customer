@@ -6,16 +6,19 @@ using UnityEngine.UI;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
-    [ReadOnly]
+    //[ReadOnly]
     public float boatSpeed = 1f;
-    [ReadOnly]
+    //[ReadOnly]
     public float acceleration;
-    [ReadOnly]
+    //[ReadOnly]
     public float maximumMovementSpeed;
-    [ReadOnly]
+    //[ReadOnly]
     public int trashCapacity;
-    [ReadOnly]
+    //[ReadOnly]
     public float maxHealth;
+    //[ReadOnly]
+    public float buoyancy;
+
     public BoatType boatType;
 
     [HideInInspector]
@@ -64,10 +67,12 @@ public class BoatScript : MonoBehaviour
         model = Instantiate(boatType.boatModel, transform);
         model.name = "Model";
         boatSpeed = boatType.speed;
+        ocean.boat = this;
         maxHealth = boatType.health;
         health = maxHealth;
         trashCapacity = boatType.capacity;
         acceleration = boatType.acceleration;
+        buoyancy = boatType.buoyancy;
         maximumMovementSpeed = boatType.movementSpeed;
     }
 
@@ -135,8 +140,10 @@ public class BoatScript : MonoBehaviour
         }
 
         Vector3 currentPosition = rigidbody.position;
+        targetPosition.y = currentPosition.y;
 
         velocity += (targetPosition - currentPosition).normalized * acceleration;
+        velocity.y = 0;
 
         float targetDistance = Vector3.Distance(targetPosition, currentPosition);
 
@@ -148,19 +155,18 @@ public class BoatScript : MonoBehaviour
 
         float oceanHeight = ocean.GetHeight(currentPosition);
         float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 0.8f));
-        float deltaHeight = frontOceanHeight - oceanHeight;
-        deltaHeight = Mathf.Min(Mathf.Pow(deltaHeight, 2) * 3f, deltaHeight);
 
-        Vector3 forward = new Vector3(0, oceanHeight + deltaHeight, 1) - new Vector3(0, oceanHeight, 0);
+        float deltaHeight = frontOceanHeight - oceanHeight;
+        deltaHeight = deltaHeight * 0.9f;
+
+        Vector3 forward = new Vector3(0, deltaHeight, 1).normalized;
         Vector3 up = Vector3.Cross(forward, Vector3.right);
         Quaternion rotation = Quaternion.LookRotation(forward, up);
 
         velocity.y = oceanHeight - currentPosition.y;
-        velocity.y = Mathf.Pow(velocity.y, 2) * 2f;
+        velocity.y *= buoyancy;
 
         Vector3 newPosition = currentPosition + velocity;
-        if (newPosition.y > oceanHeight)
-            newPosition.y = oceanHeight;
 
         RaycastHit hitInfo;
         if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude, movementCollisionMask))
