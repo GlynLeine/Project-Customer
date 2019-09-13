@@ -818,11 +818,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8166868571665116241, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 785079212}
     - target: {fileID: 8166868571665116269, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
         type: 3}
       propertyPath: m_Name
@@ -833,6 +828,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166868571665116241, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 785079212}
     - target: {fileID: 8166868571665116270, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
         type: 3}
       propertyPath: m_RootOrder
@@ -1043,6 +1043,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6539507091960608926, guid: 7658e048e1257d14db39b25c896e7ca6,
+        type: 3}
+      propertyPath: m_Name
+      value: HUD
+      objectReference: {fileID: 0}
     - target: {fileID: 38167560970459388, guid: 7658e048e1257d14db39b25c896e7ca6,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1292,11 +1297,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6539507091960608926, guid: 7658e048e1257d14db39b25c896e7ca6,
-        type: 3}
-      propertyPath: m_Name
-      value: HUD
       objectReference: {fileID: 0}
     - target: {fileID: 6828404128908455461, guid: 7658e048e1257d14db39b25c896e7ca6,
         type: 3}
@@ -1834,10 +1834,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1719630791192493248, guid: 415ad70127bb9e842ba7e57583c342e6,
+    - target: {fileID: 2670371895287145039, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
+      propertyPath: m_Name
+      value: Boat
       objectReference: {fileID: 0}
     - target: {fileID: 2254728350100237224, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
@@ -1874,16 +1874,6 @@ PrefabInstance:
         type: 3}
       propertyPath: buoyancy
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670371895287145039, guid: 415ad70127bb9e842ba7e57583c342e6,
-        type: 3}
-      propertyPath: m_Name
-      value: Boat
-      objectReference: {fileID: 0}
-    - target: {fileID: 3342793290111466076, guid: 415ad70127bb9e842ba7e57583c342e6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6634293450825123838, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
@@ -1938,6 +1928,16 @@ PrefabInstance:
     - target: {fileID: 6634293450825123838, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719630791192493248, guid: 415ad70127bb9e842ba7e57583c342e6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342793290111466076, guid: 415ad70127bb9e842ba7e57583c342e6,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 963555523302589425, guid: 415ad70127bb9e842ba7e57583c342e6,
