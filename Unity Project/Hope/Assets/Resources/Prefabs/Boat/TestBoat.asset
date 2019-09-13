@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3019886689d44e40807df2a706e9832, type: 3}
+  m_Name: TestBoat
+  m_EditorClassIdentifier: 
+  health: 100
+  capacity: 20
+  speed: 5
+  acceleration: 0.004
+  movementSpeed: 0.1
+  boatModel: {fileID: 8775156705091298359, guid: 1f27f468a6883124a93efae549a8194d,
+    type: 3}
