@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
     guid: ed14eaf656e68fe42b2e14cb0568708c
+  - enabled: 1
+    path: Assets/Scenes/UI/PortScene.unity
+    guid: 2648d2e4baefd1e4f9fcc2eb464d54f8
+  - enabled: 1
+    path: Assets/Scenes/UI/LevelSelect.unity
+    guid: 0c2b218b45a160b4aa83d6eee2ae1f75
+  - enabled: 1
+    path: Assets/Scenes/UI/StartMenu.unity
+    guid: e08f630862f7ab84f9cc0b7b781fbdad
+  - enabled: 1
+    path: Assets/Scenes/UI/GameOver.unity
+    guid: 7529dc065ab15a146b2030b042c86077
   m_configObjects: {}

@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3019886689d44e40807df2a706e9832, type: 3}
   m_Name: DefaultBoat
   m_EditorClassIdentifier: 
-  health: 100
-  capacity: 20
-  speed: 3
-  acceleration: 0.002
-  movementSpeed: 0.05
+  minAcceleration: 0.003
+  maxAcceleration: 0.005
+  minMovementSpeed: 0.07
+  maxMovementSpeed: 0.11
+  minSpeed: 1
+  maxSpeed: 1.5
+  minHealth: 1
+  maxHealth: 6
+  buoyancy: 0.5
   boatModel: {fileID: 28928096294735240, guid: 447e6fc07ac539e43a1166fe7264bc36, type: 3}
