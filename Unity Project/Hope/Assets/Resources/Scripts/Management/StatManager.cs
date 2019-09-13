@@ -16,7 +16,7 @@ public class StatManager : MonoBehaviour
     public static int boatSpeedUpgrade = 0;
     public static int healthUpgrade = 0;
 
-    public static int levelUnlocked = 1;
+    public static int levelUnlocked = 0;
 
     public static float timeInLevel;
     public static int obstaclesHitInLevel;
