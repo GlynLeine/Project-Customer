@@ -10,6 +10,7 @@
 [Ll]ogs/
 [Ee]xport/
 [Mm]emoryCaptures/
+[Ee]xport/
 
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
