@@ -828,6 +828,21 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
+        type: 3}
+      propertyPath: updateInEditor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
+        type: 3}
+      propertyPath: boat
+      value: 
+      objectReference: {fileID: 1001699258}
     - target: {fileID: 8166868571665116241, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
         type: 3}
       propertyPath: m_Mesh
@@ -873,21 +888,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
-    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
-        type: 3}
-      propertyPath: updateInEditor
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8166868571665116271, guid: 64aaf3c54e3558a42a5ae2999892d1c2,
-        type: 3}
-      propertyPath: boat
-      value: 
-      objectReference: {fileID: 1001699258}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64aaf3c54e3558a42a5ae2999892d1c2, type: 3}
 --- !u!1 &1455573688
