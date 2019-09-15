@@ -24,6 +24,16 @@ public class LevelManager : MonoBehaviour
             levelToLoad = levelOrder.levels[0];
     }
 
+    private void OnValidate()
+    {
+        if (levelManager == null)
+            finalLevelOrder = levelOrder;
+
+        levelManager = this;
+        if (levelToLoad == null)
+            levelToLoad = levelOrder.levels[0];
+    }
+
     private void Start()
     {
         levelOrder = finalLevelOrder;

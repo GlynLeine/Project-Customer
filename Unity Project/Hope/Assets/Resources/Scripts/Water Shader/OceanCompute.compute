@@ -5,10 +5,10 @@
 
 struct Octave
 {
-	float2 speed;
-	float2 scale;
-	float height;
-	int alternate;
+    float2 speed;
+    float2 scale;
+    float height;
+    int alternate;
 };
 
 static const float PI = 3.14159265359f;
@@ -22,32 +22,37 @@ uint resolution;
 
 #include "Assets/Resources/Scripts/Water Shader/SimplexNoise.compute"
 
+int CalcIndex(uint3 id)
+{
+    return id.x * resolution + id.y;
+}
+
 [numthreads(8, 8, 1)]
 void CSWaves(uint3 id : SV_DispatchThreadID)
 {
-	uint octaveCount;
-	uint stride;
-	octaves.GetDimensions(octaveCount, stride);
+    uint octaveCount;
+    uint stride;
+    octaves.GetDimensions(octaveCount, stride);
 
-	int index = id.x + id.y * 8;
-	float x = vertices[index].x;
-	float y = 0;
-	float z = vertices[index].z;
+    int index = CalcIndex(id);
+    float x = vertices[index].x;
+    float y = 0;
+    float z = vertices[index].z;
 
-	for (int o = 0; o < octaveCount; o++)
-	{
-		if (octaves[o].alternate > 0)
-		{
-			float perl = snoise(float2((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension)) * PI * 2;
-			y += (cos(perl + length(octaves[o].speed) * time) / 2 + 1) * octaves[o].height;
-		}
-		else
-		{
-			float perl = snoise(float2((x * octaves[o].scale.x + time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + time * octaves[o].speed.y * boatSpeed) / dimension));
-			y += perl * octaves[o].height;
-		}
-	}
-	vertices[index] = float3(x, y, z);
+    for (int o = 0; o < octaveCount; o++)
+    {
+        if (octaves[o].alternate > 0)
+        {
+            float perl = pnoise(float2((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension)) * PI * 2;
+            y += (cos(perl + length(octaves[o].speed) * time) / 2 + 1) * octaves[o].height;
+        }
+        else
+        {
+            float perl = pnoise(float2((x * octaves[o].scale.x + time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + time * octaves[o].speed.y * boatSpeed) / dimension));
+            y += perl * octaves[o].height;
+        }
+    }
+    vertices[index] = float3(x, y, z);
 }
 
 RWStructuredBuffer<uint3> triangles;
@@ -55,27 +60,32 @@ RWStructuredBuffer<float3> normals;
 
 float3 CalculateSurfaceNormal(float3 vertA, float3 vertB, float3 vertC)
 {
-	float3 aToB = vertB - vertA;
-	float3 bToC = vertC - vertB;
-	return normalize(cross(aToB, bToC));
+    float3 bToA = vertA - vertB;
+    float3 cToA = vertA - vertC;
+    return normalize(cross(bToA, cToA));
 }
 
-[numthreads(2, 1, 1)]
+[numthreads(1, 1, 1)]
 void CSCalcNormals(uint3 id : SV_DispatchThreadID)
 {
-	float3 vertA = vertices[triangles[id.x].x];
-	float3 vertB = vertices[triangles[id.x].y];
-	float3 vertC = vertices[triangles[id.x].z];
-	float3 normal = CalculateSurfaceNormal(vertA, vertB, vertC);
+    float3 vertA = vertices[triangles[id.x].x];
+    float3 vertB = vertices[triangles[id.x].y];
+    float3 vertC = vertices[triangles[id.x].z];
+    float3 normal = CalculateSurfaceNormal(vertA, vertB, vertC);
 
-	normals[triangles[id.x].x] += normal;
-	normals[triangles[id.x].y] += normal;
-	normals[triangles[id.x].z] += normal;
+    AllMemoryBarrierWithGroupSync();
+
+    normals[triangles[id.x].x] += normal;
+    normals[triangles[id.x].y] += normal;
+    normals[triangles[id.x].z] += normal;
 }
 
 [numthreads(8, 8, 1)]
 void CSNormalizeNormals(uint3 id : SV_DispatchThreadID)
 {
-	int index = id.x + id.y * 8;
-	normals[index] = normalize(normals[index]);
+    int index = CalcIndex(id);
+    float3 normal = normalize(normals[index]);
+    //AllMemoryBarrierWithGroupSync();
+
+    normals[index] = normal;
 }
