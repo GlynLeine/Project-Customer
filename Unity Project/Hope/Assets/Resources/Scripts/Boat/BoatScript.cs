@@ -38,6 +38,7 @@ public class BoatScript : MonoBehaviour
 
     private int trash = 0;
     private Text trashScoreBoard;
+    private Text debugText;
     private GameObject model;
 
     bool updateBoatType = true;
@@ -99,11 +100,17 @@ public class BoatScript : MonoBehaviour
         oceanPlane = new Plane(Vector3.up, Vector3.zero);
         rigidbody = GetComponent<Rigidbody>();
         foreach (Text uiText in FindObjectsOfType<Text>())
+        {
             if (uiText.name == "Trash")
             {
                 trashScoreBoard = uiText;
                 trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
             }
+            else if(uiText.name == "Debug")
+            {
+                debugText = uiText;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -133,6 +140,8 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
+        debugText.text = "fps: " + (1f/Time.deltaTime);
+
         float entryPoint;
 
         Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
