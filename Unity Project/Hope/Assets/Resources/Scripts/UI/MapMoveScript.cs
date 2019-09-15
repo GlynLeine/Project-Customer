@@ -24,6 +24,27 @@ public class MapMoveScript : MonoBehaviour
         screenWidth = rt.rect.width;
         /*currentPosition = image.rectTransform.localPosition;*/
         currentPosition = transform.localPosition;
+        
+        if (20 > StatManager.levelUnlocked)
+        {
+            currentPosition.x = width * 0.63f - screenWidth / 2;
+        }
+        else
+        {
+            currentPosition.x = width * 0.4f - screenWidth / 2;
+        }
+        if (15 > StatManager.levelUnlocked)
+        {
+            currentPosition.x = width * 0.9f - screenWidth / 2;
+        }
+        if (10 > StatManager.levelUnlocked)
+        {
+            currentPosition.x = width * 0.38f - screenWidth /2;
+        }
+        if (5 > StatManager.levelUnlocked)
+        {
+            currentPosition.x = width / 2 - screenWidth / 2;
+        }
     }
 
     void Update()
