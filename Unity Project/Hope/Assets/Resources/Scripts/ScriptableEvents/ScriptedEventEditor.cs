@@ -11,9 +11,24 @@ class ScriptedEventEditor : Editor
 {
     List<bool> foldOuts = new List<bool>();
     Component[] components;
-    string[] componentNames;
+    List<string> componentNames;
 
     ScriptedEvent scriptedEvent;
+    int noneIndex;
+
+    private GameObject draggedObj;
+    void OnSceneGUI()
+    {
+        if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
+        {
+            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+
+            if (DragAndDrop.objectReferences[0].GetType().IsAssignableFrom(typeof(ScriptedEvent)))
+            {
+
+            }
+        }
+    }
 
     public override void OnInspectorGUI()
     {
@@ -42,7 +57,8 @@ class ScriptedEventEditor : Editor
         EditorGUI.indentLevel++;
 
         components = FindObjectsOfType<Component>();
-        componentNames = components.Select(s => s.GetType().Name).ToArray();
+        componentNames = components.Select(s => s.GetType().Name).ToList();
+        componentNames.Add("None");
 
         for (int i = 0; i < scriptedEvent.eventTriggers.Count; i++)
         {
@@ -91,14 +107,22 @@ class ScriptedEventEditor : Editor
 
         int currentIndex = -1;
         if (eventTrigger.triggeringComponent != null)
-            currentIndex = componentNames.ToList().IndexOf(eventTrigger.triggeringComponent.GetType().Name);
+            currentIndex = componentNames.IndexOf(eventTrigger.triggeringComponent.GetType().Name);
 
-        int newIndex = EditorGUILayout.Popup("Component", currentIndex, componentNames);
+        if (currentIndex < 0)
+        {
+            noneIndex = componentNames.IndexOf("None");
+            currentIndex = noneIndex;
+        }
 
-        if (newIndex >= 0)
+        int newIndex = EditorGUILayout.Popup("Component", currentIndex, componentNames.ToArray());
+
+        if (newIndex >= 0 && newIndex != noneIndex)
         {
             eventTrigger.triggeringComponent = components[newIndex];
         }
+        else
+            eventTrigger.triggeringComponent = null;
 
         if (eventTrigger.triggeringComponent != null)
         {
