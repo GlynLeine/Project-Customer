@@ -10,10 +10,15 @@ using UnityEngine;
 class ScriptedEventEditor : Editor
 {
     List<bool> foldOuts = new List<bool>();
+    Component[] components;
+    string[] componentNames;
+
+    ScriptedEvent scriptedEvent;
 
     public override void OnInspectorGUI()
     {
-        ScriptedEvent scriptedEvent = (ScriptedEvent)target;
+        scriptedEvent = (ScriptedEvent)target;
+
         int sizeDiff = foldOuts.Count - scriptedEvent.eventTriggers.Count;
         if (sizeDiff < 0)
         {
@@ -36,42 +41,77 @@ class ScriptedEventEditor : Editor
 
         EditorGUI.indentLevel++;
 
-        MonoBehaviour[] scripts = FindObjectsOfType<MonoBehaviour>();
-        string[] scriptNames = scripts.Select(s => s.GetType().Name).ToArray();
+        components = FindObjectsOfType<Component>();
+        componentNames = components.Select(s => s.GetType().Name).ToArray();
 
         for (int i = 0; i < scriptedEvent.eventTriggers.Count; i++)
         {
             foldOuts[i] = EditorGUILayout.Foldout(foldOuts[i], "Event Trigger " + i);
-            if(!foldOuts[i])
+            if (!foldOuts[i])
                 continue;
             EditorGUI.indentLevel++;
 
             EventTrigger eventTrigger = scriptedEvent.eventTriggers[i];
-            int currentIndex = -1;
-            if (eventTrigger.triggeringComponent != null)
-                currentIndex = scriptNames.ToList().IndexOf(eventTrigger.triggeringComponent.GetType().Name);
+            eventTrigger.triggerType = (TriggerType)EditorGUILayout.EnumPopup(eventTrigger.triggerType);
 
-            int newIndex = EditorGUILayout.Popup("Script", currentIndex, scriptNames);
-
-            if (newIndex >= 0)
+            switch (eventTrigger.triggerType)
             {
-                eventTrigger.triggeringComponent = scripts[newIndex];
+                case TriggerType.TimeInLevel:
+                    DrawTimeTriggerGUI(eventTrigger);
+                    break;
+                case TriggerType.ScriptValue:
+                    DrawValueTriggerGUI(eventTrigger, i);
+                    break;
+                default:
+                    break;
             }
 
-            if (eventTrigger.triggeringComponent != null)
-            {
-                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-                FieldInfo[] fields = eventTrigger.triggeringComponent.GetType().GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTypes.Contains(f.FieldType.Name)).ToArray();
-                string[] fieldNames = fields.Select(f => f.Name).ToArray();
+            EditorGUI.indentLevel--;
+        }
 
-                int fieldIndex = EditorGUILayout.Popup("Field", fields.ToList().IndexOf(eventTrigger.field), fieldNames);
-                if (fieldIndex >= 0)
-                    eventTrigger.field = fields[fieldIndex];
-            }
+        EditorGUI.indentLevel--;
 
-            if (eventTrigger.field != null)
+        if (GUILayout.Button("Add event trigger"))
+            scriptedEvent.eventTriggers.Add(new EventTrigger());
+
+        if (GUILayout.Button("Remove last event trigger"))
+            scriptedEvent.eventTriggers.RemoveAt(scriptedEvent.eventTriggers.Count - 1);
+
+        EditorUtility.SetDirty(scriptedEvent);
+    }
+
+    void DrawValueTriggerGUI(EventTrigger eventTrigger, int index)
+    {
+        if (scriptedEvent.parent == null)
+        {
+            EditorGUILayout.LabelField("Create Variant and configure in Scene.");
+            return;
+        }
+
+
+        int currentIndex = -1;
+        if (eventTrigger.triggeringComponent != null)
+            currentIndex = componentNames.ToList().IndexOf(eventTrigger.triggeringComponent.GetType().Name);
+
+        int newIndex = EditorGUILayout.Popup("Component", currentIndex, componentNames);
+
+        if (newIndex >= 0)
+        {
+            eventTrigger.triggeringComponent = components[newIndex];
+        }
+
+        if (eventTrigger.triggeringComponent != null)
+        {
+            BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
+            FieldInfo[] fields = eventTrigger.triggeringComponent.GetType().GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTypes.Contains(f.FieldType.Name)).ToArray();
+            string[] fieldNames = fields.Select(f => f.Name).ToArray();
+
+            int fieldIndex = EditorGUILayout.Popup("Field", fieldNames.ToList().IndexOf(eventTrigger.fieldName), fieldNames);
+            if (fieldIndex >= 0)
             {
-                switch (eventTrigger.field.FieldType.Name)
+                eventTrigger.fieldName = fields[fieldIndex].Name;
+
+                switch (fields[fieldIndex].FieldType.Name)
                 {
                     case nameof(Boolean):
                         {
@@ -79,10 +119,10 @@ class ScriptedEventEditor : Editor
                             if (typedTrigger == null)
                             {
                                 typedTrigger = new TypedTrigger<bool>(eventTrigger);
-                                scriptedEvent.eventTriggers[i] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[i];
+                                scriptedEvent.eventTriggers[index] = typedTrigger;
+                                eventTrigger = scriptedEvent.eventTriggers[index];
                             }
-                            typedTrigger.value = EditorGUILayout.Toggle("Value", typedTrigger.value);
+                            typedTrigger.value = EditorGUILayout.Toggle("Boolean Value", typedTrigger.value);
                             eventTrigger.value = typedTrigger.value.ToString();
                         }
                         break;
@@ -92,10 +132,10 @@ class ScriptedEventEditor : Editor
                             if (typedTrigger == null)
                             {
                                 typedTrigger = new TypedTrigger<float>(eventTrigger);
-                                scriptedEvent.eventTriggers[i] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[i];
+                                scriptedEvent.eventTriggers[index] = typedTrigger;
+                                eventTrigger = scriptedEvent.eventTriggers[index];
                             }
-                            typedTrigger.value = EditorGUILayout.FloatField("Value", typedTrigger.value);
+                            typedTrigger.value = EditorGUILayout.FloatField("Float Value", typedTrigger.value);
                             eventTrigger.value = typedTrigger.value.ToString();
                         }
                         break;
@@ -105,10 +145,10 @@ class ScriptedEventEditor : Editor
                             if (typedTrigger == null)
                             {
                                 typedTrigger = new TypedTrigger<int>(eventTrigger);
-                                scriptedEvent.eventTriggers[i] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[i];
+                                scriptedEvent.eventTriggers[index] = typedTrigger;
+                                eventTrigger = scriptedEvent.eventTriggers[index];
                             }
-                            typedTrigger.value = EditorGUILayout.IntField("Value", typedTrigger.value);
+                            typedTrigger.value = EditorGUILayout.IntField("Integer Value", typedTrigger.value);
                             eventTrigger.value = typedTrigger.value.ToString();
                         }
                         break;
@@ -118,34 +158,24 @@ class ScriptedEventEditor : Editor
                             if (typedTrigger == null)
                             {
                                 typedTrigger = new TypedTrigger<string>(eventTrigger);
-                                scriptedEvent.eventTriggers[i] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[i];
+                                scriptedEvent.eventTriggers[index] = typedTrigger;
+                                eventTrigger = scriptedEvent.eventTriggers[index];
                             }
-                            typedTrigger.value = EditorGUILayout.TextField("Value", typedTrigger.value);
+                            typedTrigger.value = EditorGUILayout.TextField("String Value", typedTrigger.value);
                             eventTrigger.value = typedTrigger.value.ToString();
                         }
                         break;
                     default:
-                        throw new NotSupportedException("Event trigger type not supported.");
+                        EditorGUILayout.LabelField("Event trigger script value type not supported.");
+                        throw new NotSupportedException("Event trigger script value type not supported.");
                 }
             }
-
-            EditorGUI.indentLevel--;
         }
+    }
 
-        EditorGUI.indentLevel--;
-
-        if (GUILayout.Button("Add event trigger"))
-        {
-            scriptedEvent.eventTriggers.Add(new EventTrigger());
-        }
-
-        if (GUILayout.Button("Remove last event trigger"))
-        {
-            scriptedEvent.eventTriggers.RemoveAt(scriptedEvent.eventTriggers.Count - 1);
-        }
-
-        EditorUtility.SetDirty(target);
+    void DrawTimeTriggerGUI(EventTrigger eventTrigger)
+    {
+        eventTrigger.triggerTime = EditorGUILayout.FloatField("Seconds", eventTrigger.triggerTime);
     }
 
 }

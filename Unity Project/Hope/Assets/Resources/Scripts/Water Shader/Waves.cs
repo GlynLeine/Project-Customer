@@ -1,16 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Waves : MonoBehaviour
 {
     //Public Properties
+    #region Inputs
     public bool updateInEditor;
     public int dimension = 10;
     public float uvScale = 2f;
     public Octave[] octaves;
-    public float resolution = 1;
+    public int resolution = 1;
 
+    public int refreshRate = 20;
+
+    public bool vertexUpdate;
+    public bool vertexCompute;
+    public bool normalCompute;
+    #endregion
+
+    #region Readables
     [HideInInspector]
     public BoatScript boat;
 
@@ -20,60 +30,133 @@ public class Waves : MonoBehaviour
         private set;
     }
 
+    [Serializable]
+    public struct Octave
+    {
+        public Vector2 speed;
+        public Vector2 scale;
+        public float height;
+        public int alternate;
+    }
+    #endregion
+
+    #region Privates
     //Mesh
-    protected MeshFilter meshFilter;
-    protected Mesh mesh;
+    private MeshFilter meshFilter;
+    private Mesh mesh;
 
     private float spaceBetweenVertices = 1f;
     private int verticesPerSide = 2;
 
     private bool setupMesh = true;
-    private float[] octaveSpeeds;
 
+    private float timeSinceLastMeshUpdate;
+    #endregion
+
+    #region Compute Shader
+    private ComputeShader computeShader;
+    private int waveKernel;
+    private int calcNormalsKernal;
+    private int normalizeNormalsKernel;
+
+    private ComputeBuffer vertexBuffer;
+    private ComputeBuffer normalBuffer;
+    private ComputeBuffer triangleBuffer;
+    private ComputeBuffer octaveBuffer;
+    #endregion
+
+    void Setup()
+    {
+        spaceBetweenVertices = dimension / (resolution - 1);
+        verticesPerSide = Mathf.RoundToInt(dimension / spaceBetweenVertices) + 1;
+
+        #region Mesh Setup
+        if (mesh == null)
+        {
+            mesh = new Mesh();
+            mesh.name = gameObject.name;
+
+            mesh.vertices = GenerateVerts();
+            mesh.triangles = GenerateTries();
+            mesh.uv = GenerateUVs();
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+
+            meshFilter = gameObject.GetComponent<MeshFilter>();
+            meshFilter.mesh = mesh;
+        }
+        #endregion
+
+        maxOceanHeight = 0;
+
+        #region Compute shader Setup
+        computeShader = Resources.Load<ComputeShader>("Scripts/Water Shader/OceanCompute");
+        waveKernel = computeShader.FindKernel("CSWaves");
+        calcNormalsKernal = computeShader.FindKernel("CSCalcNormals");
+        normalizeNormalsKernel = computeShader.FindKernel("CSNormalizeNormals");
+
+        computeShader.SetFloat("dimension", dimension);
+        computeShader.SetInt("resolution", resolution);
+
+        if (vertexBuffer == null)
+            vertexBuffer = new ComputeBuffer(mesh.vertexCount, sizeof(float) * 3);
+
+        if (normalBuffer == null)
+            normalBuffer = new ComputeBuffer(mesh.vertexCount, sizeof(float) * 3);
+
+        if (triangleBuffer == null)
+            triangleBuffer = new ComputeBuffer(mesh.triangles.Length, sizeof(uint) * 3);
+
+        if (octaveBuffer == null)
+        {
+            int hypotheticalStride = System.Runtime.InteropServices.Marshal.SizeOf<Octave>();
+            octaveBuffer = new ComputeBuffer(octaves.Length, hypotheticalStride);
+        }
+
+        vertexBuffer.SetData(mesh.vertices);
+        normalBuffer.SetData(new Vector3[mesh.vertexCount]);
+        triangleBuffer.SetData(mesh.triangles);
+        octaveBuffer.SetData(octaves);
+
+        computeShader.SetBuffer(waveKernel, "vertices", vertexBuffer);
+        computeShader.SetBuffer(waveKernel, "octaves", octaveBuffer);
+
+        computeShader.SetBuffer(calcNormalsKernal, "vertices", vertexBuffer);
+        computeShader.SetBuffer(calcNormalsKernal, "triangles", triangleBuffer);
+        computeShader.SetBuffer(calcNormalsKernal, "normals", normalBuffer);
+
+        computeShader.SetBuffer(normalizeNormalsKernel, "normals", normalBuffer);
+        #endregion
+    }
+
+    #region In Editor
     private void OnValidate()
     {
-        if (resolution <= 0)
-            resolution = 1;
+        if(resolution > 200)
+            resolution = 200;
+        resolution = Mathf.RoundToInt(resolution / 8f) * 8;
+
+        if (resolution < 8)
+            resolution = 8;
 
         if (updateInEditor)
             setupMesh = true;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnDrawGizmos()
     {
-        SetupMesh();
-    }
-
-    void SetupMesh()
-    {
-        spaceBetweenVertices = dimension / resolution;
-        verticesPerSide = Mathf.RoundToInt(dimension / spaceBetweenVertices) + 1;
-
-        //Mesh Setup
-        mesh = new Mesh();
-        mesh.name = gameObject.name;
-
-        mesh.vertices = GenerateVerts();
-        mesh.triangles = GenerateTries();
-        mesh.uv = GenerateUVs();
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-
-        meshFilter = gameObject.GetComponent<MeshFilter>();
-        meshFilter.mesh = mesh;
-
-
-        maxOceanHeight = 0;
-        octaveSpeeds = new float[octaves.Length];
-        for (int i = 0; i < octaves.Length; i++)
+        if (setupMesh)
         {
-            maxOceanHeight += octaves[i].height;
-            if (!octaves[i].alternate)
-                octaveSpeeds[i] = octaves[i].speed.y;
+            Setup();
+            setupMesh = false;
         }
-    }
 
+        if (updateInEditor)
+            UpdateMeshCompute();
+    }
+    #endregion
+
+    #region Mesh Generation
     public float GetHeightQuick(Vector3 position)
     {
         //scale factor and position in local space
@@ -181,12 +264,11 @@ public class Waves : MonoBehaviour
         int ret = Mathf.RoundToInt((x / spaceBetweenVertices) * (dimension / spaceBetweenVertices + 1) + (z / spaceBetweenVertices));
         return ret;
     }
+    #endregion
 
+    #region Mesh Update
     void UpdateMesh()
     {
-        if (mesh == null || mesh.vertexCount == 0)
-            SetupMesh();
-
         Vector3[] verts = mesh.vertices;
         for (float x = 0; x <= dimension; x += spaceBetweenVertices)
         {
@@ -195,14 +277,14 @@ public class Waves : MonoBehaviour
                 float y = 0f;
                 for (int o = 0; o < octaves.Length; o++)
                 {
-                    if (octaves[o].alternate)
+                    if (octaves[o].alternate > 0)
                     {
                         float perl = Mathf.PerlinNoise((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension) * Mathf.PI * 2f;
                         y += (Mathf.Cos(perl + octaves[o].speed.magnitude * Time.time) / 2f + 1f) * octaves[o].height;
                     }
                     else
                     {
-                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaveSpeeds[o] * (boat != null ? boat.boatSpeed : 0.5f)) / dimension);
+                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y * (boat != null ? boat.boatSpeed : 0.5f)) / dimension);
                         y += perl * octaves[o].height;
                     }
                 }
@@ -213,30 +295,92 @@ public class Waves : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    private void OnDrawGizmos()
+    void UpdateMeshCompute()
     {
-        if (updateInEditor)
-            UpdateMesh();
-
-        if (setupMesh)
+        timeSinceLastMeshUpdate += Time.deltaTime;
+        if (timeSinceLastMeshUpdate < 1f / refreshRate)
         {
-            SetupMesh();
-            setupMesh = false;
+            return;
         }
+
+        timeSinceLastMeshUpdate = 0;
+
+        if (computeShader == null || normalBuffer == null || vertexBuffer == null || triangleBuffer == null)
+            Setup();
+
+        //normalBuffer.SetData(new Vector3[mesh.vertexCount]);
+
+        computeShader.SetFloat("time", Time.time);
+        computeShader.SetFloat("boatSpeed", (boat == null ? 0.5f : boat.boatSpeed));
+        computeShader.SetInt("resolution", resolution);
+
+        int vertexDispatchGroupSize = resolution / 8;
+
+        if (vertexUpdate)
+            if (vertexCompute)
+            {
+                computeShader.Dispatch(waveKernel, vertexDispatchGroupSize, vertexDispatchGroupSize, 1);
+
+                Vector3[] vertices = new Vector3[vertexBuffer.count];
+                vertexBuffer.GetData(vertices);
+                mesh.vertices = vertices;
+            }
+            else
+            {
+                Vector3[] verts = mesh.vertices;
+                for (float x = 0; x <= dimension; x += spaceBetweenVertices)
+                {
+                    for (float z = 0; z <= dimension; z += spaceBetweenVertices)
+                    {
+                        float y = 0f;
+                        for (int o = 0; o < octaves.Length; o++)
+                        {
+                            if (octaves[o].alternate > 0)
+                            {
+                                float perl = Mathf.PerlinNoise((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension) * Mathf.PI * 2f;
+                                y += (Mathf.Cos(perl + octaves[o].speed.magnitude * Time.time) / 2f + 1f) * octaves[o].height;
+                            }
+                            else
+                            {
+                                float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y * (boat != null ? boat.boatSpeed : 0.5f)) / dimension);
+                                y += perl * octaves[o].height;
+                            }
+                        }
+                        verts[index(x, z)] = new Vector3(x, y, z);
+                    }
+                }
+                mesh.vertices = verts;
+                if (normalCompute)
+                    vertexBuffer.SetData(verts);
+            }
+
+        if (normalCompute)
+        {
+            computeShader.Dispatch(calcNormalsKernal, triangleBuffer.count, 1, 1);
+            computeShader.Dispatch(normalizeNormalsKernel, vertexDispatchGroupSize, vertexDispatchGroupSize, 1);
+
+            Vector3[] normals = new Vector3[normalBuffer.count];
+            normalBuffer.GetData(normals);
+            mesh.SetNormals(normals.ToList());
+        }
+        else
+        {
+            mesh.RecalculateNormals();
+        }
+    }
+    #endregion
+
+    #region Runtime
+    // Start is called before the first frame update
+    void Start()
+    {
+        Setup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateMesh();
+        UpdateMeshCompute();
     }
-
-    [Serializable]
-    public struct Octave
-    {
-        public Vector2 speed;
-        public Vector2 scale;
-        public float height;
-        public bool alternate;
-    }
+    #endregion
 }

@@ -12,7 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b1d8f453fc3564085fb1b315f4d6c6, type: 3}
   m_Name: New Scripted Event
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   eventType: 0
   eventTriggers:
-  - triggeringComponent: {fileID: 0}
-    value: 5
+  - triggerType: 2
+    triggerTime: 0
+    triggeringComponent: {fileID: 0}
+    fieldName: m_BakedIndex
+    value: 55
+  - triggerType: 0
+    triggerTime: 0
+    triggeringComponent: {fileID: 0}
+    fieldName: 
+    value: 
+  - triggerType: 1
+    triggerTime: 64
+    triggeringComponent: {fileID: 0}
+    fieldName: 
+    value: 

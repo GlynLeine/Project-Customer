@@ -7,4 +7,5 @@ public class LevelType : ScriptableObject
     public int TrashToCollect;
     public SpawnInfo[] spawnables;
     public Material oceanMaterial;
+    public AudioClip levelMusic;
 }

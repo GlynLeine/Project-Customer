@@ -7,6 +7,8 @@ public class FloatingObjectScript : MonoBehaviour
     public BoatScript boat = null;
     [HideInInspector]
     public Waves ocean = null;
+    [HideInInspector]
+    public LevelMasterScript master = null;
 
     [ReadOnly]
     public int score;
@@ -27,12 +29,12 @@ public class FloatingObjectScript : MonoBehaviour
 
         Vector3 position = transform.position;
         velocity.z = -(Time.deltaTime * boat.boatSpeed * 9);
-        float oceanHeight = ocean.GetHeightQuick(position);
-        velocity.y = oceanHeight - position.y;
-        velocity.y *= buoyancy;
+        velocity.y = (ocean.GetHeightQuick(position) - position.y) * buoyancy;
         transform.position = position + velocity;
 
-        if (transform.position.z < -10)
+        if (position.z < -10)
+        {
             Destroy(gameObject);
+        }
     }
 }

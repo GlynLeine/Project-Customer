@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   damage: 1
-  model: {fileID: 4827080962400264691, guid: 5535e5f6d07329d4f810d8c2ca28415b, type: 3}
+  buoyancy: 0
+  model: {fileID: 7919219744469177528, guid: 171e37f9e7faf9d42ab350fdf2969810, type: 3}
