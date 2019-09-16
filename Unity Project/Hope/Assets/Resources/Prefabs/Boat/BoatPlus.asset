@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3019886689d44e40807df2a706e9832, type: 3}
+  m_Name: BoatPlus
+  m_EditorClassIdentifier: 
+  minAcceleration: 0.005
+  maxAcceleration: 0.008
+  minMovementSpeed: 0.11
+  maxMovementSpeed: 0.16
+  minSpeed: 2
+  maxSpeed: 3
+  minHealth: 5
+  maxHealth: 11
+  buoyancy: 1
+  boatModel: {fileID: 6152593535527155152, guid: 91600656b10b2124caed85557523ab31,
+    type: 3}
