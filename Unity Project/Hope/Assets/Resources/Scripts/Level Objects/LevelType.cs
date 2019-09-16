@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Level Type", menuName = "Level Type")]
+[CreateAssetMenu(fileName = "New Level Type", menuName = "Level Management/Level Type")]
 public class LevelType : ScriptableObject
 {
     public float hazardSpawnRateIncrease;

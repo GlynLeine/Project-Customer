@@ -1,12 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-
-public enum ScriptedEventType
-{
-    Dialogue
-}
 
 public enum TriggerType
 {
@@ -63,7 +57,7 @@ public class TypedTrigger<T> : EventTrigger
     }
 }
 
-[CreateAssetMenu(fileName = "New Scripted Event", menuName = "Scripted Event")]
+[CreateAssetMenu(fileName = "New Scripted Event", menuName = "Scriptable Event/Event")]
 public class ScriptedEvent : ScriptableObject
 {
     [HideInInspector]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "New Scripted Event Variant", menuName = "Scripted Event Variant")]
+[CreateAssetMenu(fileName = "New Scripted Event Variant", menuName = "Scriptable Event/Event Variant")]
 public class ScriptedEventVariant : ScriptedEvent
 {
     [HideInInspector]
@@ -20,7 +20,7 @@ public class ScriptedEventVariant : ScriptedEvent
         }
         else
         {
-            eventType = 0;
+            eventType = null;
             eventTriggers = null;
         }
     }

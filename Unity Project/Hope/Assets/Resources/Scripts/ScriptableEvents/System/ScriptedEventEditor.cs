@@ -16,19 +16,19 @@ class ScriptedEventEditor : Editor
     ScriptedEvent scriptedEvent;
     int noneIndex;
 
-    private GameObject draggedObj;
-    void OnSceneGUI()
-    {
-        if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
-        {
-            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+    //private GameObject draggedObj;
+    //void OnSceneGUI()
+    //{
+    //    if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
+    //    {
+    //        DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 
-            if (DragAndDrop.objectReferences[0].GetType().IsAssignableFrom(typeof(ScriptedEvent)))
-            {
+    //        if (DragAndDrop.objectReferences[0].GetType().IsAssignableFrom(typeof(ScriptedEvent)))
+    //        {
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
     public override void OnInspectorGUI()
     {
