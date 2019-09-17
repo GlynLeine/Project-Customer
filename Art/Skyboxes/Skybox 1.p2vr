@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- Pano2VR project file  -->
-<pano2vrconfig version="6.0.6" rev="17336">
+<pano2vrconfig rev="15996" version="5.2.4">
   <panorama>
     <id>node1</id>
     <input>
       <patch/>
       <type>cylindrical</type>
       <filename>../Photoshop/Skybox 1.psd</filename>
-      <videotype>equi</videotype>
       <levelpitch>0</levelpitch>
       <levelroll>0</levelroll>
     </input>
@@ -19,7 +18,6 @@
       <pannorth>0</pannorth>
     </viewingparameter>
     <userdata>
-      <capturedatetime>2019-09-16T15:49:50+02:00</capturedatetime>
       <datetime>9/16/2019 3:49 PM</datetime>
       <tags>Photoshop</tags>
     </userdata>
@@ -32,22 +30,16 @@
           <filename>output/index.html</filename>
         </html>
         <facequality/>
-        <type>cubeface</type>
         <filename>../Skyboxes/Skybox 1.png</filename>
-        <fov>70</fov>
-        <defaultviewpan>1</defaultviewpan>
-        <defaultviewtilt>1</defaultviewtilt>
-        <defaultviewfov>1</defaultviewfov>
-        <width>2048</width>
+        <type>cubeface</type>
         <height>2048</height>
+        <fov>70</fov>
         <cubefacenaming>bottom</cubefacenaming>
+        <width>2048</width>
       </thumb>
     </output>
     <streetview/>
     <streetviewproject/>
     <sounds/>
-    <animation>
-      <title>Animation01</title>
-    </animation>
   </panorama>
 </pano2vrconfig>
