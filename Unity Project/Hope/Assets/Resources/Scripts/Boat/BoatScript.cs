@@ -6,25 +6,17 @@ using UnityEngine.UI;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
-    //[ReadOnly]
-    public float boatSpeed = 1f;
-    //[ReadOnly]
-    public float acceleration;
-    //[ReadOnly]
-    public float maximumMovementSpeed;
-    //[ReadOnly]
-    public int trashCapacity;
-    //[ReadOnly]
-    public float maxHealth;
-    //[ReadOnly]
-    public float buoyancy;
+    [ReadOnly] public float boatSpeed = 1f;
+    [ReadOnly] public float acceleration;
+    [ReadOnly] public float maximumMovementSpeed;
+    [ReadOnly] public int trashCapacity;
+    [ReadOnly] public float maxHealth;
+    [ReadOnly] public float buoyancy;
 
     public BoatType boatType;
 
-    [HideInInspector]
-    public float health;
-    [HideInInspector]
-    public Waves ocean;
+    [HideInInspector] public float health;
+    [HideInInspector] public Waves ocean;
 
     private Plane oceanPlane;
 
@@ -43,12 +35,14 @@ public class BoatScript : MonoBehaviour
 
     bool updateBoatType = true;
 
-    private void OnValidate()
+    void OnValidate()
     {
         updateBoatType = true;
     }
 
-    private void OnDrawGizmos()
+    
+    
+    void OnDrawGizmos()
     {
         if (updateBoatType)
         {
@@ -60,7 +54,17 @@ public class BoatScript : MonoBehaviour
     void UpdateBoatType()
     {
         if (boatType == null)
-            throw new NullReferenceException("Boat type null.");
+        {
+            buoyancy = 0;
+            trashCapacity = 0;
+            acceleration = 0;
+            maximumMovementSpeed = 0;
+            boatSpeed = 0;
+            maxHealth = 0;
+
+            health = 0;
+            return;
+        }
 
         Transform child = transform.Find("Model");
         if (child != null)
@@ -106,7 +110,7 @@ public class BoatScript : MonoBehaviour
                 trashScoreBoard = uiText;
                 trashScoreBoard.text = trash + "/" + trashCapacity;
             }
-            else if(uiText.name == "Debug")
+            else if (uiText.name == "Debug")
             {
                 debugText = uiText;
             }
@@ -140,7 +144,7 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
-        debugText.text = "fps: " + (1f/Time.deltaTime);
+        debugText.text = "fps: " + (1f / Time.deltaTime);
 
         float entryPoint;
 
@@ -185,7 +189,8 @@ public class BoatScript : MonoBehaviour
         Vector3 newPosition = currentPosition + velocity;
 
         RaycastHit hitInfo;
-        if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude, movementCollisionMask))
+        if (!Physics.Raycast(currentPosition, velocity.normalized, out hitInfo, velocity.magnitude,
+            movementCollisionMask))
         {
             rigidbody.MovePosition(newPosition);
         }

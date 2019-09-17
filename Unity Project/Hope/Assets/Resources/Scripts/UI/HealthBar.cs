@@ -15,7 +15,7 @@ public class HealthBar : MonoBehaviour
     {
         boat = FindObjectOfType<BoatScript>();
         boatHealth = Mathf.RoundToInt(boat.maxHealth);
-        for (int i = 0; i < boat.maxHealth; i++)
+        for (int i = 0; i < boatHealth; i++)
         {
             Instantiate(image, transform);
         }
