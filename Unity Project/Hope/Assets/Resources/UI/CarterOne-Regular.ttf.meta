@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: be8b6669f002bf34b99cadc7f44b6d63
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Carter One
+  fontNames:
+  - Carter One
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2f1e1ae3024e9fe46b8917eaa687de05, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
