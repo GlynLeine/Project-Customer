@@ -10,32 +10,46 @@ public class StatManager : MonoBehaviour
 {
     public static float timePlayed;
     public static int trashCollected;
-    public static int healthLost;
+    public static float healthLost;
 
     public static int maneuverabilityUpgrade = 0;
     public static int boatSpeedUpgrade = 0;
     public static int healthUpgrade = 0;
 
     public static int levelUnlocked = 0;
+    public int levelUnlockedOverride = -1;
 
     public static float timeInLevel;
     public static int obstaclesHitInLevel;
     public static int trashCollectedInLevel;
 
-    private bool intialised = false;
+    private bool initialised = false;
+    private bool created = false;
 
     private void Start()
     {
-        if (intialised && FindObjectsOfType<StatManager>().Length > 0)
-            Destroy(gameObject);
-        else
-            DontDestroyOnLoad(this);
+        if (!created)
+        {
+            if (levelUnlockedOverride >= 0)
+                levelUnlocked = levelUnlockedOverride;
 
-        intialised = true;
+            DontDestroyOnLoad(this);
+            created = true;
+        }
+
+        initialised = false;
     }
 
     private void Update()
     {
+        if (!initialised)
+        {
+            if (created && FindObjectsOfType<StatManager>().Length > 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         timePlayed += Time.deltaTime;
         timeInLevel += Time.deltaTime;
     }
@@ -44,6 +58,7 @@ public class StatManager : MonoBehaviour
     {
         timeInLevel = 0;
         obstaclesHitInLevel = 0;
+        trashCollected += trashCollectedInLevel;
         trashCollectedInLevel = 0;
     }
 

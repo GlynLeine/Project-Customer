@@ -51,13 +51,18 @@ MonoBehaviour:
   octaves:
   - speed: {x: 2, y: 2}
     scale: {x: 40, y: 40}
-    height: 0.2
+    height: 0.15
     alternate: 1
   - speed: {x: 0, y: 320}
     scale: {x: 5.24, y: 33.72}
-    height: 1.5
+    height: 1
     alternate: 0
   resolution: 80
+  refreshRate: 20
+  vertexUpdate: 1
+  vertexCompute: 1
+  normalCompute: 0
+  boat: {fileID: 0}
 --- !u!23 &8166868571665116268
 MeshRenderer:
   m_ObjectHideFlags: 0

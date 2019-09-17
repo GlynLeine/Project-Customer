@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FloatingObjectScript : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class FloatingObjectScript : MonoBehaviour
     public BoatScript boat = null;
     [HideInInspector]
     public Waves ocean = null;
+    [HideInInspector]
+    public LevelMasterScript master = null;
+    [HideInInspector]
+    public int ID;
 
     [ReadOnly]
     public int score;
@@ -27,12 +32,16 @@ public class FloatingObjectScript : MonoBehaviour
 
         Vector3 position = transform.position;
         velocity.z = -(Time.deltaTime * boat.boatSpeed * 9);
-        float oceanHeight = ocean.GetHeightQuick(position);
-        velocity.y = oceanHeight - position.y;
-        velocity.y *= buoyancy;
+        velocity.y = (ocean.GetHeightQuick(position) - position.y) * buoyancy;
         transform.position = position + velocity;
 
-        if (transform.position.z < -10)
-            Destroy(gameObject);
+        if (position.z < -10)
+        {
+            gameObject.SetActive(false);
+            if (master.reUsableFloatingObjects.ContainsKey(ID))
+                master.reUsableFloatingObjects[ID].Enqueue(this);
+            else
+                master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
+        }
     }
 }

@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3019886689d44e40807df2a706e9832, type: 3}
   m_Name: TestBoat
   m_EditorClassIdentifier: 
-  health: 100
-  capacity: 20
-  speed: 5
-  acceleration: 0.004
-  movementSpeed: 0.1
-  boatModel: {fileID: 8775156705091298359, guid: 1f27f468a6883124a93efae549a8194d,
+  minAcceleration: 0
+  maxAcceleration: 0
+  minMovementSpeed: 0
+  maxMovementSpeed: 0
+  minSpeed: 0
+  maxSpeed: 0
+  minHealth: 0
+  maxHealth: 0
+  buoyancy: 0
+  boatModel: {fileID: 3119611844374648240, guid: fa0f36075eb9b5d4fb520020e2219100,
     type: 3}
