@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Boat Type", menuName = "Boat Type")]
+[CreateAssetMenu(fileName = "New Boat Type", menuName = "Level Objects/Boat Type")]
 public class BoatType : ScriptableObject
 {
     public float minAcceleration;

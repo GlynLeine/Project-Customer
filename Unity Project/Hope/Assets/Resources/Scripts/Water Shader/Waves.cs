@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Threading;
 
 public class Waves : MonoBehaviour
 {
@@ -65,6 +65,11 @@ public class Waves : MonoBehaviour
     private ComputeBuffer octaveBuffer;
     #endregion
 
+    #region Multi Threading
+    Thread waveUpdateThread = null;
+
+    #endregion
+
     void Setup()
     {
         spaceBetweenVertices = dimension / (resolution - 1);
@@ -88,7 +93,7 @@ public class Waves : MonoBehaviour
         #endregion
 
         maxOceanHeight = 0;
-
+    
         #region Compute shader Setup
         computeShader = Resources.Load<ComputeShader>("Scripts/Water Shader/OceanCompute");
         waveKernel = computeShader.FindKernel("CSWaves");
@@ -269,30 +274,7 @@ public class Waves : MonoBehaviour
     #region Mesh Update
     void UpdateMesh()
     {
-        Vector3[] verts = mesh.vertices;
-        for (float x = 0; x <= dimension; x += spaceBetweenVertices)
-        {
-            for (float z = 0; z <= dimension; z += spaceBetweenVertices)
-            {
-                float y = 0f;
-                for (int o = 0; o < octaves.Length; o++)
-                {
-                    if (octaves[o].alternate > 0)
-                    {
-                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x) / dimension, (z * octaves[o].scale.y) / dimension) * Mathf.PI * 2f;
-                        y += (Mathf.Cos(perl + octaves[o].speed.magnitude * Time.time) / 2f + 1f) * octaves[o].height;
-                    }
-                    else
-                    {
-                        float perl = Mathf.PerlinNoise((x * octaves[o].scale.x + Time.time * octaves[o].speed.x) / dimension, (z * octaves[o].scale.y + Time.time * octaves[o].speed.y * (boat != null ? boat.boatSpeed : 0.5f)) / dimension);
-                        y += perl * octaves[o].height;
-                    }
-                }
-                verts[index(x, z)] = new Vector3(x, y, z);
-            }
-        }
-        mesh.vertices = verts;
-        mesh.RecalculateNormals();
+
     }
 
     void UpdateMeshCompute()
