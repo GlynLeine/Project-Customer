@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public struct Dialogue
@@ -15,7 +16,7 @@ public struct Dialogue
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Scriptable Event/Event Type/Dialogue")]
 public class DialogueEvent : ScriptedEventType
 {
-    public Dialogue[] dialogue;
+    public List<Dialogue> dialogue;
 
     [HideInInspector]
     public UnityEvent OnStartDialogue;

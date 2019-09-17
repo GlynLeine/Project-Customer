@@ -14,9 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   eventType: {fileID: 11400000, guid: 9d5938286a8b0f14dbd005a4502a9505, type: 2}
-  eventTriggers:
-  - triggerType: 2
-    triggerTime: 7.09
-    triggeringComponent: {fileID: 0}
-    fieldName: m_Spacing
-    triggerValue: 0
+  eventTriggers: []

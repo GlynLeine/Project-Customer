@@ -380,7 +380,8 @@ public class Waves : MonoBehaviour
     {
         if (vertexBuffer != null)
             vertexBuffer.Dispose();
-        normalBuffer.Dispose();
+        if (normalBuffer != null)
+            normalBuffer.Dispose();
         triangleBuffer.Dispose();
         octaveBuffer.Dispose();
     }
