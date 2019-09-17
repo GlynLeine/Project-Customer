@@ -33,7 +33,8 @@ class ScriptedEventEditor : Editor
     public override void OnInspectorGUI()
     {
         scriptedEvent = (ScriptedEvent)target;
-
+        if (scriptedEvent.eventTriggers == null)
+            scriptedEvent.eventTriggers = new List<EventTrigger>();
         int sizeDiff = foldOuts.Count - scriptedEvent.eventTriggers.Count;
         if (sizeDiff < 0)
         {
@@ -127,7 +128,7 @@ class ScriptedEventEditor : Editor
         if (eventTrigger.triggeringComponent != null)
         {
             BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-            FieldInfo[] fields = eventTrigger.triggeringComponent.GetType().GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTypes.Contains(f.FieldType.Name)).ToArray();
+            FieldInfo[] fields = eventTrigger.triggeringComponent.GetType().GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTriggerTypes.Contains(f.FieldType.Name)).ToArray();
             string[] fieldNames = fields.Select(f => f.Name).ToArray();
 
             int fieldIndex = EditorGUILayout.Popup("Field", fieldNames.ToList().IndexOf(eventTrigger.fieldName), fieldNames);
@@ -139,55 +140,37 @@ class ScriptedEventEditor : Editor
                 {
                     case nameof(Boolean):
                         {
-                            TypedTrigger<bool> typedTrigger = eventTrigger as TypedTrigger<bool>;
-                            if (typedTrigger == null)
-                            {
-                                typedTrigger = new TypedTrigger<bool>(eventTrigger);
-                                scriptedEvent.eventTriggers[index] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[index];
-                            }
-                            typedTrigger.value = EditorGUILayout.Toggle("Boolean Value", typedTrigger.value);
-                            eventTrigger.value = typedTrigger.value.ToString();
+                            bool parsedValue;
+                            if (bool.TryParse(eventTrigger.triggerValue, out parsedValue))
+                                eventTrigger.triggerValue = EditorGUILayout.Toggle("Boolean Value", parsedValue).ToString();
+                            else
+                                eventTrigger.triggerValue = EditorGUILayout.Toggle("Boolean Value", false).ToString();
+                            eventTrigger.valueType = typeof(bool);
                         }
                         break;
                     case nameof(Single):
                         {
-                            TypedTrigger<float> typedTrigger = eventTrigger as TypedTrigger<float>;
-                            if (typedTrigger == null)
-                            {
-                                typedTrigger = new TypedTrigger<float>(eventTrigger);
-                                scriptedEvent.eventTriggers[index] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[index];
-                            }
-                            typedTrigger.value = EditorGUILayout.FloatField("Float Value", typedTrigger.value);
-                            eventTrigger.value = typedTrigger.value.ToString();
+                            float parsedValue;
+                            if (float.TryParse(eventTrigger.triggerValue, out parsedValue))
+                                eventTrigger.triggerValue = EditorGUILayout.FloatField("Float Value", parsedValue).ToString();
+                            else
+                                eventTrigger.triggerValue = EditorGUILayout.FloatField("Float Value", 0f).ToString();
+                            eventTrigger.valueType = typeof(float);
                         }
                         break;
                     case nameof(Int32):
                         {
-                            TypedTrigger<int> typedTrigger = eventTrigger as TypedTrigger<int>;
-                            if (typedTrigger == null)
-                            {
-                                typedTrigger = new TypedTrigger<int>(eventTrigger);
-                                scriptedEvent.eventTriggers[index] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[index];
-                            }
-                            typedTrigger.value = EditorGUILayout.IntField("Integer Value", typedTrigger.value);
-                            eventTrigger.value = typedTrigger.value.ToString();
+                            int parsedValue;
+                            if (int.TryParse(eventTrigger.triggerValue, out parsedValue))
+                                eventTrigger.triggerValue = EditorGUILayout.IntField("Integer Value", parsedValue).ToString();
+                            else
+                                eventTrigger.triggerValue = EditorGUILayout.IntField("Integer Value", 0).ToString();
+                            eventTrigger.valueType = typeof(int);
                         }
                         break;
                     case nameof(String):
-                        {
-                            TypedTrigger<string> typedTrigger = eventTrigger as TypedTrigger<string>;
-                            if (typedTrigger == null)
-                            {
-                                typedTrigger = new TypedTrigger<string>(eventTrigger);
-                                scriptedEvent.eventTriggers[index] = typedTrigger;
-                                eventTrigger = scriptedEvent.eventTriggers[index];
-                            }
-                            typedTrigger.value = EditorGUILayout.TextField("String Value", typedTrigger.value);
-                            eventTrigger.value = typedTrigger.value.ToString();
-                        }
+                        eventTrigger.triggerValue = EditorGUILayout.TextField("String Value", eventTrigger.triggerValue);
+                        eventTrigger.valueType = typeof(string);
                         break;
                     default:
                         EditorGUILayout.LabelField("Event trigger script value type not supported.");

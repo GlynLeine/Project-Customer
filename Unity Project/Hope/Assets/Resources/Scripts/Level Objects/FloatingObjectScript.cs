@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FloatingObjectScript : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class FloatingObjectScript : MonoBehaviour
     public Waves ocean = null;
     [HideInInspector]
     public LevelMasterScript master = null;
+    [HideInInspector]
+    public int ID;
 
     [ReadOnly]
     public int score;
@@ -34,7 +37,11 @@ public class FloatingObjectScript : MonoBehaviour
 
         if (position.z < -10)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            if (master.reUsableFloatingObjects.ContainsKey(ID))
+                master.reUsableFloatingObjects[ID].Enqueue(this);
+            else
+                master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
         }
     }
 }

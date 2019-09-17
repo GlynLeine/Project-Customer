@@ -45,6 +45,8 @@ public class Waves : MonoBehaviour
     private MeshFilter meshFilter;
     private Mesh mesh;
 
+    private Vector3[] vertices;
+
     private float spaceBetweenVertices = 1f;
     private int verticesPerSide = 2;
 
@@ -66,7 +68,7 @@ public class Waves : MonoBehaviour
     #endregion
 
     #region Multi Threading
-    Thread waveUpdateThread = null;
+    //Thread waveUpdateThread = null;
 
     #endregion
 
@@ -93,7 +95,7 @@ public class Waves : MonoBehaviour
         #endregion
 
         maxOceanHeight = 0;
-    
+
         #region Compute shader Setup
         computeShader = Resources.Load<ComputeShader>("Scripts/Water Shader/OceanCompute");
         waveKernel = computeShader.FindKernel("CSWaves");
@@ -137,7 +139,7 @@ public class Waves : MonoBehaviour
     #region In Editor
     private void OnValidate()
     {
-        if(resolution > 200)
+        if (resolution > 200)
             resolution = 200;
         resolution = Mathf.RoundToInt(resolution / 8f) * 8;
 
@@ -162,58 +164,6 @@ public class Waves : MonoBehaviour
     #endregion
 
     #region Mesh Generation
-    public float GetHeightQuick(Vector3 position)
-    {
-        //scale factor and position in local space
-        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1 / transform.lossyScale.z);
-        Vector3 localPos = Vector3.Scale(position - transform.position, scale);
-
-        localPos.x = Mathf.Clamp(localPos.x, 0, dimension);
-        localPos.z = Mathf.Clamp(localPos.z, 0, dimension);
-
-        float height = mesh.vertices[index(localPos.x, localPos.z)].y;
-        return height * transform.lossyScale.y;
-    }
-
-    public float GetHeight(Vector3 position)
-    {
-        //scale factor and position in local space
-        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1 / transform.lossyScale.z);
-        Vector3 localPos = Vector3.Scale(position - transform.position, scale);
-
-        //get edge points
-        Vector3 p1 = new Vector3(Mathf.Floor(localPos.x), 0, Mathf.Floor(localPos.z));
-        Vector3 p2 = new Vector3(Mathf.Floor(localPos.x), 0, Mathf.Ceil(localPos.z));
-        Vector3 p3 = new Vector3(Mathf.Ceil(localPos.x), 0, Mathf.Floor(localPos.z));
-        Vector3 p4 = new Vector3(Mathf.Ceil(localPos.x), 0, Mathf.Ceil(localPos.z));
-
-        //clamp if the position is outside the plane
-        p1.x = Mathf.Clamp(p1.x, 0, dimension);
-        p1.z = Mathf.Clamp(p1.z, 0, dimension);
-        p2.x = Mathf.Clamp(p2.x, 0, dimension);
-        p2.z = Mathf.Clamp(p2.z, 0, dimension);
-        p3.x = Mathf.Clamp(p3.x, 0, dimension);
-        p3.z = Mathf.Clamp(p3.z, 0, dimension);
-        p4.x = Mathf.Clamp(p4.x, 0, dimension);
-        p4.z = Mathf.Clamp(p4.z, 0, dimension);
-
-        //get the max distance to one of the edges and take that to compute max - dist
-        float max = Mathf.Max(Vector3.Distance(p1, localPos), Vector3.Distance(p2, localPos), Vector3.Distance(p3, localPos), Vector3.Distance(p4, localPos) + Mathf.Epsilon);
-        float dist = (max - Vector3.Distance(p1, localPos))
-                   + (max - Vector3.Distance(p2, localPos))
-                   + (max - Vector3.Distance(p3, localPos))
-                   + (max - Vector3.Distance(p4, localPos) + Mathf.Epsilon);
-        //weighted sum
-        float height = mesh.vertices[index(p1.x, p1.z)].y * (max - Vector3.Distance(p1, localPos))
-                     + mesh.vertices[index(p2.x, p2.z)].y * (max - Vector3.Distance(p2, localPos))
-                     + mesh.vertices[index(p3.x, p3.z)].y * (max - Vector3.Distance(p3, localPos))
-                     + mesh.vertices[index(p4.x, p4.z)].y * (max - Vector3.Distance(p4, localPos));
-
-        //scale
-        return height * transform.lossyScale.y / dist;
-
-    }
-
     private Vector3[] GenerateVerts()
     {
         Vector3[] verts = new Vector3[verticesPerSide * verticesPerSide];
@@ -303,13 +253,13 @@ public class Waves : MonoBehaviour
             {
                 computeShader.Dispatch(waveKernel, vertexDispatchGroupSize, vertexDispatchGroupSize, 1);
 
-                Vector3[] vertices = new Vector3[vertexBuffer.count];
+                vertices = new Vector3[vertexBuffer.count];
                 vertexBuffer.GetData(vertices);
                 mesh.vertices = vertices;
             }
             else
             {
-                Vector3[] verts = mesh.vertices;
+                vertices = mesh.vertices;
                 for (float x = 0; x <= dimension; x += spaceBetweenVertices)
                 {
                     for (float z = 0; z <= dimension; z += spaceBetweenVertices)
@@ -328,12 +278,12 @@ public class Waves : MonoBehaviour
                                 y += perl * octaves[o].height;
                             }
                         }
-                        verts[index(x, z)] = new Vector3(x, y, z);
+                        vertices[index(x, z)] = new Vector3(x, y, z);
                     }
                 }
-                mesh.vertices = verts;
+                mesh.vertices = vertices;
                 if (normalCompute)
-                    vertexBuffer.SetData(verts);
+                    vertexBuffer.SetData(vertices);
             }
 
         if (normalCompute)
@@ -352,6 +302,67 @@ public class Waves : MonoBehaviour
     }
     #endregion
 
+    #region Read Water Height
+    public float GetHeightQuick(Vector3 position)
+    {
+        //scale factor and position in local space
+        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1 / transform.lossyScale.z);
+        Vector3 localPos = Vector3.Scale(position - transform.position, scale);
+
+        localPos.x = Mathf.Clamp(localPos.x, 0, dimension);
+        localPos.z = Mathf.Clamp(localPos.z, 0, dimension);
+
+        if (vertices == null)
+            vertices = mesh.vertices;
+
+        float height = vertices[index(localPos.x, localPos.z)].y;
+        return height * transform.lossyScale.y;
+    }
+
+    public float GetHeight(Vector3 position)
+    {
+        //scale factor and position in local space
+        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1 / transform.lossyScale.z);
+        Vector3 localPos = Vector3.Scale(position - transform.position, scale);
+
+        //get edge points
+        Vector3 p1 = new Vector3(Mathf.Floor(localPos.x), 0, Mathf.Floor(localPos.z));
+        Vector3 p2 = new Vector3(Mathf.Floor(localPos.x), 0, Mathf.Ceil(localPos.z));
+        Vector3 p3 = new Vector3(Mathf.Ceil(localPos.x), 0, Mathf.Floor(localPos.z));
+        Vector3 p4 = new Vector3(Mathf.Ceil(localPos.x), 0, Mathf.Ceil(localPos.z));
+
+        //clamp if the position is outside the plane
+        p1.x = Mathf.Clamp(p1.x, 0, dimension);
+        p1.z = Mathf.Clamp(p1.z, 0, dimension);
+        p2.x = Mathf.Clamp(p2.x, 0, dimension);
+        p2.z = Mathf.Clamp(p2.z, 0, dimension);
+        p3.x = Mathf.Clamp(p3.x, 0, dimension);
+        p3.z = Mathf.Clamp(p3.z, 0, dimension);
+        p4.x = Mathf.Clamp(p4.x, 0, dimension);
+        p4.z = Mathf.Clamp(p4.z, 0, dimension);
+
+        //get the max distance to one of the edges and take that to compute max - dist
+        float max = Mathf.Max(Vector3.Distance(p1, localPos), Vector3.Distance(p2, localPos), Vector3.Distance(p3, localPos), Vector3.Distance(p4, localPos) + Mathf.Epsilon);
+        float dist = (max - Vector3.Distance(p1, localPos))
+                   + (max - Vector3.Distance(p2, localPos))
+                   + (max - Vector3.Distance(p3, localPos))
+                   + (max - Vector3.Distance(p4, localPos) + Mathf.Epsilon);
+
+        if (vertices == null)
+            vertices = mesh.vertices;
+
+        //weighted sum
+        float height = vertices[index(p1.x, p1.z)].y * (max - Vector3.Distance(p1, localPos))
+                     + vertices[index(p2.x, p2.z)].y * (max - Vector3.Distance(p2, localPos))
+                     + vertices[index(p3.x, p3.z)].y * (max - Vector3.Distance(p3, localPos))
+                     + vertices[index(p4.x, p4.z)].y * (max - Vector3.Distance(p4, localPos));
+
+        //scale
+        return height * transform.lossyScale.y / dist;
+
+    }
+    #endregion
+
     #region Runtime
     // Start is called before the first frame update
     void Start()
@@ -363,6 +374,15 @@ public class Waves : MonoBehaviour
     void Update()
     {
         UpdateMeshCompute();
+    }
+
+    private void OnDestroy()
+    {
+        if (vertexBuffer != null)
+            vertexBuffer.Dispose();
+        normalBuffer.Dispose();
+        triangleBuffer.Dispose();
+        octaveBuffer.Dispose();
     }
     #endregion
 }

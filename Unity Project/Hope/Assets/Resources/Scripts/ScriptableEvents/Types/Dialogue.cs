@@ -1,34 +1,15 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using UnityEngine.Events;
+using System;
 
-[CustomEditor(typeof(DialogueEvent))]
-public class DialogueEventEditor : Editor
+[Serializable]
+public struct Dialogue
 {
-    bool showEvents;
-
-    SerializedProperty OnSentenceFinished;
-    SerializedProperty OnDialogueFinished;
-
-    private void OnEnable()
-    {
-        OnSentenceFinished = serializedObject.FindProperty("OnSentenceFinished");
-        OnDialogueFinished = serializedObject.FindProperty("OnDialogueFinished");
-    }
-
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        showEvents = EditorGUILayout.Foldout(showEvents, "Events");
-        if (showEvents)
-        {
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(OnSentenceFinished);
-            EditorGUILayout.PropertyField(OnDialogueFinished);
-            EditorGUI.indentLevel--;
-        }
-    }
+    public bool waitForNextTrigger;
+    public Texture NPCSprite;
+    public string name;
+    [TextArea(3, 10)]
+    public string[] sentences;
 }
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Scriptable Event/Event Type/Dialogue")]
@@ -37,10 +18,16 @@ public class DialogueEvent : ScriptedEventType
     public Dialogue[] dialogue;
 
     [HideInInspector]
-    public UnityEvent OnSentenceFinished;
+    public UnityEvent OnStartDialogue;
+
+    [HideInInspector]
+    public UnityEvent OnStartSentence;
 
     [HideInInspector]
     public UnityEvent OnDialogueFinished;
+
+    [HideInInspector]
+    public UnityEvent OnSentenceFinished;
 
     public override void Execute()
     {

@@ -6,17 +6,17 @@ using UnityEngine.UI;
 public class BoatScript : MonoBehaviour
 {
     public LayerMask movementCollisionMask;
-    //[ReadOnly]
+    [ReadOnly]
     public float boatSpeed = 1f;
-    //[ReadOnly]
+    [ReadOnly]
     public float acceleration;
-    //[ReadOnly]
+    [ReadOnly]
     public float maximumMovementSpeed;
-    //[ReadOnly]
+    [ReadOnly]
     public int trashCapacity;
-    //[ReadOnly]
+    [ReadOnly]
     public float maxHealth;
-    //[ReadOnly]
+    [ReadOnly]
     public float buoyancy;
 
     public BoatType boatType;
@@ -60,7 +60,17 @@ public class BoatScript : MonoBehaviour
     void UpdateBoatType()
     {
         if (boatType == null)
-            throw new NullReferenceException("Boat type null.");
+        {
+            buoyancy = 0;
+            trashCapacity = 0;
+            acceleration = 0;
+            maximumMovementSpeed = 0;
+            boatSpeed = 0;
+            maxHealth = 0;
+            health = 0;
+
+            return;
+        }
 
         Transform child = transform.Find("Model");
         if (child != null)
@@ -106,7 +116,7 @@ public class BoatScript : MonoBehaviour
                 trashScoreBoard = uiText;
                 trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
             }
-            else if(uiText.name == "Debug")
+            else if (uiText.name == "Debug")
             {
                 debugText = uiText;
             }
@@ -120,14 +130,21 @@ public class BoatScript : MonoBehaviour
             FloatingObjectScript floatingObjectScript = collision.gameObject.GetComponent<FloatingObjectScript>();
             if (floatingObjectScript != null)
             {
+                StatManager.obstaclesHitInLevel++;
                 trash += floatingObjectScript.score;
+                StatManager.trashCollectedInLevel += floatingObjectScript.score;
 
-                if (StatManager.timeInLevel > 1)
-                    health -= floatingObjectScript.damage;
+                if (floatingObjectScript.damage > 0)
+                {
+                    if (StatManager.timeInLevel > 1)
+                    {
+                        health -= floatingObjectScript.damage;
+                        StatManager.healthLost += floatingObjectScript.damage;
+                    }
 
-                if (health <= 0)
-                    SceneManager.LoadScene("GameOver");
-
+                    if (health <= 0)
+                        SceneManager.LoadScene("GameOver");
+                }
                 if (trash >= trashCapacity)
                     SceneManager.LoadScene("PortScene");
 
@@ -140,7 +157,7 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
-        debugText.text = "fps: " + (1f/Time.deltaTime);
+        debugText.text = "fps: " + (1f / Time.deltaTime);
 
         float entryPoint;
 
@@ -163,11 +180,15 @@ public class BoatScript : MonoBehaviour
 
         float targetDistance = Vector3.Distance(targetPosition, currentPosition);
 
-        if (velocity.sqrMagnitude > maximumMovementSpeed * maximumMovementSpeed)
+        if (velocity.sqrMagnitude > (maximumMovementSpeed * maximumMovementSpeed))
             velocity = velocity.normalized * maximumMovementSpeed;
 
-        if (velocity.sqrMagnitude > targetDistance)
+        velocity *= Time.deltaTime;
+
+        if (velocity.sqrMagnitude > (targetDistance * targetDistance))
             velocity = (targetPosition - currentPosition) * 0.33333f;
+
+        velocity.y = 0;
 
         float oceanHeight = ocean.GetHeight(currentPosition);
         float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 0.8f));

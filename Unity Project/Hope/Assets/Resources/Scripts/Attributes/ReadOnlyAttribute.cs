@@ -1,11 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-public class ReadOnlyAttribute : PropertyAttribute
-{
-}
+﻿using UnityEngine;
 
 #if UNITY_EDITOR
+using UnityEditor;
+
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -25,3 +22,7 @@ public class ReadOnlyDrawer : PropertyDrawer
     }
 }
 #endif
+
+public class ReadOnlyAttribute : PropertyAttribute
+{
+}

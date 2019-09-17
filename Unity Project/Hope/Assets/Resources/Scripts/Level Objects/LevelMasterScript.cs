@@ -15,8 +15,8 @@ public class LevelMasterScript : MonoBehaviour
     private Waves ocean = null;
     private bool updateLevelType = true;
 
-    //[HideInInspector]
-    //public Queue<FloatingObjectScript> reUsableFloatingObjects = new Queue<FloatingObjectScript>();
+    [HideInInspector]
+    public Dictionary<int, Queue<FloatingObjectScript>> reUsableFloatingObjects = new Dictionary<int, Queue<FloatingObjectScript>>();
 
     // Start is called before the first frame update
     void OnValidate()
@@ -131,28 +131,29 @@ public class LevelMasterScript : MonoBehaviour
             if (UnityEngine.Random.value <= spawnChance)
             {
                 FloatingObjectScript newFloatingObject = null;
-                //if (reUsableFloatingObjects.Count > 0)
-                //{
-                //    newFloatingObject = reUsableFloatingObjects.Dequeue();
-                //    newFloatingObject.gameObject.SetActive(true);
-                //}
-                //else
-                //{
-                GameObject newObject = Instantiate(spawnInfo.interactableType.model, transform);
-                newFloatingObject = newObject.GetComponent<FloatingObjectScript>();
-                if (newFloatingObject == null)
-                    newFloatingObject = newObject.AddComponent<FloatingObjectScript>();
-                //}
+                int interactableID = spawnInfo.interactableType.ID;
+                if (reUsableFloatingObjects.ContainsKey(interactableID) && reUsableFloatingObjects[interactableID].Count > 0)
+                {
+                    newFloatingObject = reUsableFloatingObjects[interactableID].Dequeue();
+                    newFloatingObject.gameObject.SetActive(true);
+                }
+                else
+                {
+                    GameObject newObject = Instantiate(spawnInfo.interactableType.model, transform);
+                    newFloatingObject = newObject.GetComponent<FloatingObjectScript>();
+                    if (newFloatingObject == null)
+                        newFloatingObject = newObject.AddComponent<FloatingObjectScript>();
 
+                    newFloatingObject.master = this;
+                    newFloatingObject.damage = spawnInfo.interactableType.damage;
+                    newFloatingObject.score = spawnInfo.interactableType.score;
+                    newFloatingObject.buoyancy = spawnInfo.interactableType.buoyancy;
+                    newFloatingObject.boat = boat;
+                    newFloatingObject.ocean = ocean;
+                    newFloatingObject.gameObject.layer = LayerMask.NameToLayer("Interactable");
+                }
                 newFloatingObject.transform.position = transform.position + (UnityEngine.Random.Range(-10f, 10f) * Vector3.right);
-                newFloatingObject.gameObject.layer = LayerMask.NameToLayer("Interactable");
 
-                newFloatingObject.master = this;
-                newFloatingObject.damage = spawnInfo.interactableType.damage;
-                newFloatingObject.score = spawnInfo.interactableType.score;
-                newFloatingObject.buoyancy = spawnInfo.interactableType.buoyancy;
-                newFloatingObject.boat = boat;
-                newFloatingObject.ocean = ocean;
                 spawnedObjects.Add(newFloatingObject);
             }
         }

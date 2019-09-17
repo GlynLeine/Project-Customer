@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 300;
+        QualitySettings.vSyncCount = 0;
 
         if (levelManager == null)
             finalLevelOrder = levelOrder;
@@ -65,6 +66,7 @@ public class LevelManager : MonoBehaviour
 
         currentLevel = level;
         levelToLoad = levelManager.levelOrder.levels[level];
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -80,16 +82,19 @@ public class LevelManager : MonoBehaviour
             throw new Exception("Level " + levelType.name + " not in level order.");
         currentLevel = nextLevel;
         levelToLoad = levelType;
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene("MainGame");
     }
 
     public void ReloadLastLevel()
     {
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene("MainGame");
     }
 
     internal static void StaticReloadLastLevel()
     {
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -101,6 +106,7 @@ public class LevelManager : MonoBehaviour
     internal static void StaticLoadScene(string sceneName)
     {
         previousScene = SceneManager.GetActiveScene().name;
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -125,6 +131,7 @@ public class LevelManager : MonoBehaviour
     {
         string nextScene = previousScene;
         previousScene = SceneManager.GetActiveScene().name;
+        StatManager.TrackNewLevel();
         SceneManager.LoadScene(nextScene);
     }
 }

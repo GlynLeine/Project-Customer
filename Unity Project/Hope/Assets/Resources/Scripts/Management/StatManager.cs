@@ -10,7 +10,7 @@ public class StatManager : MonoBehaviour
 {
     public static float timePlayed;
     public static int trashCollected;
-    public static int healthLost;
+    public static float healthLost;
 
     public static int maneuverabilityUpgrade = 0;
     public static int boatSpeedUpgrade = 0;
@@ -58,6 +58,7 @@ public class StatManager : MonoBehaviour
     {
         timeInLevel = 0;
         obstaclesHitInLevel = 0;
+        trashCollected += trashCollectedInLevel;
         trashCollectedInLevel = 0;
     }
 

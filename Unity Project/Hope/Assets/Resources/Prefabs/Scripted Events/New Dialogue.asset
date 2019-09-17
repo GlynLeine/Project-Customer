@@ -13,17 +13,35 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueEvent
   dialogue:
-  - name: 
+  - NPCSprite: {fileID: 0}
+    name: 
+    sentences:
+    - hjgjh
+    - 
+    - 
+    - 
+    - 
+  - NPCSprite: {fileID: 0}
+    name: 
     sentences:
     - 
     - 
-    - 
-  OnSentenceFinished:
+  OnStartDialogue:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnStartSentence:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnDialogueFinished:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnSentenceFinished:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
