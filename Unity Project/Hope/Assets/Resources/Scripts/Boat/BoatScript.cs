@@ -104,7 +104,7 @@ public class BoatScript : MonoBehaviour
             if (uiText.name == "Trash")
             {
                 trashScoreBoard = uiText;
-                trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
+                trashScoreBoard.text = trash + "/" + trashCapacity;
             }
             else if(uiText.name == "Debug")
             {
@@ -131,7 +131,7 @@ public class BoatScript : MonoBehaviour
                 if (trash >= trashCapacity)
                     SceneManager.LoadScene("PortScene");
 
-                trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
+                trashScoreBoard.text = trash + "/" + trashCapacity;
             }
 
             Destroy(collision.gameObject);

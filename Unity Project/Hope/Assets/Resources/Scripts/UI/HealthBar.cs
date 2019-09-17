@@ -1,26 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    Image image;
+    [SerializeField] Image image;
     BoatScript boat;
-    Text text;
+    private int boatHealth;
+    private int childCount;
 
-    // Start is called before the first frame update
     void Start()
     {
-        image = GetComponent<Image>();
-        text = GetComponentInChildren<Text>();
         boat = FindObjectOfType<BoatScript>();
+        boatHealth = Mathf.RoundToInt(boat.maxHealth);
+        for (int i = 0; i < boat.maxHealth; i++)
+        {
+            Instantiate(image, transform);
+        }
+        childCount = this.gameObject.transform.childCount;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        text.text = "HP: " + boat.health;
-        image.fillAmount = boat.health / boat.maxHealth;
+        boatHealth = Mathf.RoundToInt(boat.health);
+        childCount = this.gameObject.transform.childCount;
+        
+        if (childCount != boatHealth && childCount > 0)
+        {
+                Destroy (transform.GetChild (0).gameObject);
+        }
     }
 }
