@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class ImageChanger : MonoBehaviour
 {
-    [SerializeField] private Sprite ScreenZero;
-    [SerializeField] private Sprite ScreenOne;
-    [SerializeField] private Sprite ScreenTwo;
-    [SerializeField] private Sprite ScreenThree;
-    [SerializeField] private Sprite ScreenFour;
-    [SerializeField] private Sprite ScreenFive;
+    [SerializeField] private Sprite ScreenZero = null;
+    [SerializeField] private Sprite ScreenOne = null;
+    [SerializeField] private Sprite ScreenTwo = null;
+    [SerializeField] private Sprite ScreenThree = null;
+    [SerializeField] private Sprite ScreenFour = null;
+    [SerializeField] private Sprite ScreenFive = null;
 
     private Image image;
     

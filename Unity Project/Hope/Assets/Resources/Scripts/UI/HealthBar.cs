@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] Image image;
+    [SerializeField] Image image = null;
     BoatScript boat;
     private int boatHealth;
     private int childCount;

@@ -14,7 +14,7 @@ public class MapMoveScript : MonoBehaviour
     private Vector3 currentPosition;
     private Vector3 prevMouse = new Vector3();
 
-    [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject canvas = null;
 
     private void Start()
     {

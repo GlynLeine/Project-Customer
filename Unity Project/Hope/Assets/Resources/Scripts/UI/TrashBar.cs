@@ -12,7 +12,7 @@ public class TrashBar : MonoBehaviour
     private float trashCapacity;
     private float fillAmount;
     private float currentFillAmount;
-    [SerializeField] private float fillPerSecond;
+    [SerializeField] private float fillPerSecond = 0.2f;
     
     void Start()
     {

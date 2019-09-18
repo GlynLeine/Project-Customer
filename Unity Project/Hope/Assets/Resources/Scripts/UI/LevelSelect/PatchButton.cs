@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PatchButton : MonoBehaviour
 {
-    [SerializeField] private GameObject unlockButton;
+    [SerializeField] private GameObject unlockButton = null;
     Image image;
 
     public int level;
