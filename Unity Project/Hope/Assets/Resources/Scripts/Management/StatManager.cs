@@ -44,7 +44,7 @@ public class StatManager : MonoBehaviour
     {
         if (!initialised)
         {
-            if (created && FindObjectsOfType<StatManager>().Length > 0)
+            if (created && FindObjectsOfType<StatManager>().Length > 1)
             {
                 Destroy(gameObject);
             }
