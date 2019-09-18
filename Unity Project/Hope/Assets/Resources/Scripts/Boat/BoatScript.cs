@@ -43,8 +43,14 @@ public class BoatScript : MonoBehaviour
 
     bool updateBoatType = true;
 
-    [SerializeField] private AudioSource damageSound = null;
-    [SerializeField] private AudioSource pickUpSound = null;
+    [SerializeField] private AudioSource rockCrash;
+    [SerializeField] private AudioSource islandCrash;
+    [SerializeField] private AudioSource sandCrash;
+    [SerializeField] private AudioSource generalCrash;
+
+    [SerializeField] private AudioSource plasticOne;
+    [SerializeField] private AudioSource plasticTwo;
+    [SerializeField] private AudioSource bottleOne;
 
     private void OnValidate()
     {
@@ -144,10 +150,10 @@ public class BoatScript : MonoBehaviour
                         health -= floatingObjectScript.damage;
                         StatManager.healthLost += floatingObjectScript.damage;
                     }
-
-                    damageSound.Play();
                     if (health <= 0)
                         SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
+
+                    generalCrash.Play();
                 }
                 if (trash >= trashCapacity)
                     SceneManager.LoadScene("Assets/Scenes/UI/ScoreScreen.unity");
@@ -155,7 +161,7 @@ public class BoatScript : MonoBehaviour
                 trashScoreBoard.text = trash + "/" + trashCapacity;
                 if (floatingObjectScript.score > 0)
                 {
-                    pickUpSound.Play();
+                    plasticOne.Play();
                 }
             }
 
