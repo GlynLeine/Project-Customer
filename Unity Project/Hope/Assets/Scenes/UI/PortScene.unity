@@ -6611,6 +6611,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio
       objectReference: {fileID: 0}
+    - target: {fileID: 2856000999059545127, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668382451040002521, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7443330126144635685, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1388378512154936227, guid: daef7d99683401c4e8814189d9312a3a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6665,6 +6680,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664614500868587539, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116157679806429741, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116157679806429741, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377953388298702146, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854396513120029790, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854396513120029790, guid: daef7d99683401c4e8814189d9312a3a,
+        type: 3}
+      propertyPath: Loop
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: daef7d99683401c4e8814189d9312a3a, type: 3}

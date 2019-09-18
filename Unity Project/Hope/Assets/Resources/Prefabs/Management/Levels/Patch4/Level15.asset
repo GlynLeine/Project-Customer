@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f434e3190f7b5547adc502c5dcc7f8a, type: 3}
+  m_Name: Level15
+  m_EditorClassIdentifier: 
+  hazardSpawnRateIncrease: 0
+  TrashToCollect: 0
+  spawnables: []
+  oceanMaterial: {fileID: 2100000, guid: e09b5f8c0eaa2d14d98313aacbff1ab0, type: 2}
+  skyBoxMaterial: {fileID: 2100000, guid: 42e9f42a1c214794798cceb3d332936e, type: 2}
+  levelMusic: {fileID: 8300000, guid: 0d301264c1faf774894b6b8bbeb0aa4e, type: 3}
