@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Pano2VR project file  -->
+<pano2vrconfig version="5.2.4" rev="15996">
+  <panorama>
+    <id>node1</id>
+    <input>
+      <patch/>
+      <type>auto</type>
+      <filename>../Photoshop/Skybox 5.psd</filename>
+      <levelpitch>0</levelpitch>
+      <levelroll>0</levelroll>
+    </input>
+    <viewingparameter>
+      <pan/>
+      <tilt/>
+      <fov/>
+      <flyinstart/>
+      <pannorth>0</pannorth>
+    </viewingparameter>
+    <userdata>
+      <datetime>9/18/2019 11:02 AM</datetime>
+      <tags>Photoshop</tags>
+    </userdata>
+    <floorplans/>
+    <hotspots/>
+    <output>
+      <thumb>
+        <html>
+          <enabled>0</enabled>
+          <filename>output/index.html</filename>
+        </html>
+        <facequality/>
+        <filename>../Skyboxes/Skybox 5/pano.png</filename>
+        <type>cubeface</type>
+        <height>2048</height>
+        <fov>70</fov>
+        <width>2048</width>
+        <cubefacenaming>bottom</cubefacenaming>
+      </thumb>
+    </output>
+    <streetview/>
+    <streetviewproject/>
+    <sounds/>
+  </panorama>
+</pano2vrconfig>
