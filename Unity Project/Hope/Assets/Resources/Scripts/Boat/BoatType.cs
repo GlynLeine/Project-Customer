@@ -16,4 +16,6 @@ public class BoatType : ScriptableObject
 
     public float buoyancy;
     public GameObject boatModel;
+
+    public AudioClip engineSound;
 }

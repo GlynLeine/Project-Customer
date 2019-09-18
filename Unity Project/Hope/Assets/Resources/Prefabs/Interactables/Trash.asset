@@ -17,4 +17,4 @@ MonoBehaviour:
   damage: 0
   buoyancy: 0.5
   model: {fileID: 9218823053261038969, guid: 3bba9487882497b43a4bb4140895a15c, type: 3}
-  Type: Trash
+  hitSound: {fileID: 8300000, guid: 1ccf23d54f901104980e9e58f4dfafec, type: 3}

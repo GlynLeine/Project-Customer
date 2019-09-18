@@ -22,4 +22,5 @@ MonoBehaviour:
     spawnRate: 0.3
     spawnTime: 0
   oceanMaterial: {fileID: 2100000, guid: dc42c61354de2b447bc3c204655322a1, type: 2}
+  skyBoxMaterial: {fileID: 2100000, guid: 42e9f42a1c214794798cceb3d332936e, type: 2}
   levelMusic: {fileID: 8300000, guid: bb8c566a7fccec748a870ee8878c6338, type: 3}
