@@ -27,23 +27,23 @@ public class MapMoveScript : MonoBehaviour
         
         if (20 > StatManager.levelUnlocked)
         {
-            currentPosition.x = width * 0.63f - screenWidth / 2;
+            currentPosition.x = width * 0.37f - screenWidth / 2;
         }
         else
         {
-            currentPosition.x = width * 0.4f - screenWidth / 2;
+            currentPosition.x = width * 0.1f - screenWidth / 2;
         }
         if (15 > StatManager.levelUnlocked)
         {
-            currentPosition.x = width * 0.9f - screenWidth / 2;
+            currentPosition.x = width * 0.6f - screenWidth / 2;
         }
         if (10 > StatManager.levelUnlocked)
         {
-            currentPosition.x = width * 0.38f - screenWidth /2;
+            currentPosition.x = width * 0.62f - screenWidth /2;
         }
         if (5 > StatManager.levelUnlocked)
         {
-            currentPosition.x = width / 2 - screenWidth / 2;
+            currentPosition.x = (width * 0.825f) - screenWidth / 2;
         }
     }
 
