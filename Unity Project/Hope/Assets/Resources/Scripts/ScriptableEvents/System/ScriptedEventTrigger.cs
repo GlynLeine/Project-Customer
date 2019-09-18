@@ -23,6 +23,11 @@ public class ScriptedEventTrigger : MonoBehaviour
         }
     }
 
+    public void Trigger()
+    {
+        Debug.Log("BLAAAAHHHH");
+    }
+
     private void Start()
     {
         int triggeredCount = 0;
