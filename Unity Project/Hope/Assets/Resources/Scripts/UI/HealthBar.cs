@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] Image image;
+    [SerializeField] Image image = null;
     BoatScript boat;
     private int boatHealth;
     private int childCount;
@@ -14,7 +14,7 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         boat = FindObjectOfType<BoatScript>();
-        boatHealth = Mathf.RoundToInt(boat.maxHealth);
+        boatHealth = Mathf.RoundToInt(boat.health);
         for (int i = 0; i < boatHealth; i++)
         {
             Instantiate(image, transform);
