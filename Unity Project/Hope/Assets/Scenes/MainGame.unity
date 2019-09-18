@@ -2162,7 +2162,7 @@ PrefabInstance:
     - target: {fileID: 4171204310364813758, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 75.6
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4171204310364813758, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
@@ -2253,6 +2253,21 @@ PrefabInstance:
         type: 3}
       propertyPath: moveWithTransform
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171204310364813758, guid: 415ad70127bb9e842ba7e57583c342e6,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171204310364813758, guid: 415ad70127bb9e842ba7e57583c342e6,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.88487893
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171204310364813758, guid: 415ad70127bb9e842ba7e57583c342e6,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.88487893
       objectReference: {fileID: 0}
     - target: {fileID: 6544973383318047801, guid: 415ad70127bb9e842ba7e57583c342e6,
         type: 3}
