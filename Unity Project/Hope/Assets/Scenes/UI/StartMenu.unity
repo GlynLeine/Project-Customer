@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3595,7 +3595,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4e0800601da23fb4dba846ff05cb667b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4db66b3ca366002449662ba4b5b9aaa3, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3625,12 +3625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0b58d12a6c95d459ee6c2d25f879f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScreenZero: {fileID: 21300000, guid: 4e0800601da23fb4dba846ff05cb667b, type: 3}
-  ScreenOne: {fileID: 21300000, guid: 4de95133804fbfb4f803712d332dc7df, type: 3}
-  ScreenTwo: {fileID: 21300000, guid: ee2e05ea8e3df74429771f0965ee14a3, type: 3}
-  ScreenThree: {fileID: 21300000, guid: 5e0bdcc5e87493240b43a6a2a3e948a2, type: 3}
-  ScreenFour: {fileID: 21300000, guid: 8d80f6e1bd6b98543afc51386fa4d0b0, type: 3}
-  ScreenFive: {fileID: 21300000, guid: 5c433ad554ef9414b8fa8029f420036d, type: 3}
+  ScreenZero: {fileID: 21300000, guid: 4db66b3ca366002449662ba4b5b9aaa3, type: 3}
+  ScreenOne: {fileID: 21300000, guid: ea03bd334f495984f8a9b09ab6c9e5dd, type: 3}
+  ScreenTwo: {fileID: 21300000, guid: 559d71eacd4d76242a6aa4631bf97f6b, type: 3}
+  ScreenThree: {fileID: 21300000, guid: 810fde50252409a408e9f530f042a2c6, type: 3}
+  ScreenFour: {fileID: 21300000, guid: 4c176043fce96e14a913674db4ccd863, type: 3}
+  ScreenFive: {fileID: 21300000, guid: 7605fc05eefc67449a6451cea3bf2e5a, type: 3}
 --- !u!1 &1750220495
 GameObject:
   m_ObjectHideFlags: 0
