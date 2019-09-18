@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   dialogue:
-  - waitForNextTrigger: 0
-    NPCSprite: {fileID: 0}
-    name: 
-    sentences: []
+  - {fileID: 0}
   OnStartDialogue:
     m_PersistentCalls:
       m_Calls: []

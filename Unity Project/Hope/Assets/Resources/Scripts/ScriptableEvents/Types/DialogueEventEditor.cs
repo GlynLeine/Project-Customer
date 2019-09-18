@@ -32,10 +32,11 @@ public class DialogueEventEditor : Editor
         showDialogue = EditorGUILayout.Foldout(showDialogue, "Dialogue");
         if (showDialogue)
         {
+            EditorGUI.indentLevel++;
             DialogueEvent dialogueEvent = target as DialogueEvent;
             for (int i = 0; i < dialogueEvent.dialogue.Count; i++)
             {
-                if(dialogueEvent.dialogue[i] == null)
+                if (dialogueEvent.dialogue[i] == null)
                     dialogueEvent.dialogue[i] = new Dialogue();
                 if (i >= dialogueEditors.Count)
                     dialogueEditors.Add(null);
@@ -44,15 +45,20 @@ public class DialogueEventEditor : Editor
                 if (dialogueEditor == null)
                     CreateCachedEditor(dialogueEvent.dialogue[i], null, ref dialogueEditor);
 
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Dialogue " + i);
+                EditorGUI.indentLevel++;
                 dialogueEditor.OnInspectorGUI();
+                EditorGUI.indentLevel--;
 
                 dialogueEditors[i] = dialogueEditor;
             }
-
+            EditorGUI.indentLevel--;
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             if (GUILayout.Button("Add dialogue"))
                 (target as DialogueEvent).dialogue.Add(new Dialogue());
 
-            if (GUILayout.Button("Remove last dialogue"))
+            if ((target as DialogueEvent).dialogue.Count > 0 && GUILayout.Button("Remove last dialogue"))
                 (target as DialogueEvent).dialogue.RemoveAt((target as DialogueEvent).dialogue.Count - 1);
 
             EditorUtility.SetDirty(target);

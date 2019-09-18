@@ -43,6 +43,9 @@ public class BoatScript : MonoBehaviour
 
     bool updateBoatType = true;
 
+    [SerializeField] private AudioSource damageSound = null;
+    [SerializeField] private AudioSource pickUpSound = null;
+
     private void OnValidate()
     {
         updateBoatType = true;
@@ -114,7 +117,7 @@ public class BoatScript : MonoBehaviour
             if (uiText.name == "Trash")
             {
                 trashScoreBoard = uiText;
-                trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
+                trashScoreBoard.text = trash + "/" + trashCapacity;
             }
             else if (uiText.name == "Debug")
             {
@@ -142,13 +145,18 @@ public class BoatScript : MonoBehaviour
                         StatManager.healthLost += floatingObjectScript.damage;
                     }
 
+                    damageSound.Play();
                     if (health <= 0)
-                        SceneManager.LoadScene("GameOver");
+                        SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
                 }
                 if (trash >= trashCapacity)
-                    SceneManager.LoadScene("PortScene");
+                    SceneManager.LoadScene("Assets/Scenes/UI/ScoreScreen.unity");
 
-                trashScoreBoard.text = "Collected " + trash + "/" + trashCapacity + "kg of Trash";
+                trashScoreBoard.text = trash + "/" + trashCapacity;
+                if (floatingObjectScript.score > 0)
+                {
+                    pickUpSound.Play();
+                }
             }
 
             Destroy(collision.gameObject);
