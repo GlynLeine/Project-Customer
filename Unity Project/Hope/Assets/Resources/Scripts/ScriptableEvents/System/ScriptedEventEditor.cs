@@ -13,6 +13,8 @@ class ScriptedEventEditor : Editor
     Component[] components;
     List<string> componentNames;
 
+    bool showTriggers;
+
     ScriptedEvent scriptedEvent;
     int noneIndex;
 
@@ -53,46 +55,57 @@ class ScriptedEventEditor : Editor
 
         DrawDefaultInspector();
 
-        EditorGUILayout.LabelField("Event Triggers");
-
-        EditorGUI.indentLevel++;
-
-        components = FindObjectsOfType<Component>();
-        componentNames = components.Select(s => s.GetType().Name).ToList();
-        componentNames.Add("None");
-
-        for (int i = 0; i < scriptedEvent.eventTriggers.Count; i++)
+        showTriggers = EditorGUILayout.Foldout(showTriggers, "Event Triggers");
+        if (showTriggers)
         {
-            foldOuts[i] = EditorGUILayout.Foldout(foldOuts[i], "Event Trigger " + i);
-            if (!foldOuts[i])
-                continue;
             EditorGUI.indentLevel++;
 
-            EventTrigger eventTrigger = scriptedEvent.eventTriggers[i];
-            eventTrigger.triggerType = (TriggerType)EditorGUILayout.EnumPopup(eventTrigger.triggerType);
+            components = FindObjectsOfType<Component>();
+            componentNames = components.Select(s => s.GetType().Name).ToList();
+            componentNames.Add("None");
 
-            switch (eventTrigger.triggerType)
+            for (int i = 0; i < scriptedEvent.eventTriggers.Count; i++)
             {
-                case TriggerType.TimeInLevel:
-                    DrawTimeTriggerGUI(eventTrigger);
-                    break;
-                case TriggerType.ScriptValue:
-                    DrawValueTriggerGUI(eventTrigger, i);
-                    break;
-                default:
-                    break;
+                foldOuts[i] = EditorGUILayout.Foldout(foldOuts[i], "Event Trigger " + i);
+                if (!foldOuts[i])
+                    continue;
+                EditorGUI.indentLevel++;
+
+                EventTrigger eventTrigger = scriptedEvent.eventTriggers[i];
+                eventTrigger.triggerType = (TriggerType)EditorGUILayout.EnumPopup(eventTrigger.triggerType);
+
+                switch (eventTrigger.triggerType)
+                {
+                    case TriggerType.TimeInLevel:
+                        DrawTimeTriggerGUI(eventTrigger);
+                        break;
+                    case TriggerType.ScriptValue:
+                        DrawValueTriggerGUI(eventTrigger, i);
+                        break;
+                    default:
+                        break;
+                }
+                EditorGUI.indentLevel--;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             }
 
             EditorGUI.indentLevel--;
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(EditorGUI.indentLevel * 10);
+            if (GUILayout.Button("Add event trigger"))
+                scriptedEvent.eventTriggers.Add(new EventTrigger());
+            GUILayout.EndHorizontal();
+
+            if (scriptedEvent.eventTriggers.Count > 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(EditorGUI.indentLevel * 10);
+                if (GUILayout.Button("Remove last event trigger"))
+                    scriptedEvent.eventTriggers.RemoveAt(scriptedEvent.eventTriggers.Count - 1);
+                GUILayout.EndHorizontal();
+            }
         }
-
-        EditorGUI.indentLevel--;
-
-        if (GUILayout.Button("Add event trigger"))
-            scriptedEvent.eventTriggers.Add(new EventTrigger());
-
-        if (GUILayout.Button("Remove last event trigger"))
-            scriptedEvent.eventTriggers.RemoveAt(scriptedEvent.eventTriggers.Count - 1);
 
         EditorUtility.SetDirty(scriptedEvent);
     }
