@@ -1,21 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System;
 using System.Collections.Generic;
-
-[Serializable]
-public struct Dialogue
-{
-    public bool waitForNextTrigger;
-    public Texture NPCSprite;
-    public string name;
-    [TextArea(3, 10)]
-    public string[] sentences;
-}
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Scriptable Event/Event Type/Dialogue")]
 public class DialogueEvent : ScriptedEventType
 {
+    [HideInInspector]
     public List<Dialogue> dialogue;
 
     [HideInInspector]
@@ -30,8 +20,14 @@ public class DialogueEvent : ScriptedEventType
     [HideInInspector]
     public UnityEvent OnSentenceFinished;
 
+    private DialogueText dialogueText;
+    private NPCName npcName;
+    private NPCSprite npcSpriteLeft;
+    private NPCSprite npcSpriteRight;
+
     public override void Execute()
     {
-
+        if (dialogueText == null)
+            dialogueText = FindObjectOfType<DialogueText>();
     }
 }

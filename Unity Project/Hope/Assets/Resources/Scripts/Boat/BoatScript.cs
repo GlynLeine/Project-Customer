@@ -52,8 +52,8 @@ public class BoatScript : MonoBehaviour
     {
         if (updateBoatType)
         {
-            UpdateBoatType();
             updateBoatType = false;
+            UpdateBoatType();
         }
     }
 

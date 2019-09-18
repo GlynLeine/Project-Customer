@@ -106,7 +106,6 @@ public class LevelManager : MonoBehaviour
     internal static void StaticLoadScene(string sceneName)
     {
         previousScene = SceneManager.GetActiveScene().name;
-        StatManager.TrackNewLevel();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -131,7 +130,6 @@ public class LevelManager : MonoBehaviour
     {
         string nextScene = previousScene;
         previousScene = SceneManager.GetActiveScene().name;
-        StatManager.TrackNewLevel();
         SceneManager.LoadScene(nextScene);
     }
 }
