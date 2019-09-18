@@ -7,6 +7,11 @@ public enum TriggerType
     SceneStart, TimeInLevel, ScriptValue
 }
 
+public enum TriggerMode
+{
+    And, Or
+}
+
 [Serializable]
 public class EventTrigger
 {
@@ -40,6 +45,8 @@ public class ScriptedEvent : ScriptableObject
     public static string[] supportedTriggerTypes = { nameof(Boolean), nameof(Single), nameof(Int32), nameof(String) };
 
     public ScriptedEventType eventType;
+
+    public TriggerMode triggerMode;
 
     public void Trigger() => eventType.Execute();
 
