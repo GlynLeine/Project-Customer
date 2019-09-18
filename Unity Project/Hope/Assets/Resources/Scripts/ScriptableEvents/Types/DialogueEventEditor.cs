@@ -45,21 +45,31 @@ public class DialogueEventEditor : Editor
                 if (dialogueEditor == null)
                     CreateCachedEditor(dialogueEvent.dialogue[i], null, ref dialogueEditor);
 
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Dialogue " + i);
                 EditorGUI.indentLevel++;
                 dialogueEditor.OnInspectorGUI();
                 EditorGUI.indentLevel--;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
                 dialogueEditors[i] = dialogueEditor;
             }
-            EditorGUI.indentLevel--;
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(EditorGUI.indentLevel * 10);
             if (GUILayout.Button("Add dialogue"))
                 (target as DialogueEvent).dialogue.Add(new Dialogue());
+            GUILayout.EndHorizontal();
 
-            if ((target as DialogueEvent).dialogue.Count > 0 && GUILayout.Button("Remove last dialogue"))
-                (target as DialogueEvent).dialogue.RemoveAt((target as DialogueEvent).dialogue.Count - 1);
+            if ((target as DialogueEvent).dialogue.Count > 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(EditorGUI.indentLevel * 10);
+                if (GUILayout.Button("Remove last dialogue"))
+                    (target as DialogueEvent).dialogue.RemoveAt((target as DialogueEvent).dialogue.Count - 1);
+                GUILayout.EndHorizontal();
+            }
+            EditorGUI.indentLevel--;
+
 
             EditorUtility.SetDirty(target);
         }
@@ -68,10 +78,15 @@ public class DialogueEventEditor : Editor
         if (showEvents)
         {
             EditorGUI.indentLevel++;
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(EditorGUI.indentLevel * 10);
+            GUILayout.BeginVertical();
             EditorGUILayout.PropertyField(onStartDialogue);
             EditorGUILayout.PropertyField(onStartSentence);
             EditorGUILayout.PropertyField(onDialogueFinished);
             EditorGUILayout.PropertyField(onSentenceFinished);
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
         }
     }
