@@ -6,6 +6,7 @@
     <e p="D:\Standard Folders\Documents\ECM2VDa\Customer\Hope\Unity Project\Hope" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="ParticleSystemPauser.cs" t="Include" />
         <e p="Resources" t="Include">
           <e p="Rendering Assets" t="Include">
             <e p="Post-Processing" t="Include">
@@ -58,6 +59,9 @@
               </e>
             </e>
             <e p="UI" t="Include">
+              <e p="Dialogue" t="Include">
+                <e p="DialogueBar.cs" t="Include" />
+              </e>
               <e p="DonateURLButtonScript.cs" t="Include" />
               <e p="GameOverStats" t="Include">
                 <e p="ObstaclesHit.cs" t="Include" />
@@ -72,6 +76,8 @@
                 <e p="MapMoveScript.cs" t="Include" />
                 <e p="PatchButton.cs" t="Include" />
               </e>
+              <e p="lockEnableScript.cs" t="Include" />
+              <e p="MoveUpScript.cs" t="Include" />
               <e p="MusicSlider.cs" t="Include" />
               <e p="QuitButtonScript.cs" t="Include" />
               <e p="SFXSlider.cs" t="Include" />
