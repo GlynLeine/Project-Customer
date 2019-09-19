@@ -36,8 +36,8 @@ public class DialogueEditor : Editor
 
                 GUILayout.EndHorizontal();
             }
-            EditorUtility.SetDirty(target);
         }
+        EditorUtility.SetDirty(target);
     }
 }
 #endif

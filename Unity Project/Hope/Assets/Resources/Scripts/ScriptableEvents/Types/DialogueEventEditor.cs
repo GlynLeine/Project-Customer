@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(DialogueEvent))]
 public class DialogueEventEditor : Editor
 {
@@ -37,13 +38,22 @@ public class DialogueEventEditor : Editor
             for (int i = 0; i < dialogueEvent.dialogue.Count; i++)
             {
                 if (dialogueEvent.dialogue[i] == null)
-                    dialogueEvent.dialogue[i] = new Dialogue();
+                {
+                    if (i >= dialogueEditors.Count)
+                    {
+                        dialogueEvent.dialogue[i] = CreateInstance<Dialogue>();
+                    }
+                    else
+                    {
+                        dialogueEvent.dialogue[i] = dialogueEditors[i].target as Dialogue;
+                    }
+                }
+
                 if (i >= dialogueEditors.Count)
-                    dialogueEditors.Add(null);
+                    dialogueEditors.Add(CreateEditor(dialogueEvent.dialogue[i]));
 
                 Editor dialogueEditor = dialogueEditors[i];
-                if (dialogueEditor == null)
-                    CreateCachedEditor(dialogueEvent.dialogue[i], null, ref dialogueEditor);
+                CreateCachedEditor(dialogueEvent.dialogue[i], null, ref dialogueEditor);
 
                 EditorGUILayout.LabelField("Dialogue " + i);
                 EditorGUI.indentLevel++;
@@ -52,12 +62,19 @@ public class DialogueEventEditor : Editor
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
                 dialogueEditors[i] = dialogueEditor;
+                dialogueEvent.dialogue[i] = dialogueEditor.target as Dialogue;
             }
+            EditorUtility.SetDirty(dialogueEvent);
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(EditorGUI.indentLevel * 10);
             if (GUILayout.Button("Add dialogue"))
-                (target as DialogueEvent).dialogue.Add(new Dialogue());
+            {
+                Dialogue dialogue = CreateInstance<Dialogue>();
+                AssetDatabase.CreateAsset(dialogue, "Assets/Resources/AutoCreated/" + target.name + "_dialogue" + (target as DialogueEvent).dialogue.Count + ".asset");
+                (target as DialogueEvent).dialogue.Add(dialogue);
+                dialogueEditors.Add(null);
+            }
             GUILayout.EndHorizontal();
 
             if ((target as DialogueEvent).dialogue.Count > 0)
@@ -65,13 +82,13 @@ public class DialogueEventEditor : Editor
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(EditorGUI.indentLevel * 10);
                 if (GUILayout.Button("Remove last dialogue"))
+                {
+                    AssetDatabase.DeleteAsset("Assets/Resources/AutoCreated/" + target.name + "_dialogue" + ((target as DialogueEvent).dialogue.Count-1) + ".asset");
                     (target as DialogueEvent).dialogue.RemoveAt((target as DialogueEvent).dialogue.Count - 1);
+                }
                 GUILayout.EndHorizontal();
             }
             EditorGUI.indentLevel--;
-
-
-            EditorUtility.SetDirty(target);
         }
 
         showEvents = EditorGUILayout.Foldout(showEvents, "Events");
@@ -89,6 +106,8 @@ public class DialogueEventEditor : Editor
             GUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
         }
+        EditorUtility.SetDirty(target);
+        serializedObject.ApplyModifiedProperties();
     }
 }
 #endif
