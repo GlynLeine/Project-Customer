@@ -390,5 +390,7 @@ public class Waves : MonoBehaviour
         if (octaveBuffer != null)
             octaveBuffer.Dispose();
     }
+
+
     #endregion
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ParticleSystemPauser : MonoBehaviour
 {
-    ParticleSystem particleSystem;
-
+#if UNITY_EDITOR
+    private new ParticleSystem particleSystem;
+#else
+    private ParticleSystem particleSystem;
+#endif
     void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
