@@ -42,4 +42,10 @@ public class ScriptableObjectDrawer : PropertyDrawer
 public class MonoBehaviourEditor : Editor
 {
 }
+
+[CanEditMultipleObjects]
+[CustomEditor(typeof(ScriptableObject), true)]
+public class ScriptableObjectEditor : Editor
+{
+}
 #endif
