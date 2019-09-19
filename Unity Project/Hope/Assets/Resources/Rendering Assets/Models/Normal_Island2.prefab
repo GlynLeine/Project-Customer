@@ -69,6 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4548353375659683624}
+  - component: {fileID: 2587178025558026116}
   m_Layer: 0
   m_Name: Normal_Island2
   m_TagString: Untagged
@@ -84,7 +85,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668123278257298747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.4273415, y: 0.38, z: 2.3446736}
+  m_LocalPosition: {x: 0, y: 0.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3776962758346003995}
@@ -97,6 +98,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2587178025558026116
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668123278257298747}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6431168, y: 2.6558423, z: 1.8870592}
+  m_Center: {x: 1.681715, y: -0.3326471, z: -4.036116}
 --- !u!1 &798294237256249410
 GameObject:
   m_ObjectHideFlags: 0
