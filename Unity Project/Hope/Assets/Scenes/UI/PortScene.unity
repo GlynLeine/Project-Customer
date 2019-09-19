@@ -774,7 +774,6 @@ GameObject:
   - component: {fileID: 238790176}
   - component: {fileID: 238790180}
   - component: {fileID: 238790179}
-  - component: {fileID: 238790178}
   - component: {fileID: 238790177}
   m_Layer: 5
   m_Name: TextBox
@@ -820,18 +819,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 13, y: -10}
   m_UseGraphicAlpha: 1
---- !u!114 &238790178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238790175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16c434380ab390043b8696b48b3b66dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &238790179
 MonoBehaviour:
   m_ObjectHideFlags: 0
