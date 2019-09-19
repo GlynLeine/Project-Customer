@@ -2,7 +2,7 @@
 using UnityEditor;
  
 [CanEditMultipleObjects]
-[CustomEditor(typeof(ScriptedEventTrigger), true)]
+[CustomEditor(typeof(ScriptedEventTrigger))]
 public class ScriptedEventTriggerEditor : Editor
 {
 }
