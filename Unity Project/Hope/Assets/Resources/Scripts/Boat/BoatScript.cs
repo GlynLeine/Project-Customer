@@ -43,8 +43,9 @@ public class BoatScript : MonoBehaviour
 
     bool updateBoatType = true;
 
-    [SerializeField] private AudioSource damageSound = null;
-    [SerializeField] private AudioSource pickUpSound = null;
+    [SerializeField] private AudioSource collisionAudio;
+    [SerializeField] private AudioSource engineAudio;
+
 
     private void OnValidate()
     {
@@ -92,11 +93,15 @@ public class BoatScript : MonoBehaviour
         maxHealth = StatManager.GetStat(boatType, Stats.Health);
 
         health = maxHealth;
+
+        engineAudio.clip = boatType.engineSound;
+        engineAudio.Play();
     }
 
     void Start()
     {
         UpdateBoatType();
+
         cameraViewFrustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
         for (int i = 0; i < 3; ++i)
@@ -133,6 +138,12 @@ public class BoatScript : MonoBehaviour
             FloatingObjectScript floatingObjectScript = collision.gameObject.GetComponent<FloatingObjectScript>();
             if (floatingObjectScript != null)
             {
+                if(floatingObjectScript.hitSound != null)
+                {
+                    collisionAudio.clip = floatingObjectScript.hitSound;
+                    collisionAudio.Play();
+                }
+
                 StatManager.obstaclesHitInLevel++;
                 trash += floatingObjectScript.score;
                 StatManager.trashCollectedInLevel += floatingObjectScript.score;
@@ -144,19 +155,14 @@ public class BoatScript : MonoBehaviour
                         health -= floatingObjectScript.damage;
                         StatManager.healthLost += floatingObjectScript.damage;
                     }
-
-                    damageSound.Play();
                     if (health <= 0)
                         SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
+
                 }
                 if (trash >= trashCapacity)
                     SceneManager.LoadScene("Assets/Scenes/UI/ScoreScreen.unity");
 
                 trashScoreBoard.text = trash + "/" + trashCapacity;
-                if (floatingObjectScript.score > 0)
-                {
-                    pickUpSound.Play();
-                }
             }
 
             Destroy(collision.gameObject);

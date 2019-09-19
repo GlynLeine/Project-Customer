@@ -22,6 +22,8 @@ public class FloatingObjectScript : MonoBehaviour
 
     private Vector3 velocity;
 
+    public AudioClip hitSound;
+
     // Update is called once per frame
     void Update()
     {

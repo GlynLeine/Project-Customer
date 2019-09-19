@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   eventType: {fileID: 11400000, guid: 9d5938286a8b0f14dbd005a4502a9505, type: 2}
+  triggerMode: 1
   eventTriggers:
   - triggerType: 0
     triggerTime: 0
     triggeringComponent: {fileID: 0}
     fieldName: 
     triggerValue: 
-  - triggerType: 0
-    triggerTime: 0
+  - triggerType: 1
+    triggerTime: 30
     triggeringComponent: {fileID: 0}
     fieldName: 
     triggerValue: 

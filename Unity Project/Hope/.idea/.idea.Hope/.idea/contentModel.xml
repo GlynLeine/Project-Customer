@@ -49,13 +49,19 @@
                 <e p="ScriptedEventVariantEditor.cs" t="Include" />
               </e>
               <e p="Types" t="Include">
+                <e p="Dialogue.cs" t="Include" />
                 <e p="DialogueEditor.cs" t="Include" />
                 <e p="DialogueEvent.cs" t="Include" />
+                <e p="DialogueEventEditor.cs" t="Include" />
                 <e p="ScriptedEventType.cs" t="Include" />
               </e>
             </e>
             <e p="UI" t="Include">
-              <e p="AudioListenerVolume.cs" t="Include" />
+              <e p="DialogueBar" t="Include">
+                <e p="DialogueText.cs" t="Include" />
+                <e p="NPCName.cs" t="Include" />
+                <e p="NPCSprite.cs" t="Include" />
+              </e>
               <e p="DonateURLButtonScript.cs" t="Include" />
               <e p="GameOverStats" t="Include">
                 <e p="ObstaclesHit.cs" t="Include" />
@@ -70,7 +76,9 @@
                 <e p="MapMoveScript.cs" t="Include" />
                 <e p="PatchButton.cs" t="Include" />
               </e>
+              <e p="MusicSlider.cs" t="Include" />
               <e p="QuitButtonScript.cs" t="Include" />
+              <e p="SFXSlider.cs" t="Include" />
               <e p="TrashBar.cs" t="Include" />
               <e p="UpgradeBar.cs" t="Include" />
               <e p="UpgradeManager.cs" t="Include" />

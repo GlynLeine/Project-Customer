@@ -22,6 +22,9 @@ public class LevelMasterScript : MonoBehaviour
     void OnValidate()
     {
         updateLevelType = true;
+        boat = FindObjectOfType<BoatScript>();
+        ocean = FindObjectOfType<Waves>();
+        boat.ocean = ocean;
     }
 
     private void OnDrawGizmos()
@@ -50,6 +53,7 @@ public class LevelMasterScript : MonoBehaviour
         hazardSpawnRateIncrease = levelType.hazardSpawnRateIncrease;
         spawnables = new SpawnInfo[levelType.spawnables.Length];
         levelType.spawnables.CopyTo(spawnables, 0);
+        RenderSettings.skybox = levelType.skyBoxMaterial;
 
         Waves ocean = FindObjectOfType<Waves>();
         MeshRenderer oceanRenderer = ocean.GetComponent<MeshRenderer>();
@@ -148,6 +152,7 @@ public class LevelMasterScript : MonoBehaviour
                     newFloatingObject.damage = spawnInfo.interactableType.damage;
                     newFloatingObject.score = spawnInfo.interactableType.score;
                     newFloatingObject.buoyancy = spawnInfo.interactableType.buoyancy;
+                    newFloatingObject.hitSound = spawnInfo.interactableType.hitSound;
                     newFloatingObject.boat = boat;
                     newFloatingObject.ocean = ocean;
                     newFloatingObject.gameObject.layer = LayerMask.NameToLayer("Interactable");
