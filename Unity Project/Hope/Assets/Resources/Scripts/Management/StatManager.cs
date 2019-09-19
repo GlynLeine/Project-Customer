@@ -166,4 +166,21 @@ public class StatManager : MonoBehaviour
             healthUpgrade = 5;
     }
 
+    public void GyroBool(bool value)
+    {
+        if (value)
+        {
+            useGyro = true;
+        }
+        else
+        {
+            useGyro = false;
+        }
+    }
+
+    public void GyroSens(float value)
+    {
+        gyroSensitivity = value;
+    }
+
 }
