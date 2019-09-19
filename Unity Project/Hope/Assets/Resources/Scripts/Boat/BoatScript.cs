@@ -27,8 +27,11 @@ public class BoatScript : MonoBehaviour
     public Waves ocean;
 
     private Plane oceanPlane;
-
+#if UNITY_EDITOR
     private new Rigidbody rigidbody;
+#else
+    private Rigidbody rigidbody;
+#endif
 
     private Vector3 lastTargetPosition;
     private Vector3 targetPosition;
@@ -43,8 +46,8 @@ public class BoatScript : MonoBehaviour
 
     bool updateBoatType = true;
 
-    [SerializeField] private AudioSource collisionAudio;
-    [SerializeField] private AudioSource engineAudio;
+    [SerializeField] private AudioSource collisionAudio = null;
+    [SerializeField] private AudioSource engineAudio = null;
 
     Vector2 gyroPosition = new Vector2();
     bool useGyro;
@@ -183,34 +186,49 @@ public class BoatScript : MonoBehaviour
             rigidbody.isKinematic = false;
         }
 
-        debugText.text = "fps: " + (1f / Time.deltaTime);
+        debugText.text = "fps: " + (1f / Time.deltaTime) + "\ntarget: " + targetPosition.ToString() + "\nmouse: " + Input.mousePosition.ToString() +
+            "\nuseGyro: " + StatManager.useGyro
+            +"\nGyro: " + Input.gyro.attitude.ToString();
 
         MoveBoat();
     }
 
     void GetInput()
     {
+        float entryPoint;
+
+        Ray inputToOceanRay;
+
         if (StatManager.useGyro)
         {
             Quaternion gyroRotation = Input.gyro.attitude;
             gyroRotation = new Quaternion(gyroRotation.x, gyroRotation.y, -gyroRotation.z, -gyroRotation.w);
 
-            
+            Vector3 gyroMovement = gyroRotation * Vector3.up;
+            gyroPosition += new Vector2(gyroMovement.x, gyroMovement.z).normalized * StatManager.gyroSensitivity * Time.deltaTime;
+
+#if UNITY_EDITOR
+            inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+#else
+            inputToOceanRay = Camera.main.ScreenPointToRay(gyroPosition);
+#endif
         }
         else
         {
-            float entryPoint;
+#if UNITY_EDITOR
+            inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+#else
+            if (Input.touchCount <= 0)
+                return;
 
-            Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Input.touchCount > 0)
-                inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+#endif
+        }
 
-
-            if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
-            {
-                lastTargetPosition = targetPosition;
-                targetPosition = inputToOceanRay.GetPoint(entryPoint);
-            }
+        if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
+        {
+            lastTargetPosition = targetPosition;
+            targetPosition = inputToOceanRay.GetPoint(entryPoint);
         }
     }
 

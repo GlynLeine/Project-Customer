@@ -10,21 +10,28 @@ public class HealthBar : MonoBehaviour
     BoatScript boat;
     private int boatHealth;
     private int childCount;
+    private bool hasInstantiated = false;
 
     void Start()
     {
         boat = FindObjectOfType<BoatScript>();
         boatHealth = Mathf.RoundToInt(boat.health);
-        for (int i = 0; i < boatHealth; i++)
-        {
-            Instantiate(image, transform);
-        }
+
         childCount = this.gameObject.transform.childCount;
     }
 
     void Update()
     {
         boatHealth = Mathf.RoundToInt(boat.health);
+        if (!hasInstantiated)
+        {
+            for (int i = 0; i < boatHealth; i++)
+            {
+                Instantiate(image, transform);
+            }
+
+            hasInstantiated = true;
+        }
         childCount = this.gameObject.transform.childCount;
         
         if (childCount != boatHealth && childCount > 0)
