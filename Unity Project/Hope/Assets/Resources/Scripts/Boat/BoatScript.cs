@@ -32,6 +32,8 @@ public class BoatScript : MonoBehaviour
 #else
     private Rigidbody rigidbody;
 #endif
+    [HideInInspector]
+    public bool shieldActive = false;
 
     private Vector3 lastTargetPosition;
     private Vector3 targetPosition;
@@ -43,6 +45,8 @@ public class BoatScript : MonoBehaviour
     private Text trashScoreBoard;
     private Text debugText;
     private GameObject model;
+
+    private MeshRenderer shieldRenderer;
 
     bool updateBoatType = true;
 
@@ -134,6 +138,14 @@ public class BoatScript : MonoBehaviour
                 debugText = uiText;
             }
         }
+
+        if (shieldRenderer == null)
+            foreach (MeshRenderer meshRenderer in GetComponentsInChildren<MeshRenderer>())
+                if (meshRenderer.gameObject.tag == "Shield")
+                {
+                    shieldRenderer = meshRenderer;
+                    break;
+                }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -160,6 +172,9 @@ public class BoatScript : MonoBehaviour
                 StatManager.obstaclesHitInLevel++;
                 trash += floatingObjectScript.score;
                 StatManager.trashCollectedInLevel += floatingObjectScript.score;
+
+                if (shieldActive)
+                    return;
 
                 if (floatingObjectScript.damage > 0)
                 {
@@ -287,6 +302,15 @@ public class BoatScript : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(forward, up);
 
         rigidbody.MoveRotation(rotation);
+    }
+
+    void sheild()
+    {
+
+        if (shieldActive)
+            shieldRenderer.enabled = true;
+        else
+            shieldRenderer.enabled = false;
     }
 
 }
