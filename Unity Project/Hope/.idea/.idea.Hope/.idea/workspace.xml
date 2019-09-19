@@ -13,18 +13,27 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Resources/Scripts/UI/UpgradeManager.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="30" column="5" lean-forward="true" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+            <state relative-caret-position="1305">
+              <caret line="90" column="26" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="26" />
               <folding>
-                <marker date="1568799159056" expanded="false" signature="6:100" ph="..." />
-                <marker date="1568799159056" expanded="true" signature="146:1002" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="261:374" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="407:517" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="547:660" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="687:1000" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="725:798" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="830:897" ph="{...}" />
-                <marker date="1568799159056" expanded="true" signature="930:994" ph="{...}" />
+                <marker date="1568882256910" expanded="false" signature="6:100" ph="..." />
+                <marker date="1568882256910" expanded="true" signature="146:4068" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="295:408" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="441:551" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="581:694" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="721:4066" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="924:1850" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="1188:1273" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="1527:1612" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="1755:1840" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="2037:2945" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="2301:2380" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="2634:2713" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="2856:2935" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="3133:4032" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="3397:3473" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="3727:3803" ph="{...}" />
+                <marker date="1568882256910" expanded="true" signature="3946:4022" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -56,9 +65,9 @@
         <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/ImageChanger.cs" />
         <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/TrashBar.cs" />
         <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/LevelSelect/PatchButton.cs" />
-        <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/UpgradeManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/LevelSelect/MapMoveScript.cs" />
         <option value="$PROJECT_DIR$/Assets/Resources/Scripts/Boat/BoatScript.cs" />
+        <option value="$PROJECT_DIR$/Assets/Resources/Scripts/UI/UpgradeManager.cs" />
       </list>
     </option>
   </component>
@@ -131,12 +140,12 @@
       <updated>1568791752001</updated>
       <workItem from="1568791760805" duration="5750000" />
       <workItem from="1568873523890" duration="927000" />
-      <workItem from="1568877295898" duration="317000" />
+      <workItem from="1568877295898" duration="4509000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6994000" />
+    <option name="totallyTimeSpent" value="11186000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -435,18 +444,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Resources/Scripts/UI/UpgradeManager.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="30" column="5" lean-forward="true" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+        <state relative-caret-position="1305">
+          <caret line="90" column="26" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="26" />
           <folding>
-            <marker date="1568799159056" expanded="false" signature="6:100" ph="..." />
-            <marker date="1568799159056" expanded="true" signature="146:1002" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="261:374" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="407:517" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="547:660" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="687:1000" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="725:798" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="830:897" ph="{...}" />
-            <marker date="1568799159056" expanded="true" signature="930:994" ph="{...}" />
+            <marker date="1568882256910" expanded="false" signature="6:100" ph="..." />
+            <marker date="1568882256910" expanded="true" signature="146:4068" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="295:408" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="441:551" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="581:694" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="721:4066" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="924:1850" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="1188:1273" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="1527:1612" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="1755:1840" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="2037:2945" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="2301:2380" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="2634:2713" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="2856:2935" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="3133:4032" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="3397:3473" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="3727:3803" ph="{...}" />
+            <marker date="1568882256910" expanded="true" signature="3946:4022" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -45,6 +45,7 @@
                 <e p="ScriptedEvent.cs" t="Include" />
                 <e p="ScriptedEventEditor.cs" t="Include" />
                 <e p="ScriptedEventTrigger.cs" t="Include" />
+                <e p="ScriptedEventTriggerEditor.cs" t="Include" />
                 <e p="ScriptedEventVariant.cs" t="Include" />
                 <e p="ScriptedEventVariantEditor.cs" t="Include" />
               </e>
@@ -57,11 +58,6 @@
               </e>
             </e>
             <e p="UI" t="Include">
-              <e p="DialogueBar" t="Include">
-                <e p="DialogueText.cs" t="Include" />
-                <e p="NPCName.cs" t="Include" />
-                <e p="NPCSprite.cs" t="Include" />
-              </e>
               <e p="DonateURLButtonScript.cs" t="Include" />
               <e p="GameOverStats" t="Include">
                 <e p="ObstaclesHit.cs" t="Include" />
