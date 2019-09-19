@@ -71,6 +71,22 @@ public class DialogueBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentDialogue != null)
+            if (currentDialogue.waitForNextTrigger)
+            {
+                if (trigger == null || trigger.Count == 0)
+                    return;
+                else
+                    trigger.Dequeue();
+            }
+            else
+            {
+                if (!button)
+                    return;
+                else
+                    button = false;
+            }
+
         if (dialogueQueue == null || dialogueQueue.Count == 0)
         {
             hasDialogue = false;
@@ -112,23 +128,7 @@ public class DialogueBar : MonoBehaviour
             sentenceQueue = new Queue<string>(currentDialogue.sentences);
         }
 
-        if (currentDialogue.waitForNextTrigger)
-        {
-            if (trigger == null || trigger.Count == 0)
-                return;
-            else
-                trigger.Dequeue();
-        }
-        else
-        {
-            if (!button)
-                return;
-            else
-                button = false;
-        }
-
-
-        if (dialogueText != null)
+        if (dialogueText != null && sentenceQueue.Count > 0)
         {
             dialogueText.text = sentenceQueue.Dequeue();
         }

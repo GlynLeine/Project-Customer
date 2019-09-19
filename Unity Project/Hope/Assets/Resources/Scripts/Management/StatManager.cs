@@ -26,7 +26,8 @@ public class StatManager : MonoBehaviour
     private bool initialised = false;
     private bool created = false;
 
-    public static bool useGyro;
+    public static bool useGyro = true;
+    public static float gyroSensitivity = 1;
 
     private void Start()
     {
@@ -51,6 +52,11 @@ public class StatManager : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if(!SystemInfo.supportsGyroscope)
+            useGyro = false;
+
+        Input.gyro.enabled = useGyro;
 
         timePlayed += Time.deltaTime;
         timeInLevel += Time.deltaTime;

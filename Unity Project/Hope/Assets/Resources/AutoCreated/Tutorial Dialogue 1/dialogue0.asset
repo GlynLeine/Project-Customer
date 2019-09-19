@@ -16,4 +16,5 @@ MonoBehaviour:
   NPCLeft: 0
   NPCSprite: {fileID: 0}
   NPCName: 
-  sentences: []
+  sentences:
+  - 
