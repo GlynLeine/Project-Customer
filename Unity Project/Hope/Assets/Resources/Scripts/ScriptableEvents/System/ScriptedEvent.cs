@@ -16,6 +16,7 @@ public enum TriggerMode
 public class EventTrigger
 {
     public TriggerType triggerType;
+    public bool triggered = false;
     public float triggerTime;
     public Component triggeringComponent;
     public string fieldName;
@@ -48,6 +49,7 @@ public class ScriptedEvent : ScriptableObject
 
     public TriggerMode triggerMode;
 
+    public void Setup() => eventType.Setup();
     public void Trigger() => eventType.Execute();
 
     [SerializeField, HideInInspector]
