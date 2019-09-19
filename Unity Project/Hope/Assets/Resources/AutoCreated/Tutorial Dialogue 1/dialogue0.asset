@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitForNextTrigger: 0
   NPCLeft: 0
-  NPCSprite: {fileID: 0}
-  NPCName: 
+  NPCSprite: {fileID: 2800000, guid: 1f9cb12f8f52d9e4b9b6f5fd91199fc8, type: 3}
+  NPCName: Maya
   sentences:
-  - 
+  - dsdss
+  - sdsd
