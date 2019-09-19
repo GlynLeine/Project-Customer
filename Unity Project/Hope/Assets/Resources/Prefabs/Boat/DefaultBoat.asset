@@ -18,7 +18,7 @@ MonoBehaviour:
   maxMovementSpeed: 15
   minSpeed: 1
   maxSpeed: 1.5
-  minHealth: 1
+  minHealth: 2
   maxHealth: 6
   buoyancy: 0.5
   boatModel: {fileID: 28928096294735240, guid: 447e6fc07ac539e43a1166fe7264bc36, type: 3}

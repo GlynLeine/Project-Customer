@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: b9eab40ad484a794896ef812b82bfa03, type: 2}
-  - {fileID: 11400000, guid: cb07b5f63a34e414da937d63dc9677d1, type: 2}
-  - {fileID: 11400000, guid: ffa8e9bf9f5954b4289a98ac965d9477, type: 2}
-  - {fileID: 11400000, guid: 5ecde4943b2038c4181971151deedab1, type: 2}
   OnStartDialogue:
     m_PersistentCalls:
       m_Calls: []

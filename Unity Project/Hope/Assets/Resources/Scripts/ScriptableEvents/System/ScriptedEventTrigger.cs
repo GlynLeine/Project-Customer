@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Reflection;
+using System.Collections;
 using System;
 
 public class ScriptedEventTrigger : MonoBehaviour
@@ -48,10 +49,23 @@ public class ScriptedEventTrigger : MonoBehaviour
                     }
                     break;
                 case TriggerType.ScriptValue:
-                    scriptValueField = trigger.triggeringComponent.GetType().GetField(trigger.fieldName);
-                    if (trigger.valueType != null && trigger.triggerValue != null && trigger.triggeringComponent != null)
-                        if (Convert.ChangeType(scriptValueField.GetValue(trigger.triggeringComponent), trigger.valueType) == Convert.ChangeType(trigger.triggerValue, trigger.valueType))
-                            triggeredCount++;
+                    Type componentType = Type.GetType(trigger.triggeringComponentType);
+                    Component triggeringComponent = null;
+                    foreach (Component component in FindObjectsOfType(componentType))
+                    {
+                        if (component.name == trigger.triggeringComponentName)
+                            triggeringComponent = component;
+                    }
+                    if (triggeringComponent != null)
+                    {
+                        scriptValueField = componentType.GetField(trigger.fieldName);
+                        if (trigger.valueType != null && trigger.triggerValue != null && trigger.triggeringComponentType != null)
+                        {
+                            Type valueType = Type.GetType(trigger.valueType);
+                            if (Comparer.DefaultInvariant.Compare(Convert.ChangeType(scriptValueField.GetValue(triggeringComponent), valueType), Convert.ChangeType(trigger.triggerValue, valueType)) >= 0)
+                                triggeredCount++;
+                        }
+                    }
                     break;
                 case TriggerType.TimeInLevel:
                     if (StatManager.timeInLevel >= trigger.triggerTime)
@@ -66,7 +80,7 @@ public class ScriptedEventTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(LevelMasterScript.paused)
+        if (LevelMasterScript.paused)
             return;
 
         int triggeredCount = 0;
@@ -75,17 +89,36 @@ public class ScriptedEventTrigger : MonoBehaviour
             switch (trigger.triggerType)
             {
                 case TriggerType.ScriptValue:
-                    if (trigger.valueType != null && trigger.triggerValue != null && trigger.triggeringComponent != null)
-                        if (Convert.ChangeType(scriptValueField.GetValue(trigger.triggeringComponent), trigger.valueType) == Convert.ChangeType(trigger.triggerValue, trigger.valueType))
+                    if (trigger.valueType != null && trigger.triggerValue != null && trigger.triggeringComponentType != null)
+                    {
+                        Type componentType = Type.GetType(trigger.triggeringComponentType);
+                        Component triggeringComponent = null;
+                        foreach (Component component in FindObjectsOfType(componentType))
                         {
-                            if (scriptedEvent.triggerMode == TriggerMode.And)
-                                triggeredCount++;
-                            else if (!trigger.triggered)
+                            if (component.name == trigger.triggeringComponentName)
                             {
-                                trigger.triggered = true;
-                                scriptedEvent.Trigger();
+                                triggeringComponent = component;
+                                break;
                             }
                         }
+                        if (triggeringComponent != null)
+                        {
+                            Type valueType = Type.GetType(trigger.valueType);
+                            if(StatManager.trashCollectedInLevel >= 1)
+                                Debug.Log("trash");
+
+                            if (Comparer.DefaultInvariant.Compare(Convert.ChangeType(scriptValueField.GetValue(triggeringComponent), valueType), Convert.ChangeType(trigger.triggerValue, valueType)) >= 0)
+                            {
+                                if (scriptedEvent.triggerMode == TriggerMode.And)
+                                    triggeredCount++;
+                                else if (!trigger.triggered)
+                                {
+                                    trigger.triggered = true;
+                                    scriptedEvent.Trigger();
+                                }
+                            }
+                        }
+                    }
                     break;
                 case TriggerType.TimeInLevel:
                     if (StatManager.timeInLevel >= trigger.triggerTime)

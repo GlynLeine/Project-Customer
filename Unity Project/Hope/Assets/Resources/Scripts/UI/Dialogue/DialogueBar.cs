@@ -52,6 +52,9 @@ public class DialogueBar : MonoBehaviour
     public void StartDialogue(List<Dialogue> dialogues)
     {
         dialogueQueue = new Queue<Dialogue>(dialogues);
+        sentenceQueue = null;
+        currentDialogue = null;
+        LevelMasterScript.paused = true;
         hasDialogue = true;
         gameObject.SetActive(true);
     }
@@ -71,7 +74,23 @@ public class DialogueBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dialogueQueue == null || dialogueQueue.Count == 0)
+        if (currentDialogue != null)
+            if (currentDialogue.waitForNextTrigger)
+            {
+                if (trigger == null || trigger.Count == 0)
+                    return;
+                else
+                    trigger.Dequeue();
+            }
+            else
+            {
+                if (!button)
+                    return;
+                else
+                    button = false;
+            }
+
+        if (dialogueQueue == null || (dialogueQueue.Count == 0 && (sentenceQueue == null || sentenceQueue.Count == 0)))
         {
             hasDialogue = false;
             gameObject.SetActive(false);
@@ -112,23 +131,7 @@ public class DialogueBar : MonoBehaviour
             sentenceQueue = new Queue<string>(currentDialogue.sentences);
         }
 
-        if (currentDialogue.waitForNextTrigger)
-        {
-            if (trigger == null || trigger.Count == 0)
-                return;
-            else
-                trigger.Dequeue();
-        }
-        else
-        {
-            if (!button)
-                return;
-            else
-                button = false;
-        }
-
-
-        if (dialogueText != null)
+        if (dialogueText != null && sentenceQueue.Count > 0)
         {
             dialogueText.text = sentenceQueue.Dequeue();
         }

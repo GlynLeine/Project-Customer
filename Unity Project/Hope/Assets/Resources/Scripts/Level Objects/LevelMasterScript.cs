@@ -20,14 +20,16 @@ public class LevelMasterScript : MonoBehaviour
     [HideInInspector]
     public Dictionary<int, Queue<FloatingObjectScript>> reUsableFloatingObjects = new Dictionary<int, Queue<FloatingObjectScript>>();
 
+    #if UNITY_EDITOR
     // Start is called before the first frame update
     void OnValidate()
     {
         updateLevelType = true;
-        boat = FindObjectOfType<BoatScript>();
-        ocean = FindObjectOfType<Waves>();
-        boat.ocean = ocean;
+        //boat = FindObjectOfType<BoatScript>();
+        //ocean = FindObjectOfType<Waves>();
+        //boat.ocean = ocean;
     }
+    #endif
 
     private void OnDrawGizmos()
     {
