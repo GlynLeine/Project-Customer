@@ -22,6 +22,9 @@ public class LevelMasterScript : MonoBehaviour
     void OnValidate()
     {
         updateLevelType = true;
+        boat = FindObjectOfType<BoatScript>();
+        ocean = FindObjectOfType<Waves>();
+        boat.ocean = ocean;
     }
 
     private void OnDrawGizmos()
