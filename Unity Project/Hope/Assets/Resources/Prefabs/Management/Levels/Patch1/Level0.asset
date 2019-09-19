@@ -21,6 +21,6 @@ MonoBehaviour:
   - interactableType: {fileID: 11400000, guid: e74ce71021a584f4b9e6fdbaefb8ac2f, type: 2}
     spawnRate: 0.3
     spawnTime: 0
-  oceanMaterial: {fileID: 2100000, guid: 68b6d649d5273414989733984c934568, type: 2}
-  skyBoxMaterial: {fileID: 2100000, guid: a24520a1738d61240a99e4fb91be0d8a, type: 2}
+  oceanMaterial: {fileID: 2100000, guid: 4e11396abc3057e4b88fa75fadfeeff5, type: 2}
+  skyBoxMaterial: {fileID: 2100000, guid: aa72c02f6c7559c4fab21b7f55107486, type: 2}
   levelMusic: {fileID: 8300000, guid: 8adbf45118405de4f995a70a3f89beb6, type: 3}
