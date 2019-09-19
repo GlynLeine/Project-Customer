@@ -138,7 +138,7 @@ public class BoatScript : MonoBehaviour
             FloatingObjectScript floatingObjectScript = collision.gameObject.GetComponent<FloatingObjectScript>();
             if (floatingObjectScript != null)
             {
-                if(floatingObjectScript.hitSound != null)
+                if (floatingObjectScript.hitSound != null)
                 {
                     collisionAudio.clip = floatingObjectScript.hitSound;
                     collisionAudio.Play();
@@ -171,6 +171,16 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
+        if (LevelMasterScript.paused)
+        {
+            rigidbody.isKinematic = true;
+            return;
+        }
+        else
+        {
+            rigidbody.isKinematic = false;
+        }
+
         debugText.text = "fps: " + (1f / Time.deltaTime);
 
         float entryPoint;

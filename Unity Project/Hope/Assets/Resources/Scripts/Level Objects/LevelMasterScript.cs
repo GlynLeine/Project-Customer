@@ -11,6 +11,8 @@ public class LevelMasterScript : MonoBehaviour
     [ReadOnly]
     public float hazardSpawnRateIncrease = 10;
 
+    public static bool paused = false;
+
     private BoatScript boat = null;
     private Waves ocean = null;
     private bool updateLevelType = true;
