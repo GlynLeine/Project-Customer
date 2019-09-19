@@ -16,5 +16,5 @@ MonoBehaviour:
   score: 1
   damage: 0
   buoyancy: 0.5
-  model: {fileID: 9218823053261038969, guid: 3bba9487882497b43a4bb4140895a15c, type: 3}
+  model: {fileID: 8732035826032712233, guid: fcd8ee20df347d84a94d7770b131150c, type: 3}
   hitSound: {fileID: 8300000, guid: 1ccf23d54f901104980e9e58f4dfafec, type: 3}
