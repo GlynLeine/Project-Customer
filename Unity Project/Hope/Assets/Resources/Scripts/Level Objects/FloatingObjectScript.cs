@@ -27,7 +27,7 @@ public class FloatingObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(LevelMasterScript.paused)
+        if (LevelMasterScript.paused)
             return;
 
         if (boat == null)
@@ -42,11 +42,16 @@ public class FloatingObjectScript : MonoBehaviour
 
         if (position.z < -10)
         {
-            gameObject.SetActive(false);
-            if (master.reUsableFloatingObjects.ContainsKey(ID))
-                master.reUsableFloatingObjects[ID].Enqueue(this);
-            else
-                master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
+            DisableAndMarkForReuse();
         }
+    }
+
+    public void DisableAndMarkForReuse()
+    {
+        gameObject.SetActive(false);
+        if (master.reUsableFloatingObjects.ContainsKey(ID))
+            master.reUsableFloatingObjects[ID].Enqueue(this);
+        else
+            master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
     }
 }

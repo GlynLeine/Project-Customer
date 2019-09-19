@@ -138,11 +138,19 @@ public class BoatScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (StatManager.timeInLevel <= 4)
+            return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             FloatingObjectScript floatingObjectScript = collision.gameObject.GetComponent<FloatingObjectScript>();
             if (floatingObjectScript != null)
             {
+                floatingObjectScript.DisableAndMarkForReuse();
+
+                if (floatingObjectScript.damage > 0 && StatManager.timeInLevel <= 6)
+                    return;
+
                 if (floatingObjectScript.hitSound != null)
                 {
                     collisionAudio.clip = floatingObjectScript.hitSound;
@@ -155,11 +163,10 @@ public class BoatScript : MonoBehaviour
 
                 if (floatingObjectScript.damage > 0)
                 {
-                    if (StatManager.timeInLevel > 1)
-                    {
-                        health -= floatingObjectScript.damage;
-                        StatManager.healthLost += floatingObjectScript.damage;
-                    }
+                    health -= floatingObjectScript.damage;
+                    StatManager.healthLost += floatingObjectScript.damage;
+                    StatManager.healthLostInLevel += floatingObjectScript.damage;
+
                     if (health <= 0)
                         SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
 
@@ -169,8 +176,6 @@ public class BoatScript : MonoBehaviour
 
                 trashScoreBoard.text = trash + "/" + trashCapacity;
             }
-
-            Destroy(collision.gameObject);
         }
     }
 
@@ -187,8 +192,8 @@ public class BoatScript : MonoBehaviour
         }
 
         debugText.text = "fps: " + (1f / Time.deltaTime) + "\ntarget: " + targetPosition.ToString() + "\nmouse: " + Input.mousePosition.ToString() +
-            "\nuseGyro: " + StatManager.useGyro
-            +"\nGyro: " + Input.gyro.attitude.ToString();
+            "\nuseGyro: " + StatManager.UseGyro
+            + "\nGyro: " + Input.gyro.attitude.ToString();
 
         MoveBoat();
     }
@@ -199,7 +204,7 @@ public class BoatScript : MonoBehaviour
 
         Ray inputToOceanRay;
 
-        if (StatManager.useGyro)
+        if (StatManager.UseGyro)
         {
             Quaternion gyroRotation = Input.gyro.attitude;
             gyroRotation = new Quaternion(gyroRotation.x, gyroRotation.y, -gyroRotation.z, -gyroRotation.w);

@@ -19,6 +19,8 @@ MonoBehaviour:
   - triggerType: 0
     triggered: 0
     triggerTime: 0
-    triggeringComponent: {fileID: 0}
+    triggeringComponentType: 
+    triggeringComponentName: 
     fieldName: 
     triggerValue: 
+    valueType: 
