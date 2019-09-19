@@ -7,14 +7,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a18786d6901457e43a0b12bae46e4c37, type: 3}
-  m_Name: Rock
+  m_Name: SandBank
   m_EditorClassIdentifier: 
-  ID: 1520934524
+  ID: 0
   score: 0
   damage: 1
   buoyancy: 0
-  model: {fileID: 7919219744469177528, guid: 171e37f9e7faf9d42ab350fdf2969810, type: 3}
-  hitSound: {fileID: 8300000, guid: fc8cf64db195fe94088df1a6570df221, type: 3}
+  model: {fileID: 9120671395276849447, guid: 0e420146bde2bb547964b778856f15dc, type: 3}
+  hitSound: {fileID: 8300000, guid: 5c3bc60d95dd7cd4d8e7eeb6dfcea6b3, type: 3}

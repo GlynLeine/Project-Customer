@@ -12,9 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f434e3190f7b5547adc502c5dcc7f8a, type: 3}
   m_Name: Level24
   m_EditorClassIdentifier: 
-  hazardSpawnRateIncrease: 0
-  TrashToCollect: 0
-  spawnables: []
+  hazardSpawnRateIncrease: 0.06
+  TrashToCollect: 50
+  spawnables:
+  - interactableType: {fileID: 11400000, guid: 29871a6b400a24d41b36654890478969, type: 2}
+    spawnRate: 0.2
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: d8081154cb81f6e4f9fe10a4c48ba31c, type: 2}
+    spawnRate: 0.2
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: 3e47a8ae128c95c4aa3e0bca7438e6c9, type: 2}
+    spawnRate: 0.2
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: b179808375d4846459f29b84f730f7fc, type: 2}
+    spawnRate: 0.2
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: e74ce71021a584f4b9e6fdbaefb8ac2f, type: 2}
+    spawnRate: 0.8
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: e254994040f5e584a85a0b5456493895, type: 2}
+    spawnRate: 0.8
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: 42f399d55375140418a53caf324c7ac9, type: 2}
+    spawnRate: 0.8
+    spawnTime: 0
   oceanMaterial: {fileID: 2100000, guid: 09e3010537872704ab7c52330e302005, type: 2}
   skyBoxMaterial: {fileID: 2100000, guid: dd7eb9dd65880174caefb860f26a7639, type: 2}
-  levelMusic: {fileID: 8300000, guid: c3853ff6dd8cc844f9a36d116f550cb5, type: 3}
+  levelMusic: {fileID: 8300000, guid: bb8c566a7fccec748a870ee8878c6338, type: 3}
