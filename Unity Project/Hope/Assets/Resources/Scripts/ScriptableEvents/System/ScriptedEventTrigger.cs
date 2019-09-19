@@ -12,6 +12,7 @@ public class ScriptedEventTrigger : MonoBehaviour
     Component triggeringComponent;
     Type valueType;
     bool sceneStart = true;
+    bool firstFrame = true;
 
     private void OnValidate()
     {
@@ -35,6 +36,7 @@ public class ScriptedEventTrigger : MonoBehaviour
     private void Start()
     {
         sceneStart = true;
+        firstFrame = true;
         scriptedEvent.Setup();
 
         foreach (EventTrigger trigger in scriptedEvent.eventTriggers)
@@ -89,11 +91,14 @@ public class ScriptedEventTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(firstFrame)
+        {
+            firstFrame = false;
+            return;
+        }
+
         if (LevelMasterScript.paused)
             return;
-
-        if (scriptedEvent.name == "Tutorial Event 1" && sceneStart)
-            Debug.Log("SceneStart " + scriptedEvent.name + " " + LevelManager.CurrentLevel);
 
         int triggeredCount = 0;
         foreach (EventTrigger trigger in scriptedEvent.eventTriggers)
@@ -118,8 +123,6 @@ public class ScriptedEventTrigger : MonoBehaviour
                         int compareValue = Comparer.DefaultInvariant.Compare(Convert.ChangeType(scriptValueField.GetValue(triggeringComponent), valueType), Convert.ChangeType(trigger.triggerValue, valueType));
                         if (HandleCompareTrigger(compareValue, trigger.compareMode))
                         {
-                            if (scriptedEvent.name == "Tutorial Event 1" && sceneStart)
-                                Debug.Log("ScriptValue " + scriptedEvent.name + " " + trigger.fieldName);
                             if (scriptedEvent.triggerMode == TriggerMode.And && !trigger.triggered)
                                 triggeredCount++;
                             else if (!trigger.triggered)
@@ -135,8 +138,6 @@ public class ScriptedEventTrigger : MonoBehaviour
                         int compareValue = Comparer.DefaultInvariant.Compare(StatManager.timeInLevel, trigger.triggerTime);
                         if (HandleCompareTrigger(compareValue, trigger.compareMode))
                         {
-                            if (scriptedEvent.name == "Tutorial Event 1" && sceneStart)
-                                Debug.Log("TimeInLevel " + scriptedEvent.name + " " + trigger.triggerTime);
                             if (scriptedEvent.triggerMode == TriggerMode.And && !trigger.triggered)
                                 triggeredCount++;
                             else if (!trigger.triggered)
