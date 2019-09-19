@@ -119,10 +119,9 @@ class ScriptedEventEditor : Editor
             return;
         }
 
-
         int currentIndex = -1;
-        if (eventTrigger.triggeringComponent != null)
-            currentIndex = componentNames.IndexOf(eventTrigger.triggeringComponent.GetType().Name);
+        if (eventTrigger.triggeringComponentType != null)
+            currentIndex = componentNames.IndexOf(eventTrigger.triggeringComponentName);
 
         if (currentIndex < 0)
         {
@@ -134,15 +133,18 @@ class ScriptedEventEditor : Editor
 
         if (newIndex >= 0 && newIndex != noneIndex)
         {
-            eventTrigger.triggeringComponent = components[newIndex];
+            eventTrigger.triggeringComponentName = components[newIndex].name;
+            eventTrigger.triggeringComponentType = components[newIndex].GetType().FullName;
         }
         else
-            eventTrigger.triggeringComponent = null;
+            eventTrigger.triggeringComponentType = "";
 
-        if (eventTrigger.triggeringComponent != null)
+        Type componentType = Type.GetType(eventTrigger.triggeringComponentType);
+
+        if (componentType != null)
         {
             BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-            FieldInfo[] fields = eventTrigger.triggeringComponent.GetType().GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTriggerTypes.Contains(f.FieldType.Name)).ToArray();
+            FieldInfo[] fields = componentType.GetFields(bindingFlags).Where(f => ScriptedEvent.supportedTriggerTypes.Contains(f.FieldType.Name)).ToArray();
             string[] fieldNames = fields.Select(f => f.Name).ToArray();
 
             int fieldIndex = EditorGUILayout.Popup("Field", fieldNames.ToList().IndexOf(eventTrigger.fieldName), fieldNames);
@@ -159,7 +161,7 @@ class ScriptedEventEditor : Editor
                                 eventTrigger.triggerValue = EditorGUILayout.Toggle("Boolean Value", parsedValue).ToString();
                             else
                                 eventTrigger.triggerValue = EditorGUILayout.Toggle("Boolean Value", false).ToString();
-                            eventTrigger.valueType = typeof(bool);
+                            eventTrigger.valueType = typeof(bool).FullName;
                         }
                         break;
                     case nameof(Single):
@@ -169,7 +171,7 @@ class ScriptedEventEditor : Editor
                                 eventTrigger.triggerValue = EditorGUILayout.FloatField("Float Value", parsedValue).ToString();
                             else
                                 eventTrigger.triggerValue = EditorGUILayout.FloatField("Float Value", 0f).ToString();
-                            eventTrigger.valueType = typeof(float);
+                            eventTrigger.valueType = typeof(float).FullName;
                         }
                         break;
                     case nameof(Int32):
@@ -179,12 +181,12 @@ class ScriptedEventEditor : Editor
                                 eventTrigger.triggerValue = EditorGUILayout.IntField("Integer Value", parsedValue).ToString();
                             else
                                 eventTrigger.triggerValue = EditorGUILayout.IntField("Integer Value", 0).ToString();
-                            eventTrigger.valueType = typeof(int);
+                            eventTrigger.valueType = typeof(int).FullName;
                         }
                         break;
                     case nameof(String):
                         eventTrigger.triggerValue = EditorGUILayout.TextField("String Value", eventTrigger.triggerValue);
-                        eventTrigger.valueType = typeof(string);
+                        eventTrigger.valueType = typeof(string).FullName;
                         break;
                     default:
                         EditorGUILayout.LabelField("Event trigger script value type not supported.");

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitForNextTrigger: 0
   NPCLeft: 0
-  NPCSprite: {fileID: 2800000, guid: 1f9cb12f8f52d9e4b9b6f5fd91199fc8, type: 3}
+  NPCSprite: {fileID: 2800000, guid: 73da54c703315ca4db264918e4107b91, type: 3}
   NPCName: Maya
   sentences:
-  - "Nautical job Captain! Looks like you got the hang of it. But we\u2019re not here
-    to enjoy the ocean view, there\u2019s cleaning work to be done!"
+  - Hit the deck! Oh Neptune, we hit an obstacle Captain! You gotta watch out!
+  - "Our ship can\u2019t take too many hits, if this bar runs out we have to return
+    to port and get repairs, so keep an eye out!"

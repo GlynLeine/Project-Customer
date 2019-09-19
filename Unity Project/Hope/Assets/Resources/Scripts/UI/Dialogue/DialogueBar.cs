@@ -52,6 +52,9 @@ public class DialogueBar : MonoBehaviour
     public void StartDialogue(List<Dialogue> dialogues)
     {
         dialogueQueue = new Queue<Dialogue>(dialogues);
+        sentenceQueue = null;
+        currentDialogue = null;
+        LevelMasterScript.paused = true;
         hasDialogue = true;
         gameObject.SetActive(true);
     }
@@ -87,7 +90,7 @@ public class DialogueBar : MonoBehaviour
                     button = false;
             }
 
-        if (dialogueQueue == null || dialogueQueue.Count == 0)
+        if (dialogueQueue == null || (dialogueQueue.Count == 0 && (sentenceQueue == null || sentenceQueue.Count == 0)))
         {
             hasDialogue = false;
             gameObject.SetActive(false);

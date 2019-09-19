@@ -21,16 +21,30 @@ public class StatManager : MonoBehaviour
 
     public static float timeInLevel;
     public static int obstaclesHitInLevel;
+    public static float healthLostInLevel;
     public static int trashCollectedInLevel;
 
     private bool initialised = false;
     private bool created = false;
 
-    public static bool useGyro = true;
+    public static bool UseGyro => instance.useGyro;
+    public static StatManager instance;
+    public bool useGyro = true;
     public static float gyroSensitivity = 1;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void OnValidate()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
+        instance = this;
         if (!created)
         {
             if (levelUnlockedOverride >= 0)
@@ -53,13 +67,14 @@ public class StatManager : MonoBehaviour
             }
         }
 
-        if(!SystemInfo.supportsGyroscope)
+        if (!SystemInfo.supportsGyroscope)
             useGyro = false;
 
         Input.gyro.enabled = useGyro;
 
         timePlayed += Time.deltaTime;
-        timeInLevel += Time.deltaTime;
+        if (!LevelMasterScript.paused)
+            timeInLevel += Time.deltaTime;
     }
 
     public static void TrackNewLevel()
@@ -68,6 +83,7 @@ public class StatManager : MonoBehaviour
         obstaclesHitInLevel = 0;
         trashCollected += trashCollectedInLevel;
         trashCollectedInLevel = 0;
+        healthLostInLevel = 0;
     }
 
     public static float GetStat(float min, float max, int upgradeLevel)

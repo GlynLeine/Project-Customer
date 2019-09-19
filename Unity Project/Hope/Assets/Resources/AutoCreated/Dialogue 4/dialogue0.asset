@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d655081936c7a064888a3de5c99705a2, type: 3}
-  m_Name: dialogue1
+  m_Name: dialogue0
   m_EditorClassIdentifier: 
   waitForNextTrigger: 0
   NPCLeft: 0
-  NPCSprite: {fileID: 0}
-  NPCName: 
-  sentences: []
+  NPCSprite: {fileID: 2800000, guid: 1f9cb12f8f52d9e4b9b6f5fd91199fc8, type: 3}
+  NPCName: Maya
+  sentences:
+  - "Crack on! We\u2019re off to a good start Captain, but there\u2019s loads more
+    trash in the ocean\u2026so let\u2019s get sailing!"
