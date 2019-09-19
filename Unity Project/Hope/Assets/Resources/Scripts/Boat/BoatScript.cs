@@ -138,9 +138,6 @@ public class BoatScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (StatManager.timeInLevel <= 4)
-            return;
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             FloatingObjectScript floatingObjectScript = collision.gameObject.GetComponent<FloatingObjectScript>();
@@ -148,7 +145,10 @@ public class BoatScript : MonoBehaviour
             {
                 floatingObjectScript.DisableAndMarkForReuse();
 
-                if (floatingObjectScript.damage > 0 && StatManager.timeInLevel <= 6)
+                if (StatManager.timeInLevel <= 4)
+                    return;
+
+                if (floatingObjectScript.damage > 0 && StatManager.timeInLevel <= 6 && LevelManager.CurrentLevel == 0)
                     return;
 
                 if (floatingObjectScript.hitSound != null)

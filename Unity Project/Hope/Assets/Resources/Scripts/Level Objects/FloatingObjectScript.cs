@@ -48,6 +48,8 @@ public class FloatingObjectScript : MonoBehaviour
 
     public void DisableAndMarkForReuse()
     {
+        GetComponent<Collider>().isTrigger = true;
+
         gameObject.SetActive(false);
         if (master.reUsableFloatingObjects.ContainsKey(ID))
             master.reUsableFloatingObjects[ID].Enqueue(this);

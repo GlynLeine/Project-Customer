@@ -17,10 +17,20 @@ MonoBehaviour:
   triggerMode: 0
   eventTriggers:
   - triggerType: 0
-    triggered: 0
+    triggered: 1
     triggerTime: 0
+    compareMode: 0
     triggeringComponentType: 
     triggeringComponentName: 
     fieldName: 
     triggerValue: 
     valueType: 
+  - triggerType: 2
+    triggered: 1
+    triggerTime: 0
+    compareMode: 1
+    triggeringComponentType: LevelManager
+    triggeringComponentName: LevelManager
+    fieldName: currentLevel
+    triggerValue: 0
+    valueType: System.Int32

@@ -14,7 +14,7 @@ class ScriptedEventEditor : Editor
     Component[] components;
     List<string> componentNames;
 
-    bool showTriggers;
+    bool showTriggers = true;
 
     ScriptedEvent scriptedEvent;
     int noneIndex;
@@ -162,10 +162,13 @@ class ScriptedEventEditor : Editor
                             else
                                 eventTrigger.triggerValue = EditorGUILayout.Toggle("Boolean Value", false).ToString();
                             eventTrigger.valueType = typeof(bool).FullName;
+                            eventTrigger.compareMode = CompareMode.Equal;
                         }
                         break;
                     case nameof(Single):
                         {
+                            eventTrigger.compareMode = (CompareMode)EditorGUILayout.EnumPopup("Compare Mode", eventTrigger.compareMode);
+
                             float parsedValue;
                             if (float.TryParse(eventTrigger.triggerValue, out parsedValue))
                                 eventTrigger.triggerValue = EditorGUILayout.FloatField("Float Value", parsedValue).ToString();
@@ -176,6 +179,8 @@ class ScriptedEventEditor : Editor
                         break;
                     case nameof(Int32):
                         {
+                            eventTrigger.compareMode = (CompareMode)EditorGUILayout.EnumPopup("Compare Mode", eventTrigger.compareMode);
+
                             int parsedValue;
                             if (int.TryParse(eventTrigger.triggerValue, out parsedValue))
                                 eventTrigger.triggerValue = EditorGUILayout.IntField("Integer Value", parsedValue).ToString();
@@ -187,6 +192,7 @@ class ScriptedEventEditor : Editor
                     case nameof(String):
                         eventTrigger.triggerValue = EditorGUILayout.TextField("String Value", eventTrigger.triggerValue);
                         eventTrigger.valueType = typeof(string).FullName;
+                        eventTrigger.compareMode = CompareMode.Equal;
                         break;
                     default:
                         EditorGUILayout.LabelField("Event trigger script value type not supported.");
@@ -198,6 +204,7 @@ class ScriptedEventEditor : Editor
 
     void DrawTimeTriggerGUI(EventTrigger eventTrigger)
     {
+        eventTrigger.compareMode = (CompareMode)EditorGUILayout.EnumPopup("Compare Mode", eventTrigger.compareMode);
         eventTrigger.triggerTime = EditorGUILayout.FloatField("Seconds", eventTrigger.triggerTime);
     }
 

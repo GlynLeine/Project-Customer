@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class DialogueEventEditor : Editor
 {
     bool showEvents;
-    bool showDialogue;
+    bool showDialogue = true;
 
     List<Editor> dialogueEditors = new List<Editor>();
 

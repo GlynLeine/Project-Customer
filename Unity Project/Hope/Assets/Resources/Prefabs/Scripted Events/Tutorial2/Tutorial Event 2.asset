@@ -12,15 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374e72f7d8a330147bfb6c76cbe2bd21, type: 3}
   m_Name: Tutorial Event 2
   m_EditorClassIdentifier: 
-  parent: {fileID: 6323314614761242481, guid: 3fcf71313e8ef3547a05e7c24c6138cd, type: 3}
+  parent: {fileID: 0}
   eventType: {fileID: 11400000, guid: 2f3e1fd01fde263479d4259d3d13ba6c, type: 2}
-  triggerMode: 1
+  triggerMode: 0
   eventTriggers:
   - triggerType: 1
-    triggered: 0
+    triggered: 1
     triggerTime: 1.5
+    compareMode: 4
     triggeringComponentType: 
     triggeringComponentName: 
     fieldName: 
     triggerValue: 
     valueType: 
+  - triggerType: 2
+    triggered: 1
+    triggerTime: 0
+    compareMode: 1
+    triggeringComponentType: LevelManager
+    triggeringComponentName: LevelManager
+    fieldName: currentLevel
+    triggerValue: 0
+    valueType: System.Int32

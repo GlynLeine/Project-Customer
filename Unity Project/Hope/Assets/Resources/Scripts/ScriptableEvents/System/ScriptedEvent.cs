@@ -12,12 +12,18 @@ public enum TriggerMode
     And, Or
 }
 
+public enum CompareMode
+{
+    LessThan, Equal, GreaterThan, LessThanOrEqual, GreaterThanOrEqual
+}
+
 [Serializable]
 public class EventTrigger
 {
     public TriggerType triggerType;
     public bool triggered = false;
     public float triggerTime;
+    public CompareMode compareMode;
     public string triggeringComponentType;
     public string triggeringComponentName;
     public string fieldName;

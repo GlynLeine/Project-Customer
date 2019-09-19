@@ -20,7 +20,13 @@ public class LevelMasterScript : MonoBehaviour
     [HideInInspector]
     public Dictionary<int, Queue<FloatingObjectScript>> reUsableFloatingObjects = new Dictionary<int, Queue<FloatingObjectScript>>();
 
-    #if UNITY_EDITOR
+    public void Pause(bool pause)
+    {
+        paused = pause;
+    }
+
+
+#if UNITY_EDITOR
     // Start is called before the first frame update
     void OnValidate()
     {
@@ -29,7 +35,7 @@ public class LevelMasterScript : MonoBehaviour
         //ocean = FindObjectOfType<Waves>();
         //boat.ocean = ocean;
     }
-    #endif
+#endif
 
     private void OnDrawGizmos()
     {
@@ -144,6 +150,7 @@ public class LevelMasterScript : MonoBehaviour
                 {
                     newFloatingObject = reUsableFloatingObjects[interactableID].Dequeue();
                     newFloatingObject.gameObject.SetActive(true);
+                    newFloatingObject.GetComponent<Collider>().isTrigger = false;
                 }
                 else
                 {

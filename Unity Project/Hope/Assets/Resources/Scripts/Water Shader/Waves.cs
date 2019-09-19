@@ -368,12 +368,13 @@ public class Waves : MonoBehaviour
     void Start()
     {
         Setup();
+        UpdateMeshCompute();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(LevelMasterScript.paused)
+        if (LevelMasterScript.paused)
             return;
 
         UpdateMeshCompute();

@@ -14,13 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   eventType: {fileID: 11400000, guid: 9f77b48804a2ad14e82bc7e3391412f7, type: 2}
-  triggerMode: 1
+  triggerMode: 0
   eventTriggers:
   - triggerType: 2
-    triggered: 1
+    triggered: 0
     triggerTime: 0
+    compareMode: 4
     triggeringComponentType: StatManager
     triggeringComponentName: StatManager
     fieldName: healthLostInLevel
     triggerValue: 1
     valueType: System.Single
+  - triggerType: 2
+    triggered: 0
+    triggerTime: 0
+    compareMode: 1
+    triggeringComponentType: LevelManager
+    triggeringComponentName: LevelManager
+    fieldName: currentLevel
+    triggerValue: 0
+    valueType: System.Int32
