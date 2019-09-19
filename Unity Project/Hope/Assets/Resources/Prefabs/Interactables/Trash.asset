@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18786d6901457e43a0b12bae46e4c37, type: 3}
   m_Name: Trash
   m_EditorClassIdentifier: 
-  ID: -1044328468
+  ID: 1050650746
   score: 1
   damage: 0
-  buoyancy: 0.5
+  buoyancy: 0.1
   model: {fileID: 8732035826032712233, guid: fcd8ee20df347d84a94d7770b131150c, type: 3}
   hitSound: {fileID: 8300000, guid: 1ccf23d54f901104980e9e58f4dfafec, type: 3}
