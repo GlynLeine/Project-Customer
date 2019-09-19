@@ -24,6 +24,10 @@ public class DialogueEventEditor : Editor
         onDialogueFinished = serializedObject.FindProperty("OnDialogueFinished");
         onSentenceFinished = serializedObject.FindProperty("OnSentenceFinished");
         dialogueProperty = serializedObject.FindProperty("dialogue");
+        if(!AssetDatabase.IsValidFolder("Assets/Resources/AutoCreated"))
+            AssetDatabase.CreateFolder("Assets/Resources", "AutoCreated");
+        if(!AssetDatabase.IsValidFolder("Assets/Resources/AutoCreated/" + target.name))
+            AssetDatabase.CreateFolder("Assets/Resources/AutoCreated", target.name);
     }
 
     public override void OnInspectorGUI()
@@ -49,54 +53,58 @@ public class DialogueEventEditor : Editor
                     }
                 }
 
+                if (AssetDatabase.FindAssets("dialogue" + i, new string[] { "Assets/Resources/AutoCreated/" + target.name }).Length == 0)
+                    AssetDatabase.CreateAsset(dialogueEvent.dialogues[i], "Assets/Resources/AutoCreated/" + target.name + "/dialogue" + i + ".asset");
+
+
                 if (i >= dialogueEditors.Count)
-                    dialogueEditors.Add(CreateEditor(dialogueEvent.dialogues[i]));
+                dialogueEditors.Add(CreateEditor(dialogueEvent.dialogues[i]));
 
-                Editor dialogueEditor = dialogueEditors[i];
-                CreateCachedEditor(dialogueEvent.dialogues[i], null, ref dialogueEditor);
+            Editor dialogueEditor = dialogueEditors[i];
+            CreateCachedEditor(dialogueEvent.dialogues[i], null, ref dialogueEditor);
 
-                EditorGUILayout.LabelField("Dialogue " + i);
-                EditorGUI.indentLevel++;
-                dialogueEditor.OnInspectorGUI();
-                EditorGUI.indentLevel--;
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            EditorGUILayout.LabelField("Dialogue " + i);
+            EditorGUI.indentLevel++;
+            dialogueEditor.OnInspectorGUI();
+            EditorGUI.indentLevel--;
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                dialogueEditors[i] = dialogueEditor;
-                dialogueEvent.dialogues[i] = dialogueEditor.target as Dialogue;
-            }
-            EditorUtility.SetDirty(dialogueEvent);
+            dialogueEditors[i] = dialogueEditor;
+            dialogueEvent.dialogues[i] = dialogueEditor.target as Dialogue;
+        }
+        EditorUtility.SetDirty(dialogueEvent);
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(EditorGUI.indentLevel * 10);
+        if (GUILayout.Button("Add dialogue"))
+        {
+            Dialogue dialogue = CreateInstance<Dialogue>();
+            AssetDatabase.CreateAsset(dialogue, "Assets/Resources/AutoCreated/" + target.name + "/dialogue" + (target as DialogueEvent).dialogues.Count + ".asset");
+            (target as DialogueEvent).dialogues.Add(dialogue);
+            dialogueEditors.Add(null);
+        }
+        GUILayout.EndHorizontal();
+
+        if ((target as DialogueEvent).dialogues.Count > 0)
+        {
             GUILayout.BeginHorizontal();
             GUILayout.Space(EditorGUI.indentLevel * 10);
-            if (GUILayout.Button("Add dialogue"))
+            if (GUILayout.Button("Remove last dialogue"))
             {
-                Dialogue dialogue = CreateInstance<Dialogue>();
-                AssetDatabase.CreateAsset(dialogue, "Assets/Resources/AutoCreated/" + target.name + "_dialogue" + (target as DialogueEvent).dialogues.Count + ".asset");
-                (target as DialogueEvent).dialogues.Add(dialogue);
-                dialogueEditors.Add(null);
+                AssetDatabase.DeleteAsset("Assets/Resources/AutoCreated/" + target.name + "/dialogue" + ((target as DialogueEvent).dialogues.Count - 1) + ".asset");
+                (target as DialogueEvent).dialogues.RemoveAt((target as DialogueEvent).dialogues.Count - 1);
             }
             GUILayout.EndHorizontal();
-
-            if ((target as DialogueEvent).dialogues.Count > 0)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Space(EditorGUI.indentLevel * 10);
-                if (GUILayout.Button("Remove last dialogue"))
-                {
-                    AssetDatabase.DeleteAsset("Assets/Resources/AutoCreated/" + target.name + "_dialogue" + ((target as DialogueEvent).dialogues.Count-1) + ".asset");
-                    (target as DialogueEvent).dialogues.RemoveAt((target as DialogueEvent).dialogues.Count - 1);
-                }
-                GUILayout.EndHorizontal();
-            }
-            EditorGUI.indentLevel--;
         }
+        EditorGUI.indentLevel--;
+    }
 
-        showEvents = EditorGUILayout.Foldout(showEvents, "Events");
+    showEvents = EditorGUILayout.Foldout(showEvents, "Events");
         if (showEvents)
         {
             EditorGUI.indentLevel++;
             GUILayout.BeginHorizontal();
-            GUILayout.Space(EditorGUI.indentLevel * 10);
+            GUILayout.Space(EditorGUI.indentLevel* 10);
             GUILayout.BeginVertical();
             EditorGUILayout.PropertyField(onStartDialogue);
             EditorGUILayout.PropertyField(onStartSentence);
@@ -106,7 +114,7 @@ public class DialogueEventEditor : Editor
             GUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
         }
-        EditorUtility.SetDirty(target);
+EditorUtility.SetDirty(target);
         serializedObject.ApplyModifiedProperties();
     }
 }

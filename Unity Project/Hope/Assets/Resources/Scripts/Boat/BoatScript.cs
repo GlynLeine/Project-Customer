@@ -46,6 +46,8 @@ public class BoatScript : MonoBehaviour
     [SerializeField] private AudioSource collisionAudio;
     [SerializeField] private AudioSource engineAudio;
 
+    Vector2 gyroPosition = new Vector2();
+    bool useGyro;
 
     private void OnValidate()
     {
@@ -183,18 +185,38 @@ public class BoatScript : MonoBehaviour
 
         debugText.text = "fps: " + (1f / Time.deltaTime);
 
-        float entryPoint;
+        MoveBoat();
+    }
 
-        Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Input.touchCount > 0)
-            inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-
-
-        if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
+    void GetInput()
+    {
+        if (StatManager.useGyro)
         {
-            lastTargetPosition = targetPosition;
-            targetPosition = inputToOceanRay.GetPoint(entryPoint);
+            Quaternion gyroRotation = Input.gyro.attitude;
+            gyroRotation = new Quaternion(gyroRotation.x, gyroRotation.y, -gyroRotation.z, -gyroRotation.w);
+
+            
         }
+        else
+        {
+            float entryPoint;
+
+            Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Input.touchCount > 0)
+                inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+
+
+            if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
+            {
+                lastTargetPosition = targetPosition;
+                targetPosition = inputToOceanRay.GetPoint(entryPoint);
+            }
+        }
+    }
+
+    void MoveBoat()
+    {
+        GetInput();
 
         Vector3 currentPosition = rigidbody.position;
         targetPosition.y = currentPosition.y;
@@ -215,14 +237,6 @@ public class BoatScript : MonoBehaviour
         velocity.y = 0;
 
         float oceanHeight = ocean.GetHeight(currentPosition);
-        float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 0.8f));
-
-        float deltaHeight = frontOceanHeight - oceanHeight;
-        deltaHeight = deltaHeight * 0.9f;
-
-        Vector3 forward = new Vector3(0, deltaHeight, 1).normalized;
-        Vector3 up = Vector3.Cross(forward, Vector3.right);
-        Quaternion rotation = Quaternion.LookRotation(forward, up);
 
         velocity.y = oceanHeight - currentPosition.y;
         velocity.y *= buoyancy;
@@ -235,6 +249,21 @@ public class BoatScript : MonoBehaviour
             rigidbody.MovePosition(newPosition);
         }
 
+        RotateBoat(oceanHeight, currentPosition);
+    }
+
+    void RotateBoat(float oceanHeight, Vector3 currentPosition)
+    {
+        float frontOceanHeight = ocean.GetHeight(currentPosition + new Vector3(0, 0, 0.8f));
+
+        float deltaHeight = frontOceanHeight - oceanHeight;
+        deltaHeight = deltaHeight * 0.9f;
+
+        Vector3 forward = new Vector3(0, deltaHeight, 1).normalized;
+        Vector3 up = Vector3.Cross(forward, Vector3.right);
+        Quaternion rotation = Quaternion.LookRotation(forward, up);
+
         rigidbody.MoveRotation(rotation);
     }
+
 }

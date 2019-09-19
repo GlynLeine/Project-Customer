@@ -26,6 +26,8 @@ public class StatManager : MonoBehaviour
     private bool initialised = false;
     private bool created = false;
 
+    public static bool useGyro;
+
     private void Start()
     {
         if (!created)

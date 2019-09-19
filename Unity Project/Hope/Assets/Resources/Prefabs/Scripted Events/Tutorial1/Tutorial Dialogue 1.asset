@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 307d01eecfb3a6b44af1596de8cc227d, type: 3}
-  m_Name: New Dialogue
+  m_Name: Tutorial Dialogue 1
   m_EditorClassIdentifier: 
   dialogues:
-  - {fileID: 11400000, guid: 88832af3eb6ea29459991b6e1febd65f, type: 2}
-  - {fileID: 11400000, guid: d3c6a43ab292d6c4faf7c76b182b30e3, type: 2}
+  - {fileID: 11400000, guid: b9eab40ad484a794896ef812b82bfa03, type: 2}
+  - {fileID: 11400000, guid: cb07b5f63a34e414da937d63dc9677d1, type: 2}
+  - {fileID: 11400000, guid: ffa8e9bf9f5954b4289a98ac965d9477, type: 2}
+  - {fileID: 11400000, guid: 5ecde4943b2038c4181971151deedab1, type: 2}
   OnStartDialogue:
     m_PersistentCalls:
       m_Calls: []

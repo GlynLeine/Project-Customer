@@ -10,15 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d655081936c7a064888a3de5c99705a2, type: 3}
-  m_Name: New Dialogue_dialogue1
+  m_Name: dialogue2
   m_EditorClassIdentifier: 
-  waitForNextTrigger: 1
+  waitForNextTrigger: 0
   NPCLeft: 0
-  NPCSprite: {fileID: 2800000, guid: 53f9f09449ec6194aa6850118e17d5d4, type: 3}
-  NPCName: exit
-  sentences:
-  - dssss
-  - dsssd
-  - ' jhg h  '
-  - ' jc 44vtbfntsrnb'
-  - u7i7dbgVFb534b56y
+  NPCSprite: {fileID: 0}
+  NPCName: 
+  sentences: []

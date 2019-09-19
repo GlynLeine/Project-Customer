@@ -10,15 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d655081936c7a064888a3de5c99705a2, type: 3}
-  m_Name: New Dialogue_dialogue0
+  m_Name: dialogue3
   m_EditorClassIdentifier: 
   waitForNextTrigger: 0
-  NPCLeft: 1
-  NPCSprite: {fileID: 2800000, guid: 0636e1590bc3cf045bea165f7875b81c, type: 3}
-  NPCName: morgan
-  sentences:
-  - dsda
-  - dsaaaa
-  - "e2\teds"
-  - fdsfsdfs
-  - fgrhhyukikiulklk
+  NPCLeft: 0
+  NPCSprite: {fileID: 0}
+  NPCName: 
+  sentences: []
