@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18786d6901457e43a0b12bae46e4c37, type: 3}
   m_Name: TropicalIsland
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 185624641
   score: 0
   damage: 1
   buoyancy: 0

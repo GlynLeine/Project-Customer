@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374e72f7d8a330147bfb6c76cbe2bd21, type: 3}
   m_Name: Tutorial event 4
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  parent: {fileID: 7533207717518364161, guid: b027b7e6053d8fa4d87c4d21d08c7cc2, type: 3}
   eventType: {fileID: 11400000, guid: b0fb0a361e074f04a80f9f2b70a5838b, type: 2}
   triggerMode: 0
   eventTriggers:
