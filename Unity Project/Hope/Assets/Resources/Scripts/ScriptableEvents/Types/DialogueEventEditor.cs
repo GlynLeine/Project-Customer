@@ -35,25 +35,25 @@ public class DialogueEventEditor : Editor
         {
             EditorGUI.indentLevel++;
             DialogueEvent dialogueEvent = target as DialogueEvent;
-            for (int i = 0; i < dialogueEvent.dialogue.Count; i++)
+            for (int i = 0; i < dialogueEvent.dialogues.Count; i++)
             {
-                if (dialogueEvent.dialogue[i] == null)
+                if (dialogueEvent.dialogues[i] == null)
                 {
                     if (i >= dialogueEditors.Count)
                     {
-                        dialogueEvent.dialogue[i] = CreateInstance<Dialogue>();
+                        dialogueEvent.dialogues[i] = CreateInstance<Dialogue>();
                     }
                     else
                     {
-                        dialogueEvent.dialogue[i] = dialogueEditors[i].target as Dialogue;
+                        dialogueEvent.dialogues[i] = dialogueEditors[i].target as Dialogue;
                     }
                 }
 
                 if (i >= dialogueEditors.Count)
-                    dialogueEditors.Add(CreateEditor(dialogueEvent.dialogue[i]));
+                    dialogueEditors.Add(CreateEditor(dialogueEvent.dialogues[i]));
 
                 Editor dialogueEditor = dialogueEditors[i];
-                CreateCachedEditor(dialogueEvent.dialogue[i], null, ref dialogueEditor);
+                CreateCachedEditor(dialogueEvent.dialogues[i], null, ref dialogueEditor);
 
                 EditorGUILayout.LabelField("Dialogue " + i);
                 EditorGUI.indentLevel++;
@@ -62,7 +62,7 @@ public class DialogueEventEditor : Editor
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
                 dialogueEditors[i] = dialogueEditor;
-                dialogueEvent.dialogue[i] = dialogueEditor.target as Dialogue;
+                dialogueEvent.dialogues[i] = dialogueEditor.target as Dialogue;
             }
             EditorUtility.SetDirty(dialogueEvent);
 
@@ -71,20 +71,20 @@ public class DialogueEventEditor : Editor
             if (GUILayout.Button("Add dialogue"))
             {
                 Dialogue dialogue = CreateInstance<Dialogue>();
-                AssetDatabase.CreateAsset(dialogue, "Assets/Resources/AutoCreated/" + target.name + "_dialogue" + (target as DialogueEvent).dialogue.Count + ".asset");
-                (target as DialogueEvent).dialogue.Add(dialogue);
+                AssetDatabase.CreateAsset(dialogue, "Assets/Resources/AutoCreated/" + target.name + "_dialogue" + (target as DialogueEvent).dialogues.Count + ".asset");
+                (target as DialogueEvent).dialogues.Add(dialogue);
                 dialogueEditors.Add(null);
             }
             GUILayout.EndHorizontal();
 
-            if ((target as DialogueEvent).dialogue.Count > 0)
+            if ((target as DialogueEvent).dialogues.Count > 0)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(EditorGUI.indentLevel * 10);
                 if (GUILayout.Button("Remove last dialogue"))
                 {
-                    AssetDatabase.DeleteAsset("Assets/Resources/AutoCreated/" + target.name + "_dialogue" + ((target as DialogueEvent).dialogue.Count-1) + ".asset");
-                    (target as DialogueEvent).dialogue.RemoveAt((target as DialogueEvent).dialogue.Count - 1);
+                    AssetDatabase.DeleteAsset("Assets/Resources/AutoCreated/" + target.name + "_dialogue" + ((target as DialogueEvent).dialogues.Count-1) + ".asset");
+                    (target as DialogueEvent).dialogues.RemoveAt((target as DialogueEvent).dialogues.Count - 1);
                 }
                 GUILayout.EndHorizontal();
             }

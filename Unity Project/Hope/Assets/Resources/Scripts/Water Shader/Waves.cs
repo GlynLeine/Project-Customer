@@ -373,6 +373,9 @@ public class Waves : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(LevelMasterScript.paused)
+            return;
+
         UpdateMeshCompute();
     }
 
@@ -382,8 +385,10 @@ public class Waves : MonoBehaviour
             vertexBuffer.Dispose();
         if (normalBuffer != null)
             normalBuffer.Dispose();
-        triangleBuffer.Dispose();
-        octaveBuffer.Dispose();
+        if (triangleBuffer != null)
+            triangleBuffer.Dispose();
+        if (octaveBuffer != null)
+            octaveBuffer.Dispose();
     }
     #endregion
 }

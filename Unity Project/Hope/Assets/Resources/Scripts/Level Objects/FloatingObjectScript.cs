@@ -27,6 +27,9 @@ public class FloatingObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(LevelMasterScript.paused)
+            return;
+
         if (boat == null)
             throw new NullReferenceException("FloatingObjectScript: Boat reference null.");
         if (ocean == null)

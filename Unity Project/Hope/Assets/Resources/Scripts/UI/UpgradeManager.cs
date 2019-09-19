@@ -8,6 +8,7 @@ public class UpgradeManager : MonoBehaviour
 {
     [SerializeField] private Text text = null;
     private int upgradeChoice;
+    private int upgradesLeft = 1;
 
     public void Maneuverability()
     {
@@ -29,18 +30,64 @@ public class UpgradeManager : MonoBehaviour
 
     public void Upgrade()
     {
-        if (upgradeChoice == 0)
+        //maneuverability check first if all are under 4 or under & if the previous upgrades have been done to 2 then check if all are 2 or under
+        if (upgradesLeft > 0 & upgradeChoice == 0)
         {
-            StatManager.maneuverabilityUpgrade += 1;
+            if (StatManager.maneuverabilityUpgrade < 6 && StatManager.maneuverabilityUpgrade > 3 && StatManager.boatSpeedUpgrade <= 6 && StatManager.boatSpeedUpgrade > 3 &&
+                StatManager.healthUpgrade <= 6 && StatManager.healthUpgrade > 3)
+            {
+                StatManager.maneuverabilityUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade < 4 && StatManager.maneuverabilityUpgrade > 1 && StatManager.boatSpeedUpgrade <= 4 && StatManager.boatSpeedUpgrade > 1 &&
+                StatManager.healthUpgrade <= 4 && StatManager.healthUpgrade > 1)
+            {
+                StatManager.maneuverabilityUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade < 2 && StatManager.boatSpeedUpgrade <= 2 &&
+                StatManager.healthUpgrade <= 2)
+            {
+                StatManager.maneuverabilityUpgrade += 1;
+            }
         }
-        if (upgradeChoice == 1)
+        //speed check first if all are under 4 or under & if the previous upgrades have been done to 2 then check if all are 2 or under
+        if (upgradesLeft > 0 & upgradeChoice == 1)
         {
-            StatManager.boatSpeedUpgrade += 1;
+            if (StatManager.maneuverabilityUpgrade <= 6 && StatManager.maneuverabilityUpgrade > 3 && StatManager.boatSpeedUpgrade < 6 && StatManager.boatSpeedUpgrade > 3 &&
+                StatManager.healthUpgrade <= 6 && StatManager.healthUpgrade > 3)
+            {
+                StatManager.boatSpeedUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade <= 4 && StatManager.maneuverabilityUpgrade > 1 && StatManager.boatSpeedUpgrade < 4 && StatManager.boatSpeedUpgrade > 1 &&
+                StatManager.healthUpgrade <= 4 && StatManager.healthUpgrade > 1)
+            {
+                StatManager.boatSpeedUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade <= 2 && StatManager.boatSpeedUpgrade <= 2 &&
+                StatManager.healthUpgrade < 2)
+            {
+                StatManager.boatSpeedUpgrade += 1;
+            }
+        }
+        //health check first if all are under 4 or under & if the previous upgrades have been done to 2 then check if all are 2 or under
+        if (upgradesLeft > 0 & upgradeChoice == 2)
+        {
+            if (StatManager.maneuverabilityUpgrade <= 6 && StatManager.maneuverabilityUpgrade > 3 && StatManager.boatSpeedUpgrade <= 6 && StatManager.boatSpeedUpgrade > 3 &&
+                StatManager.healthUpgrade < 6 && StatManager.healthUpgrade > 3)
+            {
+                StatManager.healthUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade <= 4 && StatManager.maneuverabilityUpgrade > 1 && StatManager.boatSpeedUpgrade <= 4 && StatManager.boatSpeedUpgrade > 1 &&
+                StatManager.healthUpgrade < 4 && StatManager.healthUpgrade > 1)
+            {
+                StatManager.healthUpgrade += 1;
+            }
+            if (StatManager.maneuverabilityUpgrade <= 2 && StatManager.boatSpeedUpgrade <= 2 &&
+                StatManager.healthUpgrade < 2)
+            {
+                StatManager.healthUpgrade += 1;
+            }
         }
 
-        if (upgradeChoice == 2)
-        {
-            StatManager.healthUpgrade += 1;
-        }
+        upgradesLeft -= 1;
     }
 }

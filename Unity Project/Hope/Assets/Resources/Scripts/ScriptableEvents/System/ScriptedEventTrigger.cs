@@ -25,21 +25,27 @@ public class ScriptedEventTrigger : MonoBehaviour
 
     public void Trigger()
     {
-        Debug.Log("BLAAAAHHHH");
+        scriptedEvent.Trigger();
     }
 
     private void Start()
     {
+        scriptedEvent.Setup();
+
         int triggeredCount = 0;
         foreach (EventTrigger trigger in scriptedEvent.eventTriggers)
         {
+            trigger.triggered = false;
             switch (trigger.triggerType)
             {
                 case TriggerType.SceneStart:
                     if (scriptedEvent.triggerMode == TriggerMode.And)
                         triggeredCount++;
-                    else
+                    else if (!trigger.triggered)
+                    {
+                        trigger.triggered = true;
                         scriptedEvent.Trigger();
+                    }
                     break;
                 case TriggerType.ScriptValue:
                     scriptValueField = trigger.triggeringComponent.GetType().GetField(trigger.fieldName);
@@ -60,6 +66,9 @@ public class ScriptedEventTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(LevelMasterScript.paused)
+            return;
+
         int triggeredCount = 0;
         foreach (EventTrigger trigger in scriptedEvent.eventTriggers)
         {
@@ -71,8 +80,11 @@ public class ScriptedEventTrigger : MonoBehaviour
                         {
                             if (scriptedEvent.triggerMode == TriggerMode.And)
                                 triggeredCount++;
-                            else
+                            else if (!trigger.triggered)
+                            {
+                                trigger.triggered = true;
                                 scriptedEvent.Trigger();
+                            }
                         }
                     break;
                 case TriggerType.TimeInLevel:
@@ -80,8 +92,11 @@ public class ScriptedEventTrigger : MonoBehaviour
                     {
                         if (scriptedEvent.triggerMode == TriggerMode.And)
                             triggeredCount++;
-                        else
+                        else if (!trigger.triggered)
+                        {
+                            trigger.triggered = true;
                             scriptedEvent.Trigger();
+                        }
                     }
                     break;
             }
