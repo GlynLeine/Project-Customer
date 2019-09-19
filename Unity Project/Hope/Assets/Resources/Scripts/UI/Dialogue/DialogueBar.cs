@@ -115,7 +115,7 @@ public class DialogueBar : MonoBehaviour
                 npcSpriteLeft.texture = currentDialogue.NPCSprite;
                 npcSpriteLeft.enabled = true;
                 npcSpriteRight.enabled = false;
-                npcSpriteLeft.SetNativeSize();
+                /*npcSpriteLeft.SetNativeSize();*/
             }
             else
             {
@@ -123,7 +123,7 @@ public class DialogueBar : MonoBehaviour
                 npcSpriteRight.texture = currentDialogue.NPCSprite;
                 npcSpriteLeft.enabled = false;
                 npcSpriteRight.enabled = true;
-                npcSpriteRight.SetNativeSize();
+                /*npcSpriteRight.SetNativeSize();*/
             }
 
             npcName.text = currentDialogue.NPCName;

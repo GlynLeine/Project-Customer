@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18786d6901457e43a0b12bae46e4c37, type: 3}
   m_Name: Rock2
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: -1609883339
   score: 0
   damage: 1
   buoyancy: 0
-  model: {fileID: -927199367670048503, guid: 3454168d867eab44cae8983865e18853, type: 3}
+  model: {fileID: 1855329543245054360, guid: a47e0f25572113f4bbe7ab60f195fdfe, type: 3}
   hitSound: {fileID: 8300000, guid: ff0d25de698350a42be85341790841bf, type: 3}
