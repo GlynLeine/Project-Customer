@@ -15,6 +15,7 @@ public class StatManager : MonoBehaviour
     public static int maneuverabilityUpgrade = 0;
     public static int boatSpeedUpgrade = 0;
     public static int healthUpgrade = 0;
+    public static bool hasShield = false;
 
     public static int levelUnlocked = 0;
     public int levelUnlockedOverride = -1;

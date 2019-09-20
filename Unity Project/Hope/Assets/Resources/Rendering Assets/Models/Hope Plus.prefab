@@ -9627,11 +9627,11 @@ GameObject:
   - component: {fileID: 5026488772849945767}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6672394140008553715
 Transform:
   m_ObjectHideFlags: 0
@@ -9699,16 +9699,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7149815023473461187}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: fd6d9330b763a1545a80ee211ac90e6e,
-        type: 3}
-      propertyPath: m_Name
-      value: Magnet
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: fd6d9330b763a1545a80ee211ac90e6e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fd6d9330b763a1545a80ee211ac90e6e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9779,11 +9769,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 17.719223
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd6d9330b763a1545a80ee211ac90e6e,
+        type: 3}
+      propertyPath: m_Name
+      value: Magnet
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd6d9330b763a1545a80ee211ac90e6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: fd6d9330b763a1545a80ee211ac90e6e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 453f0f33a0469084fb6b883c67900b7a, type: 2}
+    - target: {fileID: -1504981713932161579, guid: fd6d9330b763a1545a80ee211ac90e6e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd6d9330b763a1545a80ee211ac90e6e, type: 3}
 --- !u!4 &2220851227116320627 stripped
