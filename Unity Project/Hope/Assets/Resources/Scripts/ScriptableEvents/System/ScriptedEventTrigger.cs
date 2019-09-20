@@ -8,9 +8,6 @@ public class ScriptedEventTrigger : MonoBehaviour
     public ScriptedEvent scriptedEvent;
     private ScriptedEvent prevScriptedEvent;
 
-    FieldInfo scriptValueField;
-    Component triggeringComponent;
-    Type valueType;
     bool sceneStart = true;
     bool firstFrame = true;
 
@@ -42,30 +39,6 @@ public class ScriptedEventTrigger : MonoBehaviour
         foreach (EventTrigger trigger in scriptedEvent.eventTriggers)
         {
             trigger.triggered = false;
-
-            switch (trigger.triggerType)
-            {
-                case TriggerType.ScriptValue:
-                    Type componentType = Type.GetType(trigger.triggeringComponentType);
-                    triggeringComponent = null;
-
-                    BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-                    scriptValueField = componentType.GetField(trigger.fieldName, bindingFlags);
-
-                    if (!scriptValueField.IsStatic)
-                        foreach (Component component in FindObjectsOfType(componentType))
-                        {
-                            if (component.name == trigger.triggeringComponentName)
-                            {
-                                triggeringComponent = component;
-                                break;
-                            }
-                        }
-
-                    valueType = Type.GetType(trigger.valueType);
-
-                    break;
-            }
         }
     }
 
@@ -91,7 +64,7 @@ public class ScriptedEventTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(firstFrame)
+        if (firstFrame)
         {
             firstFrame = false;
             return;
@@ -117,10 +90,33 @@ public class ScriptedEventTrigger : MonoBehaviour
                         scriptedEvent.Trigger();
                     }
                     break;
-                case TriggerType.ScriptValue:
+                case TriggerType.ComponentValue:
                     if (trigger.valueType != null && trigger.triggerValue != null && trigger.triggeringComponentType != null)
                     {
-                        int compareValue = Comparer.DefaultInvariant.Compare(Convert.ChangeType(scriptValueField.GetValue(triggeringComponent), valueType), Convert.ChangeType(trigger.triggerValue, valueType));
+                        Type componentType = Type.GetType(trigger.triggeringComponentType);
+                        Component triggeringComponent = null;
+
+                        BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
+                        FieldInfo componentValueField = componentType.GetField(trigger.fieldName, bindingFlags);
+
+                        foreach (Component component in FindObjectsOfType(componentType))
+                        {
+                            if (component.name == trigger.triggeringComponentName)
+                            {
+                                triggeringComponent = component;
+                                break;
+                            }
+                        }
+
+                        Type valueType = Type.GetType(trigger.valueType);
+
+                        object componentValue;
+                        if (componentValueField.IsStatic)
+                            componentValue = componentValueField.GetValue(null);
+                        else
+                            componentValue = componentValueField.GetValue(triggeringComponent);
+
+                        int compareValue = Comparer.DefaultInvariant.Compare(Convert.ChangeType(componentValue, valueType), Convert.ChangeType(trigger.triggerValue, valueType));
                         if (HandleCompareTrigger(compareValue, trigger.compareMode))
                         {
                             if (scriptedEvent.triggerMode == TriggerMode.And && !trigger.triggered)

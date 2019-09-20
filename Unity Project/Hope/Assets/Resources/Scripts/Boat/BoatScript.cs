@@ -145,7 +145,7 @@ public class BoatScript : MonoBehaviour
             {
                 floatingObjectScript.DisableAndMarkForReuse();
 
-                if (StatManager.timeInLevel <= 4)
+                if (StatManager.timeInLevel <= 3.5f)
                     return;
 
                 if (floatingObjectScript.damage > 0 && StatManager.timeInLevel <= 6 && LevelManager.CurrentLevel == 0)
@@ -166,11 +166,8 @@ public class BoatScript : MonoBehaviour
                     health -= floatingObjectScript.damage;
                     StatManager.healthLost += floatingObjectScript.damage;
                     StatManager.healthLostInLevel += floatingObjectScript.damage;
-
-                    if (health <= 0)
-                        SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
-
                 }
+
                 if (trash >= trashCapacity)
                     SceneManager.LoadScene("Assets/Scenes/UI/ScoreScreen.unity");
 
@@ -181,6 +178,10 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
+        debugText.text = "fps: " + (1f / Time.deltaTime) + "\ntime: " + StatManager.timeInLevel + "\npaused: " + LevelMasterScript.paused + "\ntarget: " + targetPosition.ToString() + "\nmouse: " + Input.mousePosition.ToString() +
+    "\nuseGyro: " + StatManager.useGyro
+    + "\nGyro: " + Input.gyro.attitude.ToString();
+
         if (LevelMasterScript.paused)
         {
             rigidbody.isKinematic = true;
@@ -191,9 +192,8 @@ public class BoatScript : MonoBehaviour
             rigidbody.isKinematic = false;
         }
 
-        debugText.text = "fps: " + (1f / Time.deltaTime) + "\ntarget: " + targetPosition.ToString() + "\nmouse: " + Input.mousePosition.ToString() +
-            "\nuseGyro: " + StatManager.UseGyro
-            + "\nGyro: " + Input.gyro.attitude.ToString();
+        if (health <= 0)
+            SceneManager.LoadScene("Assets/Scenes/UI/GameOver.unity");
 
         MoveBoat();
     }
@@ -204,7 +204,7 @@ public class BoatScript : MonoBehaviour
 
         Ray inputToOceanRay;
 
-        if (StatManager.UseGyro)
+        if (StatManager.useGyro)
         {
             Quaternion gyroRotation = Input.gyro.attitude;
             gyroRotation = new Quaternion(gyroRotation.x, gyroRotation.y, -gyroRotation.z, -gyroRotation.w);

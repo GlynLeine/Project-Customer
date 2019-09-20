@@ -9,8 +9,12 @@ public class DialogueBar : MonoBehaviour
     private Dialogue currentDialogue;
     private Queue<string> sentenceQueue;
 
-    private Text dialogueText;
-    private Text npcName;
+    private Text dialogueTextLeft;
+    private Text npcNameLeft;
+    private Text dialogueTextRight;
+    private Text npcNameRight;
+    private Image dialogueBarLeft;
+    private Image dialogueBarRight;
     private RawImage npcSpriteLeft;
     private RawImage npcSpriteRight;
 
@@ -24,15 +28,21 @@ public class DialogueBar : MonoBehaviour
 
     void Start()
     {
-        if (dialogueText == null || npcName == null)
+        if (dialogueTextLeft == null || npcNameLeft == null || dialogueTextRight == null || npcNameRight == null)
             foreach (Text text in FindObjectsOfType<Text>())
                 switch (text.name)
                 {
-                    case "DialogueText":
-                        dialogueText = text;
+                    case "DialogueTextLeft":
+                        dialogueTextLeft = text;
                         break;
-                    case "NPCName":
-                        npcName = text;
+                    case "NPCNameLeft":
+                        npcNameLeft = text;
+                        break;
+                    case "DialogueTextRight":
+                        dialogueTextRight = text;
+                        break;
+                    case "NPCNameRight":
+                        npcNameRight = text;
                         break;
                 }
 
@@ -45,6 +55,18 @@ public class DialogueBar : MonoBehaviour
                         break;
                     case "NPCRight":
                         npcSpriteRight = image;
+                        break;
+                }
+
+        if (dialogueBarLeft == null || dialogueBarRight == null)
+            foreach (Image image in FindObjectsOfType<Image>())
+                switch (image.name)
+                {
+                    case "DialogueBarLeft":
+                        dialogueBarLeft = image;
+                        break;
+                    case "DialogueBarRight":
+                        dialogueBarRight = image;
                         break;
                 }
     }
@@ -111,29 +133,47 @@ public class DialogueBar : MonoBehaviour
 
             if (currentDialogue.NPCLeft)
             {
-                npcName.alignment = TextAnchor.UpperLeft;
                 npcSpriteLeft.texture = currentDialogue.NPCSprite;
+
                 npcSpriteLeft.enabled = true;
                 npcSpriteRight.enabled = false;
-                /*npcSpriteLeft.SetNativeSize();*/
+                npcNameRight.enabled = false;
+                npcNameLeft.enabled = true;
+                dialogueTextRight.enabled = false;
+                dialogueTextLeft.enabled = true;
+                dialogueBarRight.enabled = false;
+                dialogueBarLeft.enabled = true;
+
+                npcNameLeft.text = currentDialogue.NPCName;
             }
             else
             {
-                npcName.alignment = TextAnchor.UpperRight;
                 npcSpriteRight.texture = currentDialogue.NPCSprite;
+
                 npcSpriteLeft.enabled = false;
                 npcSpriteRight.enabled = true;
-                /*npcSpriteRight.SetNativeSize();*/
-            }
+                npcNameRight.enabled = true;
+                npcNameLeft.enabled = false;
+                dialogueTextRight.enabled = true;
+                dialogueTextLeft.enabled = false;
+                dialogueBarRight.enabled = true;
+                dialogueBarLeft.enabled = false;
 
-            npcName.text = currentDialogue.NPCName;
+                npcNameRight.text = currentDialogue.NPCName;
+            }
 
             sentenceQueue = new Queue<string>(currentDialogue.sentences);
         }
 
-        if (dialogueText != null && sentenceQueue.Count > 0)
+        if (currentDialogue.NPCLeft)
         {
-            dialogueText.text = sentenceQueue.Dequeue();
+            if (dialogueTextLeft != null && sentenceQueue.Count > 0)
+                dialogueTextLeft.text = sentenceQueue.Dequeue();
+        }
+        else
+        {
+            if (dialogueTextRight != null && sentenceQueue.Count > 0)
+                dialogueTextRight.text = sentenceQueue.Dequeue();
         }
     }
 }

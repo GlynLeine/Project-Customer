@@ -10,23 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 374e72f7d8a330147bfb6c76cbe2bd21, type: 3}
-  m_Name: Tutorial event 3
+  m_Name: Tutorial Event 6
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  eventType: {fileID: 11400000, guid: d4140382583eb2742b9d0e594fedbd90, type: 2}
+  eventType: {fileID: 11400000, guid: 4875cffb9aea31f4c8864408e8a78d66, type: 2}
   triggerMode: 0
   eventTriggers:
-  - triggerType: 1
-    triggered: 1
-    triggerTime: 3.5
-    compareMode: 4
-    triggeringComponentType: 
-    triggeringComponentName: 
-    fieldName: 
-    triggerValue: 
-    valueType: 
   - triggerType: 2
-    triggered: 1
+    triggered: 0
     triggerTime: 0
     compareMode: 1
     triggeringComponentType: LevelManager
@@ -34,3 +25,12 @@ MonoBehaviour:
     fieldName: currentLevel
     triggerValue: 0
     valueType: System.Int32
+  - triggerType: 2
+    triggered: 0
+    triggerTime: 0
+    compareMode: 3
+    triggeringComponentType: BoatScript
+    triggeringComponentName: Boat
+    fieldName: health
+    triggerValue: 0
+    valueType: System.Single

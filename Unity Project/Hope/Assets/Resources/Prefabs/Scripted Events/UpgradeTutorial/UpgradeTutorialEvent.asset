@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 374e72f7d8a330147bfb6c76cbe2bd21, type: 3}
-  m_Name: Tutorial event 3
+  m_Name: UpgradeTutorialEvent
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  eventType: {fileID: 11400000, guid: d4140382583eb2742b9d0e594fedbd90, type: 2}
+  eventType: {fileID: 11400000, guid: 158885183f8b1924caa2d4f9ccf7c90b, type: 2}
   triggerMode: 0
   eventTriggers:
-  - triggerType: 1
+  - triggerType: 0
     triggered: 1
-    triggerTime: 3.5
-    compareMode: 4
+    triggerTime: 0
+    compareMode: 0
     triggeringComponentType: 
     triggeringComponentName: 
     fieldName: 

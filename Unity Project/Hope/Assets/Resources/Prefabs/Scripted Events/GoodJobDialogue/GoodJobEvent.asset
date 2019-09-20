@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 374e72f7d8a330147bfb6c76cbe2bd21, type: 3}
-  m_Name: Tutorial event 3
+  m_Name: GoodJobEvent
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  eventType: {fileID: 11400000, guid: d4140382583eb2742b9d0e594fedbd90, type: 2}
+  eventType: {fileID: 11400000, guid: 1d24eda6944ec0f4592af1f42190be12, type: 2}
   triggerMode: 0
   eventTriggers:
-  - triggerType: 1
-    triggered: 1
-    triggerTime: 3.5
-    compareMode: 4
+  - triggerType: 0
+    triggered: 0
+    triggerTime: 0
+    compareMode: 0
     triggeringComponentType: 
     triggeringComponentName: 
     fieldName: 
     triggerValue: 
     valueType: 
   - triggerType: 2
-    triggered: 1
+    triggered: 0
     triggerTime: 0
     compareMode: 1
     triggeringComponentType: LevelManager

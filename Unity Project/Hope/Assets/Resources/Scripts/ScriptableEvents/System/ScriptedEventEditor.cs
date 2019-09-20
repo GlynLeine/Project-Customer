@@ -15,23 +15,10 @@ class ScriptedEventEditor : Editor
     List<string> componentNames;
 
     bool showTriggers = true;
+    bool monoBehaviourOnly = true;
 
     ScriptedEvent scriptedEvent;
     int noneIndex;
-
-    //private GameObject draggedObj;
-    //void OnSceneGUI()
-    //{
-    //    if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
-    //    {
-    //        DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-
-    //        if (DragAndDrop.objectReferences[0].GetType().IsAssignableFrom(typeof(ScriptedEvent)))
-    //        {
-
-    //        }
-    //    }
-    //}
 
     public override void OnInspectorGUI()
     {
@@ -61,7 +48,12 @@ class ScriptedEventEditor : Editor
         {
             EditorGUI.indentLevel++;
 
-            components = FindObjectsOfType<Component>();
+            monoBehaviourOnly = EditorGUILayout.Toggle("MonoBehaviour Only", monoBehaviourOnly);
+            if (monoBehaviourOnly)
+                components = FindObjectsOfType<MonoBehaviour>();
+            else
+                components = FindObjectsOfType<Component>();
+
             componentNames = components.Select(s => s.GetType().Name).ToList();
             componentNames.Add("None");
 
@@ -80,7 +72,7 @@ class ScriptedEventEditor : Editor
                     case TriggerType.TimeInLevel:
                         DrawTimeTriggerGUI(eventTrigger);
                         break;
-                    case TriggerType.ScriptValue:
+                    case TriggerType.ComponentValue:
                         DrawValueTriggerGUI(eventTrigger, i);
                         break;
                     default:
@@ -121,7 +113,9 @@ class ScriptedEventEditor : Editor
 
         int currentIndex = -1;
         if (eventTrigger.triggeringComponentType != null)
-            currentIndex = componentNames.IndexOf(eventTrigger.triggeringComponentName);
+            for (int i = 0; i < components.Length; i++)
+                if (components[i].name == eventTrigger.triggeringComponentName)
+                    currentIndex = i;
 
         if (currentIndex < 0)
         {

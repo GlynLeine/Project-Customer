@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum TriggerType
 {
-    SceneStart, TimeInLevel, ScriptValue
+    SceneStart, TimeInLevel, ComponentValue
 }
 
 public enum TriggerMode

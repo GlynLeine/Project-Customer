@@ -24,12 +24,11 @@ public class StatManager : MonoBehaviour
     public static float healthLostInLevel;
     public static int trashCollectedInLevel;
 
-    private bool initialised = false;
     private bool created = false;
 
-    public static bool UseGyro => instance.useGyro;
+    public static bool useGyro = true;
     public static StatManager instance;
-    public bool useGyro = true;
+    public bool UseGyro => useGyro;
     public static float gyroSensitivity = 1;
 
     private void Awake()
@@ -44,29 +43,26 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
-        instance = this;
         if (!created)
         {
+            if(FindObjectsOfType<StatManager>().Length > 1)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (levelUnlockedOverride >= 0)
                 levelUnlocked = levelUnlockedOverride;
 
             DontDestroyOnLoad(this);
             created = true;
+            instance = this;
         }
 
-        initialised = false;
     }
 
     private void Update()
     {
-        if (!initialised)
-        {
-            if (created && FindObjectsOfType<StatManager>().Length > 1)
-            {
-                Destroy(gameObject);
-            }
-        }
-
         if (!SystemInfo.supportsGyroscope)
             useGyro = false;
 
