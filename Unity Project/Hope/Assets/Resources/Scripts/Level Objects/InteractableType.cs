@@ -9,6 +9,7 @@ public class InteractableType : ScriptableObject
     public float damage;
     public float buoyancy;
     public GameObject model;
+    public AudioClip hitSound;
 
     private void Awake()
     {

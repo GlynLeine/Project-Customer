@@ -15,43 +15,75 @@ public class StatManager : MonoBehaviour
     public static int maneuverabilityUpgrade = 0;
     public static int boatSpeedUpgrade = 0;
     public static int healthUpgrade = 0;
+    public static bool hasShield = false;
 
     public static int levelUnlocked = 0;
     public int levelUnlockedOverride = -1;
 
     public static float timeInLevel;
     public static int obstaclesHitInLevel;
+    public static float healthLostInLevel;
     public static int trashCollectedInLevel;
 
-    private bool initialised = false;
     private bool created = false;
+
+    public static bool useGyro = true;
+    public static StatManager instance;
+    public bool UseGyro => useGyro;
+    public static float gyroSensitivity = 10;
+
+    public static void Save()
+    {
+        SaveSystem.SaveGame();
+    }
+
+    public static void Load()
+    {
+        SaveSystem.LoadGame();
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void OnValidate()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
         if (!created)
         {
+            if (FindObjectsOfType<StatManager>().Length > 1)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (levelUnlockedOverride >= 0)
                 levelUnlocked = levelUnlockedOverride;
 
             DontDestroyOnLoad(this);
             created = true;
+            instance = this;
+
+            Load();
+
+            if (!SystemInfo.supportsGyroscope)
+                useGyro = false;
         }
 
-        initialised = false;
     }
 
     private void Update()
     {
-        if (!initialised)
-        {
-            if (created && FindObjectsOfType<StatManager>().Length > 1)
-            {
-                Destroy(gameObject);
-            }
-        }
+        Input.gyro.enabled = useGyro;
 
         timePlayed += Time.deltaTime;
-        timeInLevel += Time.deltaTime;
+        if (!LevelMasterScript.paused)
+            timeInLevel += Time.deltaTime;
     }
 
     public static void TrackNewLevel()
@@ -60,6 +92,7 @@ public class StatManager : MonoBehaviour
         obstaclesHitInLevel = 0;
         trashCollected += trashCollectedInLevel;
         trashCollectedInLevel = 0;
+        healthLostInLevel = 0;
     }
 
     public static float GetStat(float min, float max, int upgradeLevel)
@@ -140,6 +173,21 @@ public class StatManager : MonoBehaviour
         healthUpgrade++;
         if (healthUpgrade > 5)
             healthUpgrade = 5;
+    }
+
+    public void SetUseGyro(bool value)
+    {
+        useGyro = value;
+    }
+
+    public void SwitchUseGyro()
+    {
+        useGyro = !useGyro;
+    }
+
+    public void SetGyroSensitivity(float value)
+    {
+        gyroSensitivity = value * 10;
     }
 
 }

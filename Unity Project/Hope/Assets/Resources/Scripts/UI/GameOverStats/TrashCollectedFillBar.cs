@@ -13,8 +13,8 @@ public class TrashCollectedFillBar : MonoBehaviour
     void Start()
     {
         image = GetComponent<Image>();
-        trashCapacity = StatManager.trashCollectedInLevel;
-        trash = StatManager.trashCollected;
+        trashCapacity = LevelManager.levelToLoad.TrashToCollect;
+        trash = StatManager.trashCollectedInLevel;
 
         image.fillAmount = trash / trashCapacity;
 

@@ -8,6 +8,12 @@ public class LevelManager : MonoBehaviour
     private static LevelOrder finalLevelOrder;
     private static int currentLevel;
 
+    public static int CurrentLevel
+    {
+        get => currentLevel;
+        private set => currentLevel = value;
+    }
+
     private static LevelManager levelManager;
 
     private static string previousScene = "StartMenu";
@@ -67,6 +73,8 @@ public class LevelManager : MonoBehaviour
         currentLevel = level;
         levelToLoad = levelManager.levelOrder.levels[level];
         StatManager.TrackNewLevel();
+        previousScene = "LevelSelect";
+        StatManager.Save();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -83,6 +91,8 @@ public class LevelManager : MonoBehaviour
         currentLevel = nextLevel;
         levelToLoad = levelType;
         StatManager.TrackNewLevel();
+        previousScene = "LevelSelect";
+        StatManager.Save();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -106,6 +116,7 @@ public class LevelManager : MonoBehaviour
     internal static void StaticLoadScene(string sceneName)
     {
         previousScene = SceneManager.GetActiveScene().name;
+        StatManager.Save();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -130,6 +141,10 @@ public class LevelManager : MonoBehaviour
     {
         string nextScene = previousScene;
         previousScene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(nextScene);
+        StatManager.Save();
+        if (nextScene == "MainGame")
+            SceneManager.LoadScene("StartMenu");
+        else
+            SceneManager.LoadScene(nextScene);
     }
 }

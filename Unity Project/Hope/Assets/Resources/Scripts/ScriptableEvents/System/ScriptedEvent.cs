@@ -4,25 +4,39 @@ using System.Collections.Generic;
 
 public enum TriggerType
 {
-    SceneStart, TimeInLevel, ScriptValue
+    SceneStart, TimeInLevel, ComponentValue
+}
+
+public enum TriggerMode
+{
+    And, Or
+}
+
+public enum CompareMode
+{
+    LessThan, Equal, GreaterThan, LessThanOrEqual, GreaterThanOrEqual
 }
 
 [Serializable]
 public class EventTrigger
 {
     public TriggerType triggerType;
+    public bool triggered = false;
     public float triggerTime;
-    public Component triggeringComponent;
+    public CompareMode compareMode;
+    public string triggeringComponentType;
+    public string triggeringComponentName;
     public string fieldName;
     public string triggerValue;
-    public Type valueType;
+    public string valueType;
 
     public virtual EventTrigger Copy()
     {
         EventTrigger copy = new EventTrigger();
         copy.triggerType = triggerType;
         copy.triggerTime = triggerTime;
-        copy.triggeringComponent = triggeringComponent;
+        copy.triggeringComponentName = triggeringComponentName;
+        copy.triggeringComponentType = triggeringComponentType;
         copy.fieldName = fieldName;
         copy.triggerValue = triggerValue;
         copy.valueType = valueType;
@@ -41,6 +55,9 @@ public class ScriptedEvent : ScriptableObject
 
     public ScriptedEventType eventType;
 
+    public TriggerMode triggerMode;
+
+    public void Setup() => eventType.Setup();
     public void Trigger() => eventType.Execute();
 
     [SerializeField, HideInInspector]

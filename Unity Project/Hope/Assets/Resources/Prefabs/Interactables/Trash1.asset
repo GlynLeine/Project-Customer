@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18786d6901457e43a0b12bae46e4c37, type: 3}
+  m_Name: Trash1
+  m_EditorClassIdentifier: 
+  ID: -736716602
+  score: 1
+  damage: 0
+  buoyancy: 0.1
+  model: {fileID: 8732035826032712233, guid: fcd8ee20df347d84a94d7770b131150c, type: 3}
+  hitSound: {fileID: 8300000, guid: 1ccf23d54f901104980e9e58f4dfafec, type: 3}

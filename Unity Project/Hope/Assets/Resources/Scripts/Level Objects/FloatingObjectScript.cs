@@ -22,9 +22,14 @@ public class FloatingObjectScript : MonoBehaviour
 
     private Vector3 velocity;
 
+    public AudioClip hitSound;
+
     // Update is called once per frame
     void Update()
     {
+        if (LevelMasterScript.paused)
+            return;
+
         if (boat == null)
             throw new NullReferenceException("FloatingObjectScript: Boat reference null.");
         if (ocean == null)
@@ -37,11 +42,18 @@ public class FloatingObjectScript : MonoBehaviour
 
         if (position.z < -10)
         {
-            gameObject.SetActive(false);
-            if (master.reUsableFloatingObjects.ContainsKey(ID))
-                master.reUsableFloatingObjects[ID].Enqueue(this);
-            else
-                master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
+            DisableAndMarkForReuse();
         }
+    }
+
+    public void DisableAndMarkForReuse()
+    {
+        GetComponent<Collider>().isTrigger = true;
+
+        gameObject.SetActive(false);
+        if (master.reUsableFloatingObjects.ContainsKey(ID))
+            master.reUsableFloatingObjects[ID].Enqueue(this);
+        else
+            master.reUsableFloatingObjects.Add(ID, new Queue<FloatingObjectScript>(new FloatingObjectScript[] { this }));
     }
 }

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f434e3190f7b5547adc502c5dcc7f8a, type: 3}
+  m_Name: Level8
+  m_EditorClassIdentifier: 
+  hazardSpawnRateIncrease: 0.06
+  TrashToCollect: 25
+  spawnables:
+  - interactableType: {fileID: 11400000, guid: 29871a6b400a24d41b36654890478969, type: 2}
+    spawnRate: 0.125
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: d8081154cb81f6e4f9fe10a4c48ba31c, type: 2}
+    spawnRate: 0.125
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: 3e47a8ae128c95c4aa3e0bca7438e6c9, type: 2}
+    spawnRate: 0.125
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: b179808375d4846459f29b84f730f7fc, type: 2}
+    spawnRate: 0.125
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: c3337e066d7bfcb41bae4e18c8060632, type: 2}
+    spawnRate: 0.275
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: 73fdef61bd43ddb499f81babd2e21aca, type: 2}
+    spawnRate: 0.275
+    spawnTime: 0
+  - interactableType: {fileID: 11400000, guid: e254994040f5e584a85a0b5456493895, type: 2}
+    spawnRate: 0.275
+    spawnTime: 0
+  oceanMaterial: {fileID: 2100000, guid: bb5e26eac5cd209428686e69fbbf31e9, type: 2}
+  skyBoxMaterial: {fileID: 2100000, guid: 5152ea365d75c304ea49ebd46537a7bd, type: 2}
+  levelMusic: {fileID: 8300000, guid: 4f242a72abacd994e86195ef766fa073, type: 3}

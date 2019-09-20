@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Scriptable Event/Event Type/Dialogue")]
 public class DialogueEvent : ScriptedEventType
 {
-    [HideInInspector]
-    public List<Dialogue> dialogue;
+    [HideInInspector, SerializeField]
+    public List<Dialogue> dialogues;
 
     [HideInInspector]
     public UnityEvent OnStartDialogue;
@@ -20,14 +20,19 @@ public class DialogueEvent : ScriptedEventType
     [HideInInspector]
     public UnityEvent OnSentenceFinished;
 
-    private DialogueText dialogueText;
-    private NPCName npcName;
-    private NPCSprite npcSpriteLeft;
-    private NPCSprite npcSpriteRight;
+    DialogueBar dialogueBar;
+
+    public override void Setup()
+    {
+        if (dialogueBar == null)
+            dialogueBar = FindObjectOfType<DialogueBar>();
+    }
 
     public override void Execute()
     {
-        if (dialogueText == null)
-            dialogueText = FindObjectOfType<DialogueText>();
+        if (dialogueBar.hasDialogue)
+            dialogueBar.OnTrigger();
+        else
+            dialogueBar.StartDialogue(dialogues);
     }
 }

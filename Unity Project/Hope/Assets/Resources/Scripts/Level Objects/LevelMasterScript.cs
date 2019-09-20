@@ -11,6 +11,8 @@ public class LevelMasterScript : MonoBehaviour
     [ReadOnly]
     public float hazardSpawnRateIncrease = 10;
 
+    public static bool paused = false;
+
     private BoatScript boat = null;
     private Waves ocean = null;
     private bool updateLevelType = true;
@@ -18,11 +20,22 @@ public class LevelMasterScript : MonoBehaviour
     [HideInInspector]
     public Dictionary<int, Queue<FloatingObjectScript>> reUsableFloatingObjects = new Dictionary<int, Queue<FloatingObjectScript>>();
 
+    public void Pause(bool pause)
+    {
+        paused = pause;
+    }
+
+
+#if UNITY_EDITOR
     // Start is called before the first frame update
     void OnValidate()
     {
         updateLevelType = true;
+        //boat = FindObjectOfType<BoatScript>();
+        //ocean = FindObjectOfType<Waves>();
+        //boat.ocean = ocean;
     }
+#endif
 
     private void OnDrawGizmos()
     {
@@ -50,6 +63,7 @@ public class LevelMasterScript : MonoBehaviour
         hazardSpawnRateIncrease = levelType.hazardSpawnRateIncrease;
         spawnables = new SpawnInfo[levelType.spawnables.Length];
         levelType.spawnables.CopyTo(spawnables, 0);
+        RenderSettings.skybox = levelType.skyBoxMaterial;
 
         Waves ocean = FindObjectOfType<Waves>();
         MeshRenderer oceanRenderer = ocean.GetComponent<MeshRenderer>();
@@ -90,7 +104,8 @@ public class LevelMasterScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        SpawnObjects();
+        if (!paused)
+            SpawnObjects();
     }
 
     private List<FloatingObjectScript> SpawnObjects(float simulatedDeltaTime = -1f, bool spawnHazards = true)
@@ -136,6 +151,7 @@ public class LevelMasterScript : MonoBehaviour
                 {
                     newFloatingObject = reUsableFloatingObjects[interactableID].Dequeue();
                     newFloatingObject.gameObject.SetActive(true);
+                    newFloatingObject.GetComponent<Collider>().isTrigger = false;
                 }
                 else
                 {
@@ -148,6 +164,7 @@ public class LevelMasterScript : MonoBehaviour
                     newFloatingObject.damage = spawnInfo.interactableType.damage;
                     newFloatingObject.score = spawnInfo.interactableType.score;
                     newFloatingObject.buoyancy = spawnInfo.interactableType.buoyancy;
+                    newFloatingObject.hitSound = spawnInfo.interactableType.hitSound;
                     newFloatingObject.boat = boat;
                     newFloatingObject.ocean = ocean;
                     newFloatingObject.gameObject.layer = LayerMask.NameToLayer("Interactable");
