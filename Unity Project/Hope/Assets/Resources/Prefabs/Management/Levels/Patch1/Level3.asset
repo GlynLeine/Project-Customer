@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f434e3190f7b5547adc502c5dcc7f8a, type: 3}
   m_Name: Level3
   m_EditorClassIdentifier: 
-  hazardSpawnRateIncrease: 0.06
+  hazardSpawnRateIncrease: 0.05
   TrashToCollect: 15
   spawnables:
   - interactableType: {fileID: 11400000, guid: 29871a6b400a24d41b36654890478969, type: 2}
-    spawnRate: 0.13
+    spawnRate: 0.18
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: d8081154cb81f6e4f9fe10a4c48ba31c, type: 2}
-    spawnRate: 0.13
+    spawnRate: 0.18
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: 3e47a8ae128c95c4aa3e0bca7438e6c9, type: 2}
-    spawnRate: 0.13
+    spawnRate: 0.18
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: b179808375d4846459f29b84f730f7fc, type: 2}
-    spawnRate: 0.13
+    spawnRate: 0.18
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: e74ce71021a584f4b9e6fdbaefb8ac2f, type: 2}
-    spawnRate: 0.225
+    spawnRate: 0.17
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: 87de0f195e84e0a498766720fe09e1b0, type: 2}
-    spawnRate: 0.225
+    spawnRate: 0.17
     spawnTime: 0
   - interactableType: {fileID: 11400000, guid: 42f399d55375140418a53caf324c7ac9, type: 2}
-    spawnRate: 0.225
+    spawnRate: 0.17
     spawnTime: 0
   oceanMaterial: {fileID: 2100000, guid: 4e11396abc3057e4b88fa75fadfeeff5, type: 2}
   skyBoxMaterial: {fileID: 2100000, guid: aa72c02f6c7559c4fab21b7f55107486, type: 2}

@@ -11,6 +11,6 @@ public class ObstaclesHit : MonoBehaviour
     {
         text = GetComponent<Text>();
         obstacles = StatManager.obstaclesHitInLevel;
-        text.text = "Obstacles hit:" + obstacles;
+        text.text = "Obstacles hit: " + obstacles;
     }
 }

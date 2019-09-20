@@ -30,7 +30,17 @@ public class StatManager : MonoBehaviour
     public static bool useGyro = true;
     public static StatManager instance;
     public bool UseGyro => useGyro;
-    public static float gyroSensitivity = 1;
+    public static float gyroSensitivity = 10;
+
+    public static void Save()
+    {
+        SaveSystem.SaveGame();
+    }
+
+    public static void Load()
+    {
+        SaveSystem.LoadGame();
+    }
 
     private void Awake()
     {
@@ -46,7 +56,7 @@ public class StatManager : MonoBehaviour
     {
         if (!created)
         {
-            if(FindObjectsOfType<StatManager>().Length > 1)
+            if (FindObjectsOfType<StatManager>().Length > 1)
             {
                 Destroy(gameObject);
                 return;
@@ -58,15 +68,17 @@ public class StatManager : MonoBehaviour
             DontDestroyOnLoad(this);
             created = true;
             instance = this;
+
+            Load();
+
+            if (!SystemInfo.supportsGyroscope)
+                useGyro = false;
         }
 
     }
 
     private void Update()
     {
-        if (!SystemInfo.supportsGyroscope)
-            useGyro = false;
-
         Input.gyro.enabled = useGyro;
 
         timePlayed += Time.deltaTime;
@@ -163,21 +175,19 @@ public class StatManager : MonoBehaviour
             healthUpgrade = 5;
     }
 
-    public void GyroBool(bool value)
+    public void SetUseGyro(bool value)
     {
-        if (value)
-        {
-            useGyro = true;
-        }
-        else
-        {
-            useGyro = false;
-        }
+        useGyro = value;
     }
 
-    public void GyroSens(float value)
+    public void SwitchUseGyro()
     {
-        gyroSensitivity = value;
+        useGyro = !useGyro;
+    }
+
+    public void SetGyroSensitivity(float value)
+    {
+        gyroSensitivity = value * 10;
     }
 
 }

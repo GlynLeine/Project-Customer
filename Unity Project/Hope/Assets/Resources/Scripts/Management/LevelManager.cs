@@ -74,6 +74,7 @@ public class LevelManager : MonoBehaviour
         levelToLoad = levelManager.levelOrder.levels[level];
         StatManager.TrackNewLevel();
         previousScene = "LevelSelect";
+        StatManager.Save();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -91,6 +92,7 @@ public class LevelManager : MonoBehaviour
         levelToLoad = levelType;
         StatManager.TrackNewLevel();
         previousScene = "LevelSelect";
+        StatManager.Save();
         SceneManager.LoadScene("MainGame");
     }
 
@@ -114,6 +116,7 @@ public class LevelManager : MonoBehaviour
     internal static void StaticLoadScene(string sceneName)
     {
         previousScene = SceneManager.GetActiveScene().name;
+        StatManager.Save();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -138,6 +141,7 @@ public class LevelManager : MonoBehaviour
     {
         string nextScene = previousScene;
         previousScene = SceneManager.GetActiveScene().name;
+        StatManager.Save();
         if (nextScene == "MainGame")
             SceneManager.LoadScene("StartMenu");
         else

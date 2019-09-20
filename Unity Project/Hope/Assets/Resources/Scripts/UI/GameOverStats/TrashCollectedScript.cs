@@ -12,8 +12,8 @@ public class TrashCollectedScript : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
-        trashCollected = StatManager.trashCollected;
-        trashMax = StatManager.trashCollectedInLevel;
-        text.text = "Trash Collected:" + trashCollected + "/" + trashMax;
+        trashCollected = StatManager.trashCollectedInLevel;
+        trashMax = LevelManager.levelToLoad.TrashToCollect;
+        text.text = "Trash Collected: " + trashCollected + "/" + trashMax;
     }
 }

@@ -55,11 +55,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1779556001901241119}
     m_Modifications:
-    - target: {fileID: 4268984693504244806, guid: 1551968b3f7534e41ab914a36cf4b27b,
-        type: 3}
-      propertyPath: m_Name
-      value: Metal Ring (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -68,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.066
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
@@ -130,6 +125,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 26.126772
       objectReference: {fileID: 0}
+    - target: {fileID: 4268984693504244806, guid: 1551968b3f7534e41ab914a36cf4b27b,
+        type: 3}
+      propertyPath: m_Name
+      value: Metal Ring (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522768928245303450, guid: 1551968b3f7534e41ab914a36cf4b27b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 952bdb360bcf944438412f6de16871e9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1551968b3f7534e41ab914a36cf4b27b, type: 3}
 --- !u!4 &326148851827419983 stripped
@@ -145,11 +150,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1779556001901241119}
     m_Modifications:
-    - target: {fileID: 1260321609602002317, guid: 59606b9f396f31c42bebf1a1e85200cd,
-        type: 3}
-      propertyPath: m_Name
-      value: Bottle2
-      objectReference: {fileID: 0}
     - target: {fileID: 2821177561416310686, guid: 59606b9f396f31c42bebf1a1e85200cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -205,6 +205,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -18.109001
       objectReference: {fileID: 0}
+    - target: {fileID: 1260321609602002317, guid: 59606b9f396f31c42bebf1a1e85200cd,
+        type: 3}
+      propertyPath: m_Name
+      value: Bottle2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59606b9f396f31c42bebf1a1e85200cd, type: 3}
 --- !u!4 &1822401774584342035 stripped
@@ -220,11 +225,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1779556001901241119}
     m_Modifications:
-    - target: {fileID: 1907043822255117700, guid: d1f24e122b8f93a44a3ec921abc5baa8,
-        type: 3}
-      propertyPath: m_Name
-      value: Barrel
-      objectReference: {fileID: 0}
     - target: {fileID: 3183050533292763031, guid: d1f24e122b8f93a44a3ec921abc5baa8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -289,6 +289,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907043822255117700, guid: d1f24e122b8f93a44a3ec921abc5baa8,
+        type: 3}
+      propertyPath: m_Name
+      value: Barrel
       objectReference: {fileID: 0}
     - target: {fileID: 7037787214996370722, guid: d1f24e122b8f93a44a3ec921abc5baa8,
         type: 3}

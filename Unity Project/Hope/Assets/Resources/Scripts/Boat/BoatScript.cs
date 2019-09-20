@@ -43,7 +43,7 @@ public class BoatScript : MonoBehaviour
 
     private int trash = 0;
     private Text trashScoreBoard;
-    private Text debugText;
+    //private Text debugText;
     private GameObject model;
 
     private MeshRenderer shieldRenderer;
@@ -53,8 +53,7 @@ public class BoatScript : MonoBehaviour
     [SerializeField] private AudioSource collisionAudio = null;
     [SerializeField] private AudioSource engineAudio = null;
 
-    Vector2 gyroPosition = new Vector2();
-    bool useGyro;
+    Vector3 gyroCalibration;
 
     private void OnValidate()
     {
@@ -107,9 +106,20 @@ public class BoatScript : MonoBehaviour
         engineAudio.Play();
     }
 
+    public void CalibrateGyro()
+    {
+        Quaternion gyroRotation = Input.gyro.attitude;
+
+        Vector3 right = gyroRotation * Vector3.right;
+        Vector3 up = gyroRotation * Vector3.up;
+
+        gyroCalibration = new Vector3(right.z, 0, up.z);
+    }
+
     void Start()
     {
         UpdateBoatType();
+        CalibrateGyro();
 
         cameraViewFrustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
@@ -133,10 +143,10 @@ public class BoatScript : MonoBehaviour
                 trashScoreBoard = uiText;
                 trashScoreBoard.text = trash + "/" + trashCapacity;
             }
-            else if (uiText.name == "Debug")
-            {
-                debugText = uiText;
-            }
+            //else if (uiText.name == "Debug")
+            //{
+            //    debugText = uiText;
+            //}
         }
 
         if (shieldRenderer == null)
@@ -193,9 +203,7 @@ public class BoatScript : MonoBehaviour
 
     void Update()
     {
-        debugText.text = "fps: " + (1f / Time.deltaTime) + "\ntime: " + StatManager.timeInLevel + "\npaused: " + LevelMasterScript.paused + "\ntarget: " + targetPosition.ToString() + "\nmouse: " + Input.mousePosition.ToString() +
-    "\nuseGyro: " + StatManager.useGyro
-    + "\nGyro: " + Input.gyro.attitude.ToString();
+        //debugText.text = "fps: " + (1f / Time.deltaTime) + "\nGyroSensitivity: " + StatManager.gyroSensitivity;
 
         if (LevelMasterScript.paused)
         {
@@ -213,66 +221,78 @@ public class BoatScript : MonoBehaviour
         MoveBoat();
     }
 
-    void GetInput()
+    void GetInput(Vector3 currentPosition)
     {
-        float entryPoint;
-
-        Ray inputToOceanRay;
-
         if (StatManager.useGyro)
         {
             Quaternion gyroRotation = Input.gyro.attitude;
-            gyroRotation = new Quaternion(gyroRotation.x, gyroRotation.y, -gyroRotation.z, -gyroRotation.w);
 
-            Vector3 gyroMovement = gyroRotation * Vector3.up;
-            gyroPosition += new Vector2(gyroMovement.x, gyroMovement.z).normalized * StatManager.gyroSensitivity * Time.deltaTime;
+            Vector3 right = gyroRotation * Vector3.right;
+            Vector3 up = gyroRotation * Vector3.up;
 
-#if UNITY_EDITOR
-            inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-#else
-            inputToOceanRay = Camera.main.ScreenPointToRay(gyroPosition);
-#endif
+            Vector3 gyroMovement = (new Vector3(-right.z, 0, -up.z) + gyroCalibration) * StatManager.gyroSensitivity;
+            if (gyroMovement.x <= 1 && gyroMovement.x >= -1)
+                gyroMovement.x = 0;
+            if (gyroMovement.z <= 1 && gyroMovement.z >= -1)
+                gyroMovement.z = 0;
+
+            //debugText.text += "\n" + gyroMovement + "\n" + gyroMovement.normalized * acceleration;
+
+            if (gyroMovement.magnitude > 0)
+                velocity += gyroMovement.normalized * acceleration;
+
+            if (velocity.sqrMagnitude > (maximumMovementSpeed * maximumMovementSpeed))
+                velocity = velocity.normalized * maximumMovementSpeed;
+
+            velocity *= Time.deltaTime;
+
         }
         else
         {
 #if UNITY_EDITOR
-            inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 #else
             if (Input.touchCount <= 0)
                 return;
 
-            inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            Ray inputToOceanRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 #endif
+
+            float entryPoint;
+            if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
+            {
+                lastTargetPosition = targetPosition;
+                targetPosition = inputToOceanRay.GetPoint(entryPoint);
+            }
+
+            targetPosition.y = currentPosition.y;
+
+            Vector3 movement = targetPosition - currentPosition;
+            if (movement.magnitude > 0)
+                velocity += movement.normalized * acceleration;
+            else
+                return;
+
+            velocity.y = 0;
+
+            float targetDistance = Vector3.Distance(targetPosition, currentPosition);
+
+            if (velocity.sqrMagnitude > (maximumMovementSpeed * maximumMovementSpeed))
+                velocity = velocity.normalized * maximumMovementSpeed;
+
+            velocity *= Time.deltaTime;
+
+            if (velocity.sqrMagnitude > (targetDistance * targetDistance))
+                velocity = (targetPosition - currentPosition) * 0.33333f;
         }
 
-        if (oceanPlane.Raycast(inputToOceanRay, out entryPoint))
-        {
-            lastTargetPosition = targetPosition;
-            targetPosition = inputToOceanRay.GetPoint(entryPoint);
-        }
+        velocity.y = 0;
     }
 
     void MoveBoat()
     {
-        GetInput();
-
         Vector3 currentPosition = rigidbody.position;
-        targetPosition.y = currentPosition.y;
-
-        velocity += (targetPosition - currentPosition).normalized * acceleration;
-        velocity.y = 0;
-
-        float targetDistance = Vector3.Distance(targetPosition, currentPosition);
-
-        if (velocity.sqrMagnitude > (maximumMovementSpeed * maximumMovementSpeed))
-            velocity = velocity.normalized * maximumMovementSpeed;
-
-        velocity *= Time.deltaTime;
-
-        if (velocity.sqrMagnitude > (targetDistance * targetDistance))
-            velocity = (targetPosition - currentPosition) * 0.33333f;
-
-        velocity.y = 0;
+        GetInput(currentPosition);
 
         float oceanHeight = ocean.GetHeight(currentPosition);
 

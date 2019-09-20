@@ -104,7 +104,8 @@ public class LevelMasterScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        SpawnObjects();
+        if (!paused)
+            SpawnObjects();
     }
 
     private List<FloatingObjectScript> SpawnObjects(float simulatedDeltaTime = -1f, bool spawnHazards = true)

@@ -57,11 +57,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8164801897590097711}
     m_Modifications:
-    - target: {fileID: 8458630268236815736, guid: 1d029eb6accdd9743a63a75a9b107120,
-        type: 3}
-      propertyPath: m_Name
-      value: Plastic sheet
-      objectReference: {fileID: 0}
     - target: {fileID: 4843707922008092523, guid: 1d029eb6accdd9743a63a75a9b107120,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -116,6 +111,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8458630268236815736, guid: 1d029eb6accdd9743a63a75a9b107120,
+        type: 3}
+      propertyPath: m_Name
+      value: Plastic sheet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d029eb6accdd9743a63a75a9b107120, type: 3}
@@ -207,11 +207,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8164801897590097711}
     m_Modifications:
-    - target: {fileID: 8503076983191534811, guid: 45eee379b6ffe974fbdfb53dc0b2ae80,
-        type: 3}
-      propertyPath: m_Name
-      value: Dropfender
-      objectReference: {fileID: 0}
     - target: {fileID: 4637483515740982984, guid: 45eee379b6ffe974fbdfb53dc0b2ae80,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -267,6 +262,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8503076983191534811, guid: 45eee379b6ffe974fbdfb53dc0b2ae80,
+        type: 3}
+      propertyPath: m_Name
+      value: Dropfender
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45eee379b6ffe974fbdfb53dc0b2ae80, type: 3}
 --- !u!4 &2248256022616039639 stripped
@@ -282,11 +282,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8164801897590097711}
     m_Modifications:
-    - target: {fileID: 8206106837857591054, guid: e46b3d09d3736b44a8a93dee0e595bf3,
-        type: 3}
-      propertyPath: m_Name
-      value: Bottle1
-      objectReference: {fileID: 0}
     - target: {fileID: 5168631986011581725, guid: e46b3d09d3736b44a8a93dee0e595bf3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -352,6 +347,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.0000002
       objectReference: {fileID: 0}
+    - target: {fileID: 8206106837857591054, guid: e46b3d09d3736b44a8a93dee0e595bf3,
+        type: 3}
+      propertyPath: m_Name
+      value: Bottle1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46b3d09d3736b44a8a93dee0e595bf3, type: 3}
 --- !u!4 &2469429474412332131 stripped
@@ -367,11 +367,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8164801897590097711}
     m_Modifications:
-    - target: {fileID: 4268984693504244806, guid: 1551968b3f7534e41ab914a36cf4b27b,
-        type: 3}
-      propertyPath: m_Name
-      value: Metal Ring (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -380,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.101
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 965216371328716373, guid: 1551968b3f7534e41ab914a36cf4b27b,
         type: 3}
@@ -442,6 +437,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 54.30806
       objectReference: {fileID: 0}
+    - target: {fileID: 4268984693504244806, guid: 1551968b3f7534e41ab914a36cf4b27b,
+        type: 3}
+      propertyPath: m_Name
+      value: Metal Ring (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522768928245303450, guid: 1551968b3f7534e41ab914a36cf4b27b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 952bdb360bcf944438412f6de16871e9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1551968b3f7534e41ab914a36cf4b27b, type: 3}
 --- !u!4 &7360282117011350243 stripped

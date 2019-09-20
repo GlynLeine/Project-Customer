@@ -186,6 +186,7 @@ MonoBehaviour:
   boatType: {fileID: 11400000, guid: 6624a81b17e522442b09b8d1e1eb47ca, type: 2}
   health: 100
   ocean: {fileID: 0}
+  shieldActive: 0
   collisionAudio: {fileID: 7152070442318198389}
   engineAudio: {fileID: 3575002573891841699}
 --- !u!136 &2620779205105332983

@@ -11,6 +11,6 @@ public class TimeScript : MonoBehaviour
     {
         text = GetComponent<Text>();
         time = StatManager.timeInLevel;
-        text.text = "Time:" + time;
+        text.text = "Time: " + time.ToString("00.00") + "s";
     }
 }
